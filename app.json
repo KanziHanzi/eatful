@@ -43,6 +43,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "5ec14380-37de-4caf-a8fb-600d3470b193"
+      }
+    },
+    "owner": "kanzihanzi"
   }
 }
