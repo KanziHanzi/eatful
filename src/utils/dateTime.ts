@@ -20,3 +20,11 @@ export const getDayTimestamp = (timestamp: number) => {
   date.setHours(0, 0, 0, 0);
   return date.getTime();
 };
+
+export const formatDate = (timestamp: number) => {
+  return new Date(timestamp).toLocaleDateString([], {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+};

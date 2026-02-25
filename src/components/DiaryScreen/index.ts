@@ -1,1 +1,0 @@
-export { DiaryScreen } from './DiaryScreen';

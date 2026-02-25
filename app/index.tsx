@@ -1,3 +1,3 @@
-import { DiaryScreen } from 'src/components';
+import {Diary} from 'src/screens';
 
-export default DiaryScreen;
+export default Diary;
