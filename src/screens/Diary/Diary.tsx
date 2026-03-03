@@ -21,7 +21,7 @@ type AddTile = {
 type GridItem = DiaryEntry | AddTile;
 
 const gridColumns = 3;
-const eatingReasonOptions: EatingReason[] = ['hungry', 'bored', 'social', 'stressed'];
+const eatingReasonOptions: EatingReason[] = ['hungry', 'bored', 'social', 'stressed', 'cravings', 'guilty'];
 
 export const Diary = () => {
   const [diaryDays, setDiaryDays] = useState<DiaryDay[]>([]);
