@@ -1,38 +1,75 @@
 import {Image} from 'expo-image';
-import {Modal, Pressable, TextInput, View} from 'react-native';
+import {useState} from 'react';
+import {Alert, Modal, Pressable, TextInput, View} from 'react-native';
 import {Icon, Text} from 'src/components';
+import {useCameraCapture} from 'src/hooks/useCameraCapture';
 import {useTheme} from 'src/hooks/useTheme';
-import {useDiaryContext} from 'src/screens/Diary/hooks';
+import {eatingReasonOptions, useDiaryContext} from 'src/screens/Diary/hooks';
+import type {EatingReason} from 'src/types/diary';
 import {styles} from './EntryModal.styles';
 
 const EntryModal = () => {
   const {palette} = useTheme();
+  const {isAddModalVisible, addEntry, closeAddEntryModal} = useDiaryContext();
+  const {captureImage, capturing} = useCameraCapture();
 
-  const {
-    draftImageUri,
-    draftNote,
-    draftReason,
-    eatingReasonOptions,
-    isAddModalVisible,
-    isCapturing,
-    captureDraftImage,
-    closeAddEntryModal,
-    saveEntryFromDraft,
-    setDraftNote,
-    setDraftReason,
-  } = useDiaryContext();
+  const [imageUri, setImageUri] = useState<string | null>(null);
+  const [note, setNote] = useState('');
+  const [reason, setReason] = useState<EatingReason | null>(null);
+
+  const resetDraft = () => {
+    setImageUri(null);
+    setNote('');
+    setReason(null);
+  };
+
+  const handleClose = () => {
+    closeAddEntryModal();
+    resetDraft();
+  };
+
+  const handleCapture = async () => {
+    const uri = await captureImage();
+    if (uri) {
+      setImageUri(uri);
+    }
+  };
+
+  const handleSave = () => {
+    if (!imageUri) {
+      Alert.alert('Photo required', 'Take a photo before saving this entry.');
+      return;
+    }
+
+    if (!reason) {
+      Alert.alert('Reason required', 'Choose why you are eating this entry.');
+      return;
+    }
+
+    const trimmedNote = note.trim();
+
+    addEntry({
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      uri: imageUri,
+      takenAt: Date.now(),
+      note: trimmedNote.length > 0 ? trimmedNote : undefined,
+      eatingReason: reason,
+    });
+
+    handleClose();
+  };
 
   return (
     <Modal
       animationType="fade"
       visible={isAddModalVisible}
-      onRequestClose={closeAddEntryModal}
+      onRequestClose={handleClose}
       transparent
       statusBarTranslucent
     >
       <Pressable
         style={styles.modalOverlay}
-        onPress={closeAddEntryModal}
+        onPress={handleClose}
       >
         <Pressable
           style={[styles.modalCard, {backgroundColor: palette.modalCard}]}
@@ -42,7 +79,7 @@ const EntryModal = () => {
         >
           <View style={styles.modalHeader}>
             <Pressable
-              onPress={closeAddEntryModal}
+              onPress={handleClose}
               style={styles.modalHeaderButton}
             >
               <Text>Cancel</Text>
@@ -54,13 +91,13 @@ const EntryModal = () => {
           <Pressable
             style={styles.modalImagePressable}
             onPress={() => {
-              void captureDraftImage();
+              void handleCapture();
             }}
-            disabled={isCapturing}
+            disabled={capturing}
           >
-            {draftImageUri ? (
+            {imageUri ? (
               <Image
-                source={{uri: draftImageUri}}
+                source={{uri: imageUri}}
                 style={styles.modalImage}
                 contentFit="cover"
               />
@@ -76,8 +113,8 @@ const EntryModal = () => {
           </Pressable>
 
           <TextInput
-            value={draftNote}
-            onChangeText={setDraftNote}
+            value={note}
+            onChangeText={setNote}
             style={[
               styles.noteInput,
               {
@@ -95,14 +132,14 @@ const EntryModal = () => {
 
             <View style={styles.reasonOptionsGrid}>
               {eatingReasonOptions.map(option => {
-                const isSelected = draftReason === option;
+                const isSelected = reason === option;
 
                 return (
                   <Pressable
                     key={option}
                     style={styles.reasonOptionRow}
                     onPress={() => {
-                      setDraftReason(option);
+                      setReason(option);
                     }}
                   >
                     <View style={[styles.radioOuter, {borderColor: palette.radioBorder}]}>
@@ -117,7 +154,7 @@ const EntryModal = () => {
 
           <Pressable
             style={styles.saveButton}
-            onPress={saveEntryFromDraft}
+            onPress={handleSave}
           >
             <Text>Save entry</Text>
           </Pressable>

@@ -3,24 +3,18 @@ import {createContext, type ReactNode, useCallback, useContext, useEffect, useMe
 import {Alert} from 'react-native';
 
 import {DIARY_DAY_PREFIX, DIARY_START_DATE_KEY, getDiaryDayKey} from 'src/constants/storage';
-import {useCameraCapture} from 'src/hooks/useCameraCapture';
-import type {DiaryDay, DiaryEntry, EatingReason} from 'src/types/diary';
+import type {DiaryDay, DiaryEntry} from 'src/types/diary';
 import {formatDate, getDateKey, getDayTimestamp} from 'src/utils/dateTime';
 
 type DiaryContextValue = {
   activeDayLabel: string;
   canGoBack: boolean;
-  draftImageUri: string | null;
-  draftNote: string;
-  draftReason: EatingReason | null;
-  eatingReasonOptions: EatingReason[];
   entries: DiaryEntry[];
   isAddModalVisible: boolean;
-  isCapturing: boolean;
   isDetailModalVisible: boolean;
   isViewingToday: boolean;
   selectedEntry: DiaryEntry | null;
-  captureDraftImage: () => Promise<void>;
+  addEntry: (entry: DiaryEntry) => void;
   clearCache: () => void;
   closeAddEntryModal: () => void;
   closeDetailModal: () => void;
@@ -28,14 +22,11 @@ type DiaryContextValue = {
   moveToPreviousDay: () => void;
   openAddEntryModal: () => void;
   openDetailModal: (entry: DiaryEntry) => void;
-  saveEntryFromDraft: () => void;
-  setDraftNote: (value: string) => void;
-  setDraftReason: (value: EatingReason) => void;
 };
 
 const DiaryContext = createContext<DiaryContextValue | null>(null);
 
-const eatingReasonOptions: EatingReason[] = ['hungry', 'bored', 'social', 'stressed', 'cravings', 'guilty'];
+export const eatingReasonOptions = ['hungry', 'bored', 'social', 'stressed', 'cravings', 'guilty'] as const;
 
 type DiaryProviderProps = {
   children: ReactNode;
@@ -45,13 +36,9 @@ export const DiaryProvider = ({children}: DiaryProviderProps) => {
   const [activeDay, setActiveDay] = useState<DiaryDay | null>(null);
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
-  const [draftImageUri, setDraftImageUri] = useState<string | null>(null);
-  const [draftNote, setDraftNote] = useState('');
-  const [draftReason, setDraftReasonState] = useState<EatingReason | null>(null);
   const [selectedEntry, setSelectedEntry] = useState<DiaryEntry | null>(null);
   const todayDayTimestamp = getDayTimestamp(Date.now());
   const [activeDayTimestamp, setActiveDayTimestamp] = useState(todayDayTimestamp);
-  const {captureImage, capturing} = useCameraCapture();
   const loadingRef = useRef<string | null>(null);
   const [startDate, setStartDate] = useState<string | null>(null);
 
@@ -141,24 +128,13 @@ export const DiaryProvider = ({children}: DiaryProviderProps) => {
     };
   }, [isDetailModalVisible]);
 
-  const resetAddEntryDraft = () => {
-    setDraftImageUri(null);
-    setDraftNote('');
-    setDraftReasonState(null);
-  };
-
   const openAddEntryModal = () => {
-    if (!isViewingToday) {
-      return;
-    }
-
-    resetAddEntryDraft();
+    if (!isViewingToday) return;
     setIsAddModalVisible(true);
   };
 
   const closeAddEntryModal = () => {
     setIsAddModalVisible(false);
-    resetAddEntryDraft();
   };
 
   const openDetailModal = (entry: DiaryEntry) => {
@@ -170,40 +146,10 @@ export const DiaryProvider = ({children}: DiaryProviderProps) => {
     setIsDetailModalVisible(false);
   };
 
-  const captureDraftImage = async () => {
-    const capturedImageUri = await captureImage();
-
-    if (!capturedImageUri) {
-      return;
-    }
-
-    setDraftImageUri(capturedImageUri);
-  };
-
-  const saveEntryFromDraft = () => {
-    if (!draftImageUri) {
-      Alert.alert('Photo required', 'Take a photo before saving this entry.');
-      return;
-    }
-
-    if (!draftReason) {
-      Alert.alert('Reason required', 'Choose why you are eating this entry.');
-      return;
-    }
-
-    const trimmedNote = draftNote.trim();
-
-    const nextEntry: DiaryEntry = {
-      id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-      uri: draftImageUri,
-      takenAt: Date.now(),
-      note: trimmedNote.length > 0 ? trimmedNote : undefined,
-      eatingReason: draftReason,
-    };
-
+  const addEntry = (entry: DiaryEntry) => {
     const updatedDay: DiaryDay = activeDay
-      ? {...activeDay, entries: [...activeDay.entries, nextEntry]}
-      : {dateKey: activeDateKey, timestamp: activeDayTimestamp, entries: [nextEntry]};
+      ? {...activeDay, entries: [...activeDay.entries, entry]}
+      : {dateKey: activeDateKey, timestamp: activeDayTimestamp, entries: [entry]};
 
     setActiveDay(updatedDay);
     void persistDay(updatedDay, activeDateKey);
@@ -212,8 +158,6 @@ export const DiaryProvider = ({children}: DiaryProviderProps) => {
       setStartDate(activeDateKey);
       AsyncStorage.setItem(DIARY_START_DATE_KEY, activeDateKey).catch(() => {});
     }
-
-    closeAddEntryModal();
   };
 
   const clearCache = () => {
@@ -253,62 +197,23 @@ export const DiaryProvider = ({children}: DiaryProviderProps) => {
     });
   };
 
-  const setDraftReason = (value: EatingReason) => {
-    setDraftReasonState(value);
+  const value: DiaryContextValue = {
+    activeDayLabel,
+    canGoBack,
+    entries,
+    isAddModalVisible,
+    isDetailModalVisible,
+    isViewingToday,
+    selectedEntry,
+    addEntry,
+    clearCache,
+    closeAddEntryModal,
+    closeDetailModal,
+    moveToNextDay,
+    moveToPreviousDay,
+    openAddEntryModal,
+    openDetailModal,
   };
-
-  const value: DiaryContextValue = useMemo(
-    () => ({
-      activeDayLabel,
-      canGoBack,
-      draftImageUri,
-      draftNote,
-      draftReason,
-      eatingReasonOptions,
-      entries,
-      isAddModalVisible,
-      isCapturing: capturing,
-      isDetailModalVisible,
-      isViewingToday,
-      selectedEntry,
-      captureDraftImage,
-      clearCache,
-      closeAddEntryModal,
-      closeDetailModal,
-      moveToNextDay,
-      moveToPreviousDay,
-      openAddEntryModal,
-      openDetailModal,
-      saveEntryFromDraft,
-      setDraftNote,
-      setDraftReason,
-    }),
-    [
-      activeDayLabel,
-      canGoBack,
-      draftImageUri,
-      draftNote,
-      draftReason,
-      eatingReasonOptions,
-      entries,
-      isAddModalVisible,
-      capturing,
-      isDetailModalVisible,
-      isViewingToday,
-      selectedEntry,
-      captureDraftImage,
-      clearCache,
-      closeAddEntryModal,
-      closeDetailModal,
-      moveToNextDay,
-      moveToPreviousDay,
-      openAddEntryModal,
-      openDetailModal,
-      saveEntryFromDraft,
-      setDraftNote,
-      setDraftReason,
-    ],
-  );
 
   return <DiaryContext.Provider value={value}>{children}</DiaryContext.Provider>;
 };

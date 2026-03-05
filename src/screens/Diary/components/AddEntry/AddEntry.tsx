@@ -4,7 +4,7 @@ import {useDiaryContext} from 'src/screens/Diary/hooks';
 import {styles} from './AddEntry.styles';
 
 const AddEntry = () => {
-  const {isCapturing, openAddEntryModal} = useDiaryContext();
+  const {openAddEntryModal} = useDiaryContext();
 
   return (
     <Pressable
@@ -13,10 +13,9 @@ const AddEntry = () => {
         styles.addTile,
         {
           backgroundColor: 'transparent',
-          opacity: pressed || isCapturing ? 0.8 : 1,
+          opacity: pressed ? 0.8 : 1,
         },
       ]}
-      disabled={isCapturing}
       onPress={openAddEntryModal}
     >
       <View style={[styles.image, styles.addTileImage]}>

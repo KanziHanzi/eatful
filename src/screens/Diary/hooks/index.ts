@@ -1,1 +1,1 @@
-export {DiaryProvider, useDiaryContext} from './useDiaryContext';
+export {DiaryProvider, eatingReasonOptions, useDiaryContext} from './useDiaryContext';

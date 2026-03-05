@@ -2,13 +2,13 @@ import {Image} from 'expo-image';
 import {Modal, Pressable, TextInput, View} from 'react-native';
 import {Text} from 'src/components';
 import {useTheme} from 'src/hooks/useTheme';
-import {useDiaryContext} from 'src/screens/Diary/hooks';
+import {eatingReasonOptions, useDiaryContext} from 'src/screens/Diary/hooks';
 import {styles} from './EntryDetailModal.styles';
 
 const EntryDetailModal = () => {
   const {palette} = useTheme();
 
-  const {eatingReasonOptions, isDetailModalVisible, selectedEntry, closeDetailModal} = useDiaryContext();
+  const {isDetailModalVisible, selectedEntry, closeDetailModal} = useDiaryContext();
 
   return (
     <Modal
