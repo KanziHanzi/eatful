@@ -14,7 +14,7 @@ const Header = () => {
         disabled={!canGoBack}
       >
         <Icon
-          name="arrow-back"
+          name="arrow-back-ios"
           size={24}
         />
       </Pressable>
@@ -27,7 +27,7 @@ const Header = () => {
         disabled={isViewingToday}
       >
         <Icon
-          name="arrow-forward"
+          name="arrow-forward-ios"
           size={24}
         />
       </Pressable>

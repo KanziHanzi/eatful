@@ -20,7 +20,7 @@ const AddEntry = () => {
     >
       <View style={[styles.image, styles.addTileImage]}>
         <Icon
-          name="arrow-forward"
+          name="add"
           size={32}
         />
       </View>

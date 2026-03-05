@@ -104,7 +104,7 @@ const EntryModal = () => {
             ) : (
               <View style={[styles.modalImagePlaceholder, {borderColor: palette.addTileBorder}]}>
                 <Icon
-                  name="photo-camera"
+                  name="add-a-photo"
                   size={32}
                 />
                 <Text>Tap to take photo</Text>
