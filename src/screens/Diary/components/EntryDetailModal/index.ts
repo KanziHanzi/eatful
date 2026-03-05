@@ -1,1 +1,0 @@
-export {EntryDetailModal} from './EntryDetailModal';

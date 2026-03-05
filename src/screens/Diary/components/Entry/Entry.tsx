@@ -1,0 +1,34 @@
+import {Image} from 'expo-image';
+import {Pressable} from 'react-native';
+import {Text} from 'src/components';
+import {DiaryEntry} from 'src/types/diary';
+import {formatTimestamp} from 'src/utils/dateTime';
+import {useDiaryContext} from '../../hooks';
+import {styles} from './Entry.styles';
+
+type EntryProps = {
+  item: DiaryEntry;
+};
+
+const Entry = ({item}: EntryProps) => {
+  const {openDetailModal} = useDiaryContext();
+
+  return (
+    <Pressable
+      style={styles.card}
+      onPress={() => {
+        openDetailModal(item);
+      }}
+    >
+      <Image
+        source={{uri: item.uri}}
+        style={styles.image}
+        contentFit="cover"
+      />
+
+      <Text variant="description">{formatTimestamp(item.takenAt)}</Text>
+    </Pressable>
+  );
+};
+
+export default Entry;

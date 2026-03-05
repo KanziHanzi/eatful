@@ -1,1 +1,0 @@
-export {DiaryHeader} from './DiaryHeader';

@@ -1,60 +1,41 @@
 import {Image} from 'expo-image';
 import {Modal, Pressable, TextInput, View} from 'react-native';
-
-import {ThemedText} from 'src/components/ThemedText';
-import type {DiaryEntry, EatingReason} from 'src/types/diary';
-
+import {Text} from 'src/components';
+import {useTheme} from 'src/hooks/useTheme';
+import {eatingReasonOptions, useDiaryContext} from 'src/screens/Diary/hooks';
 import {styles} from './EntryDetailModal.styles';
 
-type EntryDetailModalProps = {
-  visible: boolean;
-  selectedEntry: DiaryEntry | null;
-  colorScheme: 'light' | 'dark';
-  paletteTextColor: string;
-  modalCardColor: string;
-  inputBorderColor: string;
-  radioBorderColor: string;
-  eatingReasonOptions: EatingReason[];
-  onClose: () => void;
-};
+const EntryDetailModal = () => {
+  const {palette} = useTheme();
 
-export const EntryDetailModal = ({
-  visible,
-  selectedEntry,
-  colorScheme,
-  paletteTextColor,
-  modalCardColor,
-  inputBorderColor,
-  radioBorderColor,
-  eatingReasonOptions,
-  onClose,
-}: EntryDetailModalProps) => {
+  const {isDetailModalVisible, selectedEntry, closeDetailModal} = useDiaryContext();
+
   return (
     <Modal
       animationType="fade"
-      visible={visible}
-      onRequestClose={onClose}
+      visible={isDetailModalVisible}
+      onRequestClose={closeDetailModal}
       transparent
       statusBarTranslucent
     >
       <Pressable
         style={styles.modalOverlay}
-        onPress={onClose}
+        onPress={closeDetailModal}
       >
         <Pressable
-          style={[styles.modalCard, {backgroundColor: modalCardColor}]}
+          style={[styles.modalCard, {backgroundColor: palette.modalCard}]}
           onPress={event => {
             event.stopPropagation();
           }}
         >
           <View style={styles.modalHeader}>
             <View style={styles.modalHeaderSpacer} />
-            <ThemedText type="defaultSemiBold">Entry details</ThemedText>
+            <Text>Entry details</Text>
             <Pressable
-              onPress={onClose}
+              onPress={closeDetailModal}
               style={styles.modalHeaderButton}
             >
-              <ThemedText style={styles.modalHeaderButtonText}>Close</ThemedText>
+              <Text>Close</Text>
             </Pressable>
           </View>
 
@@ -74,17 +55,17 @@ export const EntryDetailModal = ({
             style={[
               styles.noteInput,
               {
-                color: paletteTextColor,
-                borderColor: inputBorderColor,
+                color: palette.text,
+                borderColor: palette.inputBorder,
               },
             ]}
             placeholder="No title"
-            placeholderTextColor={colorScheme === 'dark' ? '#8E9498' : '#969A9D'}
+            placeholderTextColor={palette.placeholderText}
             numberOfLines={1}
           />
 
           <View style={styles.reasonSection}>
-            <ThemedText type="defaultSemiBold">why do I eat this?</ThemedText>
+            <Text>why do I eat this?</Text>
 
             <View style={styles.reasonOptionsGrid}>
               {eatingReasonOptions.map(option => {
@@ -95,10 +76,10 @@ export const EntryDetailModal = ({
                     key={option}
                     style={[styles.reasonOptionRow, !isSelected ? styles.unselectedReasonOption : undefined]}
                   >
-                    <View style={[styles.radioOuter, {borderColor: radioBorderColor}]}>
-                      {isSelected ? <View style={[styles.radioInner, {backgroundColor: paletteTextColor}]} /> : null}
+                    <View style={[styles.radioOuter, {borderColor: palette.radioBorder}]}>
+                      {isSelected ? <View style={[styles.radioInner, {backgroundColor: palette.text}]} /> : null}
                     </View>
-                    <ThemedText style={styles.reasonOptionText}>{option}</ThemedText>
+                    <Text>{option}</Text>
                   </View>
                 );
               })}
@@ -109,3 +90,5 @@ export const EntryDetailModal = ({
     </Modal>
   );
 };
+
+export default EntryDetailModal;
