@@ -1,26 +1,38 @@
 import {Image} from 'expo-image';
 import {Modal, Pressable, TextInput, View} from 'react-native';
-import {Text} from 'src/components';
+import {Icon, Text} from 'src/components';
 import {useTheme} from 'src/hooks/useTheme';
 import {useDiaryContext} from 'src/screens/Diary/hooks';
-import {styles} from './EntryDetailModal.styles';
+import {styles} from './EntryModal.styles';
 
-const EntryDetailModal = () => {
+const EntryModal = () => {
   const {palette} = useTheme();
 
-  const {eatingReasonOptions, isDetailModalVisible, selectedEntry, closeDetailModal} = useDiaryContext();
+  const {
+    draftImageUri,
+    draftNote,
+    draftReason,
+    eatingReasonOptions,
+    isAddModalVisible,
+    isCapturing,
+    captureDraftImage,
+    closeAddEntryModal,
+    saveEntryFromDraft,
+    setDraftNote,
+    setDraftReason,
+  } = useDiaryContext();
 
   return (
     <Modal
       animationType="fade"
-      visible={isDetailModalVisible}
-      onRequestClose={closeDetailModal}
+      visible={isAddModalVisible}
+      onRequestClose={closeAddEntryModal}
       transparent
       statusBarTranslucent
     >
       <Pressable
         style={styles.modalOverlay}
-        onPress={closeDetailModal}
+        onPress={closeAddEntryModal}
       >
         <Pressable
           style={[styles.modalCard, {backgroundColor: palette.modalCard}]}
@@ -29,29 +41,43 @@ const EntryDetailModal = () => {
           }}
         >
           <View style={styles.modalHeader}>
-            <View style={styles.modalHeaderSpacer} />
-            <Text>Entry details</Text>
             <Pressable
-              onPress={closeDetailModal}
+              onPress={closeAddEntryModal}
               style={styles.modalHeaderButton}
             >
-              <Text>Close</Text>
+              <Text>Cancel</Text>
             </Pressable>
+            <Text>Add entry</Text>
+            <View style={styles.modalHeaderSpacer} />
           </View>
 
-          {selectedEntry ? (
-            <View style={styles.modalImageContainer}>
+          <Pressable
+            style={styles.modalImagePressable}
+            onPress={() => {
+              void captureDraftImage();
+            }}
+            disabled={isCapturing}
+          >
+            {draftImageUri ? (
               <Image
-                source={{uri: selectedEntry.uri}}
+                source={{uri: draftImageUri}}
                 style={styles.modalImage}
                 contentFit="cover"
               />
-            </View>
-          ) : null}
+            ) : (
+              <View style={[styles.modalImagePlaceholder, {borderColor: palette.addTileBorder}]}>
+                <Icon
+                  name="photo-camera"
+                  size={32}
+                />
+                <Text>Tap to take photo</Text>
+              </View>
+            )}
+          </Pressable>
 
           <TextInput
-            value={selectedEntry?.note ?? ''}
-            editable={false}
+            value={draftNote}
+            onChangeText={setDraftNote}
             style={[
               styles.noteInput,
               {
@@ -59,7 +85,7 @@ const EntryDetailModal = () => {
                 borderColor: palette.inputBorder,
               },
             ]}
-            placeholder="No title"
+            placeholder="Optional title"
             placeholderTextColor={palette.placeholderText}
             numberOfLines={1}
           />
@@ -69,26 +95,36 @@ const EntryDetailModal = () => {
 
             <View style={styles.reasonOptionsGrid}>
               {eatingReasonOptions.map(option => {
-                const isSelected = selectedEntry?.eatingReason === option;
+                const isSelected = draftReason === option;
 
                 return (
-                  <View
+                  <Pressable
                     key={option}
-                    style={[styles.reasonOptionRow, !isSelected ? styles.unselectedReasonOption : undefined]}
+                    style={styles.reasonOptionRow}
+                    onPress={() => {
+                      setDraftReason(option);
+                    }}
                   >
                     <View style={[styles.radioOuter, {borderColor: palette.radioBorder}]}>
                       {isSelected ? <View style={[styles.radioInner, {backgroundColor: palette.text}]} /> : null}
                     </View>
                     <Text>{option}</Text>
-                  </View>
+                  </Pressable>
                 );
               })}
             </View>
           </View>
+
+          <Pressable
+            style={styles.saveButton}
+            onPress={saveEntryFromDraft}
+          >
+            <Text>Save entry</Text>
+          </Pressable>
         </Pressable>
       </Pressable>
     </Modal>
   );
 };
 
-export default EntryDetailModal;
+export default EntryModal;
