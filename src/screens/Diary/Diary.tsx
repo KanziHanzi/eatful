@@ -1,15 +1,20 @@
 import {FlatList, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTheme} from 'src/hooks/useTheme';
+import type {DiaryEntry} from 'src/types/diary';
 import {AddEntry, Entry, EntryDetailModal, EntryModal, Header} from './components';
 import {styles} from './Diary.styles';
 import {DiaryProvider, useDiaryContext} from './hooks';
 
 const gridColumns = 3;
+const ADD_ENTRY_ID = '__add__';
+const addEntryPlaceholder = {id: ADD_ENTRY_ID} as DiaryEntry;
 
 const DiaryContent = () => {
   const {entries, isViewingToday} = useDiaryContext();
   const {palette} = useTheme();
+
+  const data = isViewingToday ? [...entries, addEntryPlaceholder] : entries;
 
   return (
     <SafeAreaView
@@ -20,10 +25,10 @@ const DiaryContent = () => {
         <Header />
 
         <FlatList
-          data={entries}
+          data={data}
           keyExtractor={item => item.id}
-          renderItem={({item, index}) => {
-            if (isViewingToday && index === entries.length - 1) {
+          renderItem={({item}) => {
+            if (item.id === ADD_ENTRY_ID) {
               return <AddEntry />;
             }
 
