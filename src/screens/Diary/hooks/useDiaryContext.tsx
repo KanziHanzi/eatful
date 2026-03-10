@@ -26,7 +26,7 @@ type DiaryContextValue = {
 
 const DiaryContext = createContext<DiaryContextValue | null>(null);
 
-export const eatingReasonOptions = ['hungry', 'bored', 'social', 'stressed', 'cravings', 'guilty'] as const;
+export const eatingReasonOptions = ['hungry', 'bored', 'social', 'stressed', 'cravings', 'guilty', 'reward'] as const;
 
 type DiaryProviderProps = {
   children: ReactNode;
