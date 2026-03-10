@@ -16,6 +16,7 @@ type DiaryContextValue = {
   selectedEntry: DiaryEntry | null;
   addEntry: (entry: DiaryEntry) => void;
   clearCache: () => void;
+  deleteEntry: (entryId: string) => void;
   closeAddEntryModal: () => void;
   closeDetailModal: () => void;
   moveToNextDay: () => void;
@@ -160,6 +161,18 @@ export const DiaryProvider = ({children}: DiaryProviderProps) => {
     }
   };
 
+  const deleteEntry = (entryId: string) => {
+    if (!activeDay) return;
+
+    const updatedEntries = activeDay.entries.filter(e => e.id !== entryId);
+    const updatedDay: DiaryDay | null =
+      updatedEntries.length > 0 ? {...activeDay, entries: updatedEntries} : null;
+
+    setActiveDay(updatedDay);
+    void persistDay(updatedDay, activeDateKey);
+    closeDetailModal();
+  };
+
   const clearCache = () => {
     Alert.alert('Clear this day?', 'This removes all entries for the selected day.', [
       {
@@ -207,6 +220,7 @@ export const DiaryProvider = ({children}: DiaryProviderProps) => {
     selectedEntry,
     addEntry,
     clearCache,
+    deleteEntry,
     closeAddEntryModal,
     closeDetailModal,
     moveToNextDay,

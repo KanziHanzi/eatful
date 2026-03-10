@@ -1,6 +1,6 @@
 import {Image} from 'expo-image';
-import {Modal, Pressable, TextInput, View} from 'react-native';
-import {Text} from 'src/components';
+import {Alert, Modal, Pressable, TextInput, View} from 'react-native';
+import {Icon, Text} from 'src/components';
 import {useTheme} from 'src/hooks/useTheme';
 import {eatingReasonOptions, useDiaryContext} from 'src/screens/Diary/hooks';
 import {styles} from './EntryDetailModal.styles';
@@ -8,7 +8,20 @@ import {styles} from './EntryDetailModal.styles';
 const EntryDetailModal = () => {
   const {palette} = useTheme();
 
-  const {isDetailModalVisible, selectedEntry, closeDetailModal} = useDiaryContext();
+  const {isDetailModalVisible, selectedEntry, closeDetailModal, deleteEntry} = useDiaryContext();
+
+  const handleDelete = () => {
+    if (!selectedEntry) return;
+
+    Alert.alert('Delete entry?', 'This entry will be permanently removed.', [
+      {text: 'Cancel', style: 'cancel'},
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => deleteEntry(selectedEntry.id),
+      },
+    ]);
+  };
 
   return (
     <Modal
@@ -29,13 +42,18 @@ const EntryDetailModal = () => {
           }}
         >
           <View style={styles.modalHeader}>
-            <View style={styles.modalHeaderSpacer} />
-            <Text>Entry details</Text>
             <Pressable
               onPress={closeDetailModal}
               style={styles.modalHeaderButton}
             >
               <Text>Close</Text>
+            </Pressable>
+            <Text>Entry details</Text>
+            <Pressable
+              onPress={handleDelete}
+              style={styles.modalHeaderButton}
+            >
+              <Icon name="delete" size={22} />
             </Pressable>
           </View>
 

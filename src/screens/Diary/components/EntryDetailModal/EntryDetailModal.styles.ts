@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
   modalHeaderButton: {
     paddingVertical: 4,
     paddingHorizontal: 2,
-    minWidth: 54,
+    
   },
   modalHeaderButtonText: {
     fontSize: 15,
