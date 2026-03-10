@@ -11,7 +11,7 @@ import {styles} from './EntryModal.styles';
 const EntryModal = () => {
   const {palette} = useTheme();
   const {isAddModalVisible, addEntry, closeAddEntryModal} = useDiaryContext();
-  const {captureImage, capturing} = useCameraCapture();
+  const {captureImage, pickFromLibrary, capturing} = useCameraCapture();
 
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [note, setNote] = useState('');
@@ -28,11 +28,18 @@ const EntryModal = () => {
     resetDraft();
   };
 
-  const handleCapture = async () => {
-    const uri = await captureImage();
+  const handleImageResult = (uri: string | null) => {
     if (uri) {
       setImageUri(uri);
     }
+  };
+
+  const handleAddPhoto = () => {
+    Alert.alert('Add Photo', undefined, [
+      {text: 'Take Photo', onPress: () => void captureImage().then(handleImageResult)},
+      {text: 'Choose from Library', onPress: () => void pickFromLibrary().then(handleImageResult)},
+      {text: 'Cancel', style: 'cancel'},
+    ]);
   };
 
   const handleSave = () => {
@@ -90,9 +97,7 @@ const EntryModal = () => {
 
           <Pressable
             style={styles.modalImagePressable}
-            onPress={() => {
-              void handleCapture();
-            }}
+            onPress={handleAddPhoto}
             disabled={capturing}
           >
             {imageUri ? (
@@ -107,7 +112,7 @@ const EntryModal = () => {
                   name="add-a-photo"
                   size={32}
                 />
-                <Text>Tap to take photo</Text>
+                <Text>Tap to add photo</Text>
               </View>
             )}
           </Pressable>
