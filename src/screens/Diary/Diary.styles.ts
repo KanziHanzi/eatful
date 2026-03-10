@@ -11,11 +11,13 @@ export const styles = StyleSheet.create({
     paddingBottom: 8,
     gap: 14,
   },
-  gridContent: {
+  scrollContent: {
     paddingBottom: 16,
     gap: 10,
   },
-  row: {
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 10,
   },
 });

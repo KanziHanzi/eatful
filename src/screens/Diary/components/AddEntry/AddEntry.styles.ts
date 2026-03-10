@@ -2,7 +2,8 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   card: {
-    flex: 1,
+    flexGrow: 1,
+    flexBasis: '30%',
     maxWidth: '32%',
     gap: 6,
   },
