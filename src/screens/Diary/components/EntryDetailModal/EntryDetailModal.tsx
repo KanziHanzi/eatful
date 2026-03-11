@@ -2,13 +2,20 @@ import {Image} from 'expo-image';
 import {Alert, Modal, Pressable, TextInput, View} from 'react-native';
 import {Icon, Text} from 'src/components';
 import {useTheme} from 'src/hooks/useTheme';
-import {eatingReasonOptions, useDiaryContext} from 'src/screens/Diary/hooks';
+import {eatingReasonOptions, useDiaryStore} from 'src/screens/Diary/hooks';
 import {styles} from './EntryDetailModal.styles';
 
 const EntryDetailModal = () => {
   const {palette} = useTheme();
 
-  const {isDetailModalVisible, selectedEntry, closeDetailModal, deleteEntry} = useDiaryContext();
+  const {visibleModal, selectedEntry, setVisibleModal, deleteEntry} = useDiaryStore(store => ({
+    visibleModal: store.visibleModal,
+    selectedEntry: store.selectedEntry,
+    setVisibleModal: store.setVisibleModal,
+    deleteEntry: store.deleteEntry,
+  }));
+
+  const handleClose = () => setVisibleModal(null);
 
   const handleDelete = () => {
     if (!selectedEntry) return;
@@ -26,14 +33,14 @@ const EntryDetailModal = () => {
   return (
     <Modal
       animationType="fade"
-      visible={isDetailModalVisible}
-      onRequestClose={closeDetailModal}
+      visible={visibleModal === 'entryDetail'}
+      onRequestClose={handleClose}
       transparent
       statusBarTranslucent
     >
       <Pressable
         style={styles.modalOverlay}
-        onPress={closeDetailModal}
+        onPress={handleClose}
       >
         <Pressable
           style={[styles.modalCard, {backgroundColor: palette.modalCard}]}
@@ -43,7 +50,7 @@ const EntryDetailModal = () => {
         >
           <View style={styles.modalHeader}>
             <Pressable
-              onPress={closeDetailModal}
+              onPress={handleClose}
               style={styles.modalHeaderButton}
             >
               <Text>Close</Text>

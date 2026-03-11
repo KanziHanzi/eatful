@@ -2,12 +2,17 @@ import {useMemo} from 'react';
 import {View} from 'react-native';
 import {Text} from 'src/components';
 import {useTheme} from 'src/hooks/useTheme';
-import {useDiaryContext} from 'src/screens/Diary/hooks';
+import {useDiaryStore} from 'src/screens/Diary/hooks';
 import {styles} from './Insights.styles';
 
 const Insights = () => {
-  const {entries} = useDiaryContext();
   const {palette} = useTheme();
+
+  const {activeDay} = useDiaryStore(store => ({
+    activeDay: store.activeDay,
+  }));
+
+  const entries = activeDay?.entries ?? [];
 
   const reasonCounts = useMemo(() => {
     const counts: Record<string, number> = {};
@@ -37,7 +42,10 @@ const Insights = () => {
       </View>
 
       {reasonCounts.map(([reason, count]) => (
-        <View key={reason} style={styles.reasonRow}>
+        <View
+          key={reason}
+          style={styles.reasonRow}
+        >
           <Text style={styles.reasonLabel}>{reason}</Text>
           <View style={[styles.barTrack, {backgroundColor: palette.inputBorder}]}>
             <View

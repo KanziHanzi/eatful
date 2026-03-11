@@ -1,13 +1,24 @@
 import {ScrollView, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTheme} from 'src/hooks/useTheme';
+import type {DiaryEntry} from 'src/types/diary';
+import {getDayTimestamp} from 'src/utils/dateTime';
 import {AddEntry, Entry, EntryDetailModal, EntryModal, Header, Insights} from './components';
 import {styles} from './Diary.styles';
-import {DiaryProvider, useDiaryContext} from './hooks';
+import {useDiaryStore} from './hooks';
 
-const DiaryContent = () => {
-  const {entries, isViewingToday} = useDiaryContext();
+const EMPTY_ENTRIES: DiaryEntry[] = [];
+
+export const Diary = () => {
   const {palette} = useTheme();
+
+  const {activeDay, activeDayTimestamp} = useDiaryStore(store => ({
+    activeDay: store.activeDay,
+    activeDayTimestamp: store.activeDayTimestamp,
+  }));
+
+  const entries = activeDay?.entries ?? EMPTY_ENTRIES;
+  const isViewingToday = activeDayTimestamp === getDayTimestamp(Date.now());
 
   return (
     <SafeAreaView
@@ -34,13 +45,5 @@ const DiaryContent = () => {
         <EntryDetailModal />
       </View>
     </SafeAreaView>
-  );
-};
-
-export const Diary = () => {
-  return (
-    <DiaryProvider>
-      <DiaryContent />
-    </DiaryProvider>
   );
 };

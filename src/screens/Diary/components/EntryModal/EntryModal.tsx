@@ -4,18 +4,23 @@ import {Alert, Modal, Pressable, TextInput, View} from 'react-native';
 import {Icon, Text} from 'src/components';
 import {useCameraCapture} from 'src/hooks/useCameraCapture';
 import {useTheme} from 'src/hooks/useTheme';
-import {eatingReasonOptions, useDiaryContext} from 'src/screens/Diary/hooks';
+import {eatingReasonOptions, useDiaryStore} from 'src/screens/Diary/hooks';
 import type {EatingReason} from 'src/types/diary';
 import {styles} from './EntryModal.styles';
 
 const EntryModal = () => {
   const {palette} = useTheme();
-  const {isAddModalVisible, addEntry, closeAddEntryModal} = useDiaryContext();
   const {captureImage, pickFromLibrary, capturing} = useCameraCapture();
 
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [note, setNote] = useState('');
   const [reason, setReason] = useState<EatingReason | null>(null);
+
+  const {visibleModal, addEntry, setVisibleModal} = useDiaryStore(store => ({
+    visibleModal: store.visibleModal,
+    addEntry: store.addEntry,
+    setVisibleModal: store.setVisibleModal,
+  }));
 
   const resetDraft = () => {
     setImageUri(null);
@@ -24,7 +29,7 @@ const EntryModal = () => {
   };
 
   const handleClose = () => {
-    closeAddEntryModal();
+    setVisibleModal(null);
     resetDraft();
   };
 
@@ -69,7 +74,7 @@ const EntryModal = () => {
   return (
     <Modal
       animationType="fade"
-      visible={isAddModalVisible}
+      visible={visibleModal === 'addEntry'}
       onRequestClose={handleClose}
       transparent
       statusBarTranslucent

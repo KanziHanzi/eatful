@@ -1,10 +1,12 @@
 import {Pressable, View} from 'react-native';
 import {Icon} from 'src/components';
-import {useDiaryContext} from 'src/screens/Diary/hooks';
+import {useDiaryStore} from 'src/screens/Diary/hooks';
 import {styles} from './AddEntry.styles';
 
 const AddEntry = () => {
-  const {openAddEntryModal} = useDiaryContext();
+  const {setVisibleModal} = useDiaryStore(store => ({
+    setVisibleModal: store.setVisibleModal,
+  }));
 
   return (
     <Pressable
@@ -16,7 +18,7 @@ const AddEntry = () => {
           opacity: pressed ? 0.8 : 1,
         },
       ]}
-      onPress={openAddEntryModal}
+      onPress={() => setVisibleModal('addEntry')}
     >
       <View style={[styles.image, styles.addTileImage]}>
         <Icon

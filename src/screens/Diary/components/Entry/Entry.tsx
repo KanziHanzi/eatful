@@ -3,7 +3,7 @@ import {Pressable} from 'react-native';
 import {Text} from 'src/components';
 import {DiaryEntry} from 'src/types/diary';
 import {formatTimestamp} from 'src/utils/dateTime';
-import {useDiaryContext} from '../../hooks';
+import {useDiaryStore} from '../../hooks';
 import {styles} from './Entry.styles';
 
 type EntryProps = {
@@ -11,7 +11,9 @@ type EntryProps = {
 };
 
 const Entry = ({item}: EntryProps) => {
-  const {openDetailModal} = useDiaryContext();
+  const {openDetailModal} = useDiaryStore(store => ({
+    openDetailModal: store.openDetailModal,
+  }));
 
   return (
     <Pressable
