@@ -1,3 +1,4 @@
+import {randomUUID} from 'expo-crypto';
 import {Image} from 'expo-image';
 import {router} from 'expo-router';
 import {useState} from 'react';
@@ -51,7 +52,7 @@ const EntryModal = () => {
     }
 
     addEntry({
-      id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      id: randomUUID(),
       uri: imageUri,
       takenAt: Date.now(),
       eatingReason: reason,
