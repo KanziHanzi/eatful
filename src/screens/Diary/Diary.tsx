@@ -3,7 +3,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTheme} from 'src/hooks/useTheme';
 import type {DiaryEntry} from 'src/types/diary';
 import {getDayTimestamp} from 'src/utils/dateTime';
-import {AddEntry, Entry, EntryDetailModal, EntryModal, Header, Insights} from './components';
+import {AddEntry, Entry, Header, Insights} from './components';
 import {styles} from './Diary.styles';
 import {useDiaryStore} from './hooks';
 
@@ -41,8 +41,6 @@ export const Diary = () => {
           <Insights />
         </ScrollView>
 
-        <EntryModal />
-        <EntryDetailModal />
       </View>
     </SafeAreaView>
   );

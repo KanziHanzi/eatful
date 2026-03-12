@@ -1,13 +1,9 @@
+import {router} from 'expo-router';
 import {Pressable, View} from 'react-native';
 import {Icon} from 'src/components';
-import {useDiaryStore} from 'src/screens/Diary/hooks';
 import {styles} from './AddEntry.styles';
 
 const AddEntry = () => {
-  const {setVisibleModal} = useDiaryStore(store => ({
-    setVisibleModal: store.setVisibleModal,
-  }));
-
   return (
     <Pressable
       style={({pressed}) => [
@@ -18,7 +14,7 @@ const AddEntry = () => {
           opacity: pressed ? 0.8 : 1,
         },
       ]}
-      onPress={() => setVisibleModal('addEntry')}
+      onPress={() => router.push('/add-entry')}
     >
       <View style={[styles.image, styles.addTileImage]}>
         <Icon

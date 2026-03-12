@@ -26,7 +26,27 @@ const AppContainer = () => {
 
   return (
     <ThemeProvider value={navigationTheme}>
-      <Stack screenOptions={{headerShown: false}} />
+      <Stack screenOptions={{headerShown: false}}>
+        <Stack.Screen name="index" />
+        <Stack.Screen
+          name="add-entry"
+          options={{
+            presentation: 'formSheet',
+            sheetAllowedDetents: 'fitToContents',
+            sheetGrabberVisible: true,
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="entry-detail"
+          options={{
+            presentation: 'formSheet',
+            sheetAllowedDetents: 'fitToContents',
+            sheetGrabberVisible: true,
+            headerShown: false,
+          }}
+        />
+      </Stack>
       <StatusBar
         barStyle={statusBarStyle}
         backgroundColor={statusBarBackground}

@@ -1,6 +1,8 @@
 import {Image} from 'expo-image';
+import {router} from 'expo-router';
 import {useState} from 'react';
-import {Alert, Modal, Pressable, TextInput, View} from 'react-native';
+import {Alert, Pressable, TextInput, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {Icon, Text} from 'src/components';
 import {useCameraCapture} from 'src/hooks/useCameraCapture';
 import {useTheme} from 'src/hooks/useTheme';
@@ -16,21 +18,12 @@ const EntryModal = () => {
   const [note, setNote] = useState('');
   const [reason, setReason] = useState<EatingReason | null>(null);
 
-  const {visibleModal, addEntry, setVisibleModal} = useDiaryStore(store => ({
-    visibleModal: store.visibleModal,
+  const {addEntry} = useDiaryStore(store => ({
     addEntry: store.addEntry,
-    setVisibleModal: store.setVisibleModal,
   }));
 
-  const resetDraft = () => {
-    setImageUri(null);
-    setNote('');
-    setReason(null);
-  };
-
   const handleClose = () => {
-    setVisibleModal(null);
-    resetDraft();
+    router.back();
   };
 
   const handleImageResult = (uri: string | null) => {
@@ -72,105 +65,89 @@ const EntryModal = () => {
   };
 
   return (
-    <Modal
-      animationType="fade"
-      visible={visibleModal === 'addEntry'}
-      onRequestClose={handleClose}
-      transparent
-      statusBarTranslucent
-    >
-      <Pressable
-        style={styles.modalOverlay}
-        onPress={handleClose}
-      >
+    <SafeAreaView>
+      <View style={styles.modalContent}>
+        <View style={styles.modalHeader}>
+          <Pressable
+            onPress={handleClose}
+            style={styles.modalHeaderButton}
+          >
+            <Text>Cancel</Text>
+          </Pressable>
+          <Text>Add entry</Text>
+          <View style={styles.modalHeaderSpacer} />
+        </View>
+
         <Pressable
-          style={[styles.modalCard, {backgroundColor: palette.modalCard}]}
-          onPress={event => {
-            event.stopPropagation();
-          }}
+          style={styles.modalImagePressable}
+          onPress={handleAddPhoto}
+          disabled={capturing}
         >
-          <View style={styles.modalHeader}>
-            <Pressable
-              onPress={handleClose}
-              style={styles.modalHeaderButton}
-            >
-              <Text>Cancel</Text>
-            </Pressable>
-            <Text>Add entry</Text>
-            <View style={styles.modalHeaderSpacer} />
-          </View>
-
-          <Pressable
-            style={styles.modalImagePressable}
-            onPress={handleAddPhoto}
-            disabled={capturing}
-          >
-            {imageUri ? (
-              <Image
-                source={{uri: imageUri}}
-                style={styles.modalImage}
-                contentFit="cover"
+          {imageUri ? (
+            <Image
+              source={{uri: imageUri}}
+              style={styles.modalImage}
+              contentFit="cover"
+            />
+          ) : (
+            <View style={[styles.modalImagePlaceholder, {borderColor: palette.addTileBorder}]}>
+              <Icon
+                name="add-a-photo"
+                size={32}
               />
-            ) : (
-              <View style={[styles.modalImagePlaceholder, {borderColor: palette.addTileBorder}]}>
-                <Icon
-                  name="add-a-photo"
-                  size={32}
-                />
-                <Text>Tap to add photo</Text>
-              </View>
-            )}
-          </Pressable>
-
-          <TextInput
-            value={note}
-            onChangeText={setNote}
-            style={[
-              styles.noteInput,
-              {
-                color: palette.text,
-                borderColor: palette.inputBorder,
-              },
-            ]}
-            placeholder="Optional title"
-            placeholderTextColor={palette.placeholderText}
-            numberOfLines={1}
-          />
-
-          <View style={styles.reasonSection}>
-            <Text>why do I eat this?</Text>
-
-            <View style={styles.reasonOptionsGrid}>
-              {eatingReasonOptions.map(option => {
-                const isSelected = reason === option;
-
-                return (
-                  <Pressable
-                    key={option}
-                    style={styles.reasonOptionRow}
-                    onPress={() => {
-                      setReason(option);
-                    }}
-                  >
-                    <View style={[styles.radioOuter, {borderColor: palette.radioBorder}]}>
-                      {isSelected ? <View style={[styles.radioInner, {backgroundColor: palette.text}]} /> : null}
-                    </View>
-                    <Text>{option}</Text>
-                  </Pressable>
-                );
-              })}
+              <Text>Tap to add photo</Text>
             </View>
-          </View>
-
-          <Pressable
-            style={styles.saveButton}
-            onPress={handleSave}
-          >
-            <Text>Save entry</Text>
-          </Pressable>
+          )}
         </Pressable>
-      </Pressable>
-    </Modal>
+
+        <TextInput
+          value={note}
+          onChangeText={setNote}
+          style={[
+            styles.noteInput,
+            {
+              color: palette.text,
+              borderColor: palette.inputBorder,
+            },
+          ]}
+          placeholder="Optional title"
+          placeholderTextColor={palette.placeholderText}
+          numberOfLines={1}
+        />
+
+        <View style={styles.reasonSection}>
+          <Text>why do I eat this?</Text>
+
+          <View style={styles.reasonOptionsGrid}>
+            {eatingReasonOptions.map(option => {
+              const isSelected = reason === option;
+
+              return (
+                <Pressable
+                  key={option}
+                  style={styles.reasonOptionRow}
+                  onPress={() => {
+                    setReason(option);
+                  }}
+                >
+                  <View style={[styles.radioOuter, {borderColor: palette.radioBorder}]}>
+                    {isSelected ? <View style={[styles.radioInner, {backgroundColor: palette.text}]} /> : null}
+                  </View>
+                  <Text>{option}</Text>
+                </Pressable>
+              );
+            })}
+          </View>
+        </View>
+
+        <Pressable
+          style={styles.saveButton}
+          onPress={handleSave}
+        >
+          <Text>Save entry</Text>
+        </Pressable>
+      </View>
+    </SafeAreaView>
   );
 };
 

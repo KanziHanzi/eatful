@@ -1,29 +1,11 @@
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    backgroundColor: 'rgba(0, 0, 0, 0.35)',
-  },
-  modalCard: {
-    width: '100%',
-    maxWidth: 440,
-    borderRadius: 20,
+  modalContent: {
     paddingHorizontal: 14,
-    paddingTop: 10,
+    paddingTop: 20,
     paddingBottom: 14,
     gap: 10,
-    shadowColor: '#000000',
-    shadowOpacity: 0.18,
-    shadowRadius: 18,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    elevation: 12,
   },
   modalHeader: {
     flexDirection: 'row',

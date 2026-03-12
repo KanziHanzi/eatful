@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {router} from 'expo-router';
 import {Alert} from 'react-native';
 import {createWithEqualityFn} from 'zustand/traditional';
 import {shallow} from 'zustand/shallow';
@@ -9,13 +10,10 @@ import {getDateKey, getDayTimestamp} from 'src/utils/dateTime';
 
 export const eatingReasonOptions = ['hungry', 'bored', 'social', 'stressed', 'cravings', 'guilty', 'reward'] as const;
 
-export type DiaryModal = 'addEntry' | 'entryDetail';
-
 type DiaryState = {
   activeDay: DiaryDay | null;
   activeDayTimestamp: number;
   startDate: string | null;
-  visibleModal: DiaryModal | null;
   selectedEntry: DiaryEntry | null;
 };
 
@@ -26,7 +24,6 @@ type DiaryActions = {
   moveToNextDay: () => void;
   moveToPreviousDay: () => void;
   openDetailModal: (entry: DiaryEntry) => void;
-  setVisibleModal: (modal: DiaryModal | null) => void;
 };
 
 const persistDay = async (day: DiaryDay | null, dateKey: string) => {
@@ -90,24 +87,11 @@ export const useDiaryStore = createWithEqualityFn<DiaryState & DiaryActions>()(
     activeDay: null,
     activeDayTimestamp: getDayTimestamp(Date.now()),
     startDate: null,
-    visibleModal: null,
     selectedEntry: null,
 
-    setVisibleModal: (modal: DiaryModal | null) => {
-      const prev = get().visibleModal;
-      set({visibleModal: modal});
-
-      if (prev === 'entryDetail' && modal !== 'entryDetail') {
-        setTimeout(() => {
-          if (useDiaryStore.getState().visibleModal !== 'entryDetail') {
-            useDiaryStore.setState({selectedEntry: null});
-          }
-        }, 180);
-      }
-    },
-
     openDetailModal: (entry: DiaryEntry) => {
-      set({selectedEntry: entry, visibleModal: 'entryDetail'});
+      set({selectedEntry: entry});
+      router.push('/entry-detail');
     },
 
     addEntry: (entry: DiaryEntry) => {
@@ -138,7 +122,7 @@ export const useDiaryStore = createWithEqualityFn<DiaryState & DiaryActions>()(
 
       set({activeDay: updatedDay});
       void persistDay(updatedDay, dateKey);
-      get().setVisibleModal(null);
+      router.back();
     },
 
     clearCache: () => {
