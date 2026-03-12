@@ -1,7 +1,7 @@
 import {Image} from 'expo-image';
 import {router} from 'expo-router';
 import {useState} from 'react';
-import {Alert, Pressable, TextInput, View} from 'react-native';
+import {Alert, Pressable, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Icon, Text} from 'src/components';
 import {useCameraCapture} from 'src/hooks/useCameraCapture';
@@ -15,7 +15,6 @@ const EntryModal = () => {
   const {captureImage, pickFromLibrary, capturing} = useCameraCapture();
 
   const [imageUri, setImageUri] = useState<string | null>(null);
-  const [note, setNote] = useState('');
   const [reason, setReason] = useState<EatingReason | null>(null);
 
   const {addEntry} = useDiaryStore(store => ({
@@ -51,13 +50,10 @@ const EntryModal = () => {
       return;
     }
 
-    const trimmedNote = note.trim();
-
     addEntry({
       id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
       uri: imageUri,
       takenAt: Date.now(),
-      note: trimmedNote.length > 0 ? trimmedNote : undefined,
       eatingReason: reason,
     });
 
@@ -99,21 +95,6 @@ const EntryModal = () => {
             </View>
           )}
         </Pressable>
-
-        <TextInput
-          value={note}
-          onChangeText={setNote}
-          style={[
-            styles.noteInput,
-            {
-              color: palette.text,
-              borderColor: palette.inputBorder,
-            },
-          ]}
-          placeholder="Optional title"
-          placeholderTextColor={palette.placeholderText}
-          numberOfLines={1}
-        />
 
         <View style={styles.reasonSection}>
           <Text>why do I eat this?</Text>

@@ -1,6 +1,6 @@
 import {Image} from 'expo-image';
 import {router} from 'expo-router';
-import {Alert, Pressable, TextInput, View} from 'react-native';
+import {Alert, Pressable, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Icon, Text} from 'src/components';
 import {useTheme} from 'src/hooks/useTheme';
@@ -31,71 +31,62 @@ const EntryDetailModal = () => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: palette.modalCard}} edges={['bottom']}>
-    <View style={styles.modalContent}>
-      <View style={styles.modalHeader}>
-        <Pressable
-          onPress={handleClose}
-          style={styles.modalHeaderButton}
-        >
-          <Text>Close</Text>
-        </Pressable>
-        <Text>Entry details</Text>
-        <Pressable
-          onPress={handleDelete}
-          style={styles.modalHeaderButton}
-        >
-          <Icon name="delete" size={22} />
-        </Pressable>
-      </View>
-
-      {selectedEntry ? (
-        <View style={styles.modalImageContainer}>
-          <Image
-            source={{uri: selectedEntry.uri}}
-            style={styles.modalImage}
-            contentFit="cover"
-          />
+    <SafeAreaView
+      style={{flex: 1, backgroundColor: palette.modalCard}}
+      edges={['bottom']}
+    >
+      <View style={styles.modalContent}>
+        <View style={styles.modalHeader}>
+          <Pressable
+            onPress={handleClose}
+            style={styles.modalHeaderButton}
+          >
+            <Text>Close</Text>
+          </Pressable>
+          <Text>Entry details</Text>
+          <Pressable
+            onPress={handleDelete}
+            style={styles.modalHeaderButton}
+          >
+            <Icon
+              name="delete"
+              size={22}
+            />
+          </Pressable>
         </View>
-      ) : null}
 
-      <TextInput
-        value={selectedEntry?.note ?? ''}
-        editable={false}
-        style={[
-          styles.noteInput,
-          {
-            color: palette.text,
-            borderColor: palette.inputBorder,
-          },
-        ]}
-        placeholder="No title"
-        placeholderTextColor={palette.placeholderText}
-        numberOfLines={1}
-      />
+        {selectedEntry ? (
+          <View style={styles.modalImageContainer}>
+            <Image
+              source={{uri: selectedEntry.uri}}
+              style={styles.modalImage}
+              contentFit="cover"
+            />
+          </View>
+        ) : null}
 
-      <View style={styles.reasonSection}>
-        <Text>why do I eat this?</Text>
+        <View style={styles.reasonSection}>
+          <Text>why do I eat this?</Text>
 
-        <View style={styles.reasonOptionsGrid}>
-          {eatingReasonOptions.map(option => {
-            const isSelected = selectedEntry?.eatingReason === option;
+          <View style={styles.reasonOptionsGrid}>
+            {eatingReasonOptions.map(option => {
+              const isSelected = selectedEntry?.eatingReason === option;
 
-            return (
-              <View
-                key={option}
-                style={[styles.reasonOptionRow, !isSelected ? styles.unselectedReasonOption : undefined]}
-              >
-                <View style={[styles.radioOuter, {borderColor: palette.radioBorder}]}>
-                  {isSelected ? <View style={[styles.radioInner, {backgroundColor: palette.text}]} /> : null}
+              return (
+                <View
+                  key={option}
+                  style={[styles.reasonOptionRow, !isSelected ? styles.unselectedReasonOption : undefined]}
+                >
+                  <View style={[styles.radioOuter, {borderColor: palette.radioBorder}]}>
+                    {isSelected ? <View style={[styles.radioInner, {backgroundColor: palette.text}]} /> : null}
+                  </View>
+                  <Text>{option}</Text>
                 </View>
-                <Text>{option}</Text>
-              </View>
-            );
-          })}
+              );
+            })}
+          </View>
         </View>
       </View>
-    </View>
     </SafeAreaView>
   );
 };

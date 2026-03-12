@@ -49,16 +49,6 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     opacity: 0.75,
   },
-  noteInput: {
-    minHeight: 42,
-    maxHeight: 42,
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 0,
-    textAlignVertical: 'center',
-    fontSize: 15,
-  },
   reasonSection: {
     gap: 8,
   },
