@@ -1,19 +1,19 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {router} from 'expo-router';
 import {Alert} from 'react-native';
 import {createWithEqualityFn} from 'zustand/traditional';
 import {shallow} from 'zustand/shallow';
 
-import {DIARY_DAY_PREFIX, DIARY_START_DATE_KEY, getDiaryDayKey} from 'src/constants/storage';
+import {DIARY_START_DATE_KEY, getDiaryDayKey} from 'src/constants/storage';
 import type {DiaryDay, DiaryEntry} from 'src/types/diary';
 import {getDateKey, getDayTimestamp} from 'src/utils/dateTime';
+import {storage} from 'src/utils/storage';
 
 export const eatingReasonOptions = ['hungry', 'bored', 'social', 'stressed', 'cravings', 'guilty', 'reward'] as const;
 
 type DiaryState = {
   activeDay: DiaryDay | null;
   activeDayTimestamp: number;
-  startDate: string | null;
+  startDate: number | null;
   selectedEntry: DiaryEntry | null;
 };
 
@@ -29,9 +29,9 @@ type DiaryActions = {
 const persistDay = async (day: DiaryDay | null, dateKey: string) => {
   try {
     if (day && day.entries.length > 0) {
-      await AsyncStorage.setItem(getDiaryDayKey(dateKey), JSON.stringify(day));
+      await storage.setItem(getDiaryDayKey(dateKey), day);
     } else {
-      await AsyncStorage.removeItem(getDiaryDayKey(dateKey));
+      await storage.removeItem(getDiaryDayKey(dateKey));
     }
   } catch {
     console.warn(`Failed to persist diary day: ${dateKey}`);
@@ -44,12 +44,10 @@ const loadDay = async (dateKey: string) => {
   loadingKey = dateKey;
 
   try {
-    const raw = await AsyncStorage.getItem(getDiaryDayKey(dateKey));
+    const day = await storage.getItem<DiaryDay>(getDiaryDayKey(dateKey));
     if (loadingKey !== dateKey) return;
 
-    useDiaryStore.setState({
-      activeDay: raw ? (JSON.parse(raw) as DiaryDay) : null,
-    });
+    useDiaryStore.setState({activeDay: day});
   } catch {
     console.warn(`Failed to load diary day: ${dateKey}`);
     if (loadingKey === dateKey) {
@@ -60,23 +58,15 @@ const loadDay = async (dateKey: string) => {
 
 const resolveStartDate = async () => {
   try {
-    const cached = await AsyncStorage.getItem(DIARY_START_DATE_KEY);
-    if (cached) {
+    const cached = await storage.getItem<number>(DIARY_START_DATE_KEY);
+    if (cached != null) {
       useDiaryStore.setState({startDate: cached});
       return;
     }
 
-    const allKeys = await AsyncStorage.getAllKeys();
-    const diaryKeys = allKeys
-      .filter(k => k.startsWith(DIARY_DAY_PREFIX) && k !== DIARY_START_DATE_KEY)
-      .map(k => k.slice(DIARY_DAY_PREFIX.length))
-      .sort((a, b) => a.localeCompare(b));
-
-    const earliest = diaryKeys[0] ?? null;
-    if (earliest) {
-      await AsyncStorage.setItem(DIARY_START_DATE_KEY, earliest);
-    }
-    useDiaryStore.setState({startDate: earliest});
+    const today = getDayTimestamp(Date.now());
+    await storage.setItem(DIARY_START_DATE_KEY, today);
+    useDiaryStore.setState({startDate: today});
   } catch {
     console.warn('Failed to resolve start date');
   }
@@ -105,9 +95,9 @@ export const useDiaryStore = createWithEqualityFn<DiaryState & DiaryActions>()(
       set({activeDay: updatedDay});
       void persistDay(updatedDay, dateKey);
 
-      if (startDate == null || dateKey < startDate) {
-        set({startDate: dateKey});
-        AsyncStorage.setItem(DIARY_START_DATE_KEY, dateKey).catch(() => {});
+      if (startDate == null || activeDayTimestamp < startDate) {
+        set({startDate: activeDayTimestamp});
+        storage.setItem(DIARY_START_DATE_KEY, activeDayTimestamp).catch(() => {});
       }
     },
 
@@ -144,8 +134,7 @@ export const useDiaryStore = createWithEqualityFn<DiaryState & DiaryActions>()(
 
     moveToPreviousDay: () => {
       const {activeDayTimestamp, startDate} = get();
-      const dateKey = getDateKey(activeDayTimestamp);
-      if (startDate == null || dateKey === startDate) return;
+      if (startDate == null || activeDayTimestamp === startDate) return;
 
       const previousDay = new Date(activeDayTimestamp);
       previousDay.setDate(previousDay.getDate() - 1);
@@ -174,6 +163,5 @@ useDiaryStore.subscribe(state => {
   }
 });
 
-// Initialize
 void resolveStartDate();
 void loadDay(getDateKey(useDiaryStore.getState().activeDayTimestamp));

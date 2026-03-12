@@ -1,7 +1,7 @@
 import {Pressable, View} from 'react-native';
 import {Icon, Text} from 'src/components';
 import {useDiaryStore} from 'src/screens/Diary/hooks';
-import {formatDate, getDateKey, getDayTimestamp} from 'src/utils/dateTime';
+import {formatDate, getDayTimestamp} from 'src/utils/dateTime';
 import {styles} from './Header.styles';
 
 const Header = () => {
@@ -14,7 +14,7 @@ const Header = () => {
 
   const isViewingToday = activeDayTimestamp === getDayTimestamp(Date.now());
   const activeDayLabel = isViewingToday ? 'Today' : formatDate(activeDayTimestamp);
-  const canGoBack = startDate != null && getDateKey(activeDayTimestamp) !== startDate;
+  const canGoBack = startDate != null && activeDayTimestamp !== startDate;
 
   return (
     <View style={styles.header}>
