@@ -1,8 +1,9 @@
+import DateTimePicker from '@react-native-community/datetimepicker';
 import {randomUUID} from 'expo-crypto';
 import {Image} from 'expo-image';
 import {router} from 'expo-router';
 import {useState} from 'react';
-import {Alert, Pressable, View} from 'react-native';
+import {Alert, Modal, Platform, Pressable, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Icon, Text} from 'src/components';
 import {useCameraCapture} from 'src/hooks/useCameraCapture';
@@ -17,6 +18,8 @@ const EntryModal = () => {
 
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [reason, setReason] = useState<EatingReason | null>(null);
+  const [takenAt, setTakenAt] = useState(new Date());
+  const [showTimePicker, setShowTimePicker] = useState(false);
 
   const {addEntry} = useDiaryStore(store => ({
     addEntry: store.addEntry,
@@ -54,7 +57,7 @@ const EntryModal = () => {
     addEntry({
       id: randomUUID(),
       uri: imageUri,
-      takenAt: Date.now(),
+      takenAt: takenAt.getTime(),
       eatingReason: reason,
     });
 
@@ -96,6 +99,49 @@ const EntryModal = () => {
             </View>
           )}
         </Pressable>
+
+        <Pressable
+          style={[styles.timeButton, {borderColor: palette.inputBorder}]}
+          onPress={() => setShowTimePicker(true)}
+        >
+          <Icon name="access-time" size={16} />
+          <Text style={styles.timeButtonText}>
+            {takenAt.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: false})}
+          </Text>
+        </Pressable>
+
+        <Modal
+          transparent
+          visible={showTimePicker}
+          animationType="fade"
+          onRequestClose={() => setShowTimePicker(false)}
+        >
+          <Pressable
+            style={styles.timePickerBackdrop}
+            onPress={() => setShowTimePicker(false)}
+          >
+            <Pressable style={[styles.timePickerCard, {backgroundColor: palette.modalCard}]}>
+              <DateTimePicker
+                value={takenAt}
+                mode="time"
+                display="spinner"
+                is24Hour
+                onChange={(_event, date) => {
+                  if (Platform.OS === 'android') setShowTimePicker(false);
+                  if (date) setTakenAt(date);
+                }}
+              />
+              {Platform.OS === 'ios' && (
+                <Pressable
+                  style={styles.timePickerDone}
+                  onPress={() => setShowTimePicker(false)}
+                >
+                  <Text>Done</Text>
+                </Pressable>
+              )}
+            </Pressable>
+          </Pressable>
+        </Modal>
 
         <View style={styles.reasonSection}>
           <Text>why do I eat this?</Text>

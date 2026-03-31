@@ -49,6 +49,37 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     opacity: 0.75,
   },
+  timeButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    gap: 6,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+    borderWidth: 1,
+  },
+  timeButtonText: {
+    fontSize: 15,
+    fontWeight: '500',
+  },
+  timePickerBackdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  timePickerCard: {
+    borderRadius: 14,
+    padding: 16,
+    alignItems: 'center',
+    minWidth: 280,
+  },
+  timePickerDone: {
+    marginTop: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 24,
+  },
   reasonSection: {
     gap: 8,
   },
