@@ -31,26 +31,23 @@ const EntryDetailModal = () => {
   };
 
   return (
-    <SafeAreaView
-      style={{flex: 1, backgroundColor: palette.modalCard}}
-      edges={['bottom']}
-    >
+    <SafeAreaView style={{flex: 1}} edges={['bottom']}>
       <View style={styles.modalContent}>
         <View style={styles.modalHeader}>
           <Pressable
             onPress={handleClose}
-            style={styles.modalHeaderButton}
+            style={[styles.pill, {borderColor: palette.inputBorder}]}
           >
-            <Text>Close</Text>
+            <Text style={styles.pillText}>Close</Text>
           </Pressable>
           <Text>Entry details</Text>
           <Pressable
             onPress={handleDelete}
-            style={styles.modalHeaderButton}
+            style={[styles.pill, {borderColor: palette.inputBorder}]}
           >
             <Icon
               name="delete"
-              size={22}
+              size={16}
             />
           </Pressable>
         </View>
@@ -66,21 +63,42 @@ const EntryDetailModal = () => {
         ) : null}
 
         <View style={styles.reasonSection}>
-          <Text>why do I eat this?</Text>
-
-          <View style={styles.reasonOptionsGrid}>
-            {eatingReasonOptions.map(option => {
-              const isSelected = selectedEntry?.eatingReason === option;
-
+          <Text>what kind of eating?</Text>
+          <View style={styles.pillGrid}>
+            {(['meal', 'snack'] as const).map(option => {
+              const isSelected = selectedEntry?.category === option;
               return (
                 <View
                   key={option}
-                  style={[styles.reasonOptionRow, !isSelected ? styles.unselectedReasonOption : undefined]}
+                  style={[
+                    styles.pill,
+                    {borderColor: palette.inputBorder},
+                    isSelected ? styles.pillSelected : styles.pillUnselected,
+                  ]}
                 >
-                  <View style={[styles.radioOuter, {borderColor: palette.radioBorder}]}>
-                    {isSelected ? <View style={[styles.radioInner, {backgroundColor: palette.text}]} /> : null}
-                  </View>
-                  <Text>{option}</Text>
+                  <Text style={styles.pillText}>{option}</Text>
+                </View>
+              );
+            })}
+          </View>
+        </View>
+
+        <View style={styles.reasonSection}>
+          <Text>why do I eat this?</Text>
+
+          <View style={styles.pillGrid}>
+            {eatingReasonOptions.map(option => {
+              const isSelected = selectedEntry?.eatingReason === option;
+              return (
+                <View
+                  key={option}
+                  style={[
+                    styles.pill,
+                    {borderColor: palette.inputBorder},
+                    isSelected ? styles.pillSelected : styles.pillUnselected,
+                  ]}
+                >
+                  <Text style={styles.pillText}>{option}</Text>
                 </View>
               );
             })}

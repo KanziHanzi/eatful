@@ -14,18 +14,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     minHeight: 32,
   },
-  modalHeaderButton: {
-    paddingVertical: 4,
-    paddingHorizontal: 2,
-    minWidth: 54,
-  },
-  modalHeaderButtonText: {
-    fontSize: 15,
-  },
-  modalHeaderSpacer: {
-    minWidth: 54,
-  },
-  modalImagePressable: {
+modalImagePressable: {
     width: '100%',
     aspectRatio: 1.45,
     borderRadius: 12,
@@ -49,13 +38,12 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     opacity: 0.75,
   },
-  timeButton: {
+timeButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    alignSelf: 'flex-start',
     gap: 6,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
+    paddingVertical: 4,
+    paddingHorizontal: 10,
     borderRadius: 20,
     borderWidth: 1,
   },
@@ -83,33 +71,28 @@ export const styles = StyleSheet.create({
   reasonSection: {
     gap: 8,
   },
-  reasonOptionsGrid: {
+  pillGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    rowGap: 8,
-  },
-  reasonOptionRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
     gap: 8,
-    width: '48%',
   },
-  radioOuter: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
+  pill: {
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+    borderRadius: 20,
+    borderWidth: 1,
+  },
+  pillSelected: {
+    borderColor: '#FF8C00',
     borderWidth: 1.5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    shadowColor: '#FF8C00',
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 0.6,
+    shadowRadius: 6,
+    elevation: 4,
   },
-  radioInner: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-  },
-  reasonOptionText: {
-    fontSize: 15,
+  pillText: {
+    fontSize: 14,
     textTransform: 'capitalize',
   },
   saveButton: {

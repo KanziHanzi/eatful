@@ -2,8 +2,9 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   modalContent: {
+    flex: 1,
     paddingHorizontal: 14,
-    paddingTop: 20,
+    paddingTop: 40,
     paddingBottom: 14,
     gap: 10,
   },
@@ -12,17 +13,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     minHeight: 32,
-  },
-  modalHeaderButton: {
-    paddingVertical: 4,
-    paddingHorizontal: 2,
-    
-  },
-  modalHeaderButtonText: {
-    fontSize: 15,
-  },
-  modalHeaderSpacer: {
-    minWidth: 54,
   },
   modalImageContainer: {
     width: '100%',
@@ -37,36 +27,31 @@ export const styles = StyleSheet.create({
   reasonSection: {
     gap: 8,
   },
-  reasonOptionsGrid: {
+  pillGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    rowGap: 8,
-  },
-  reasonOptionRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
     gap: 8,
-    width: '48%',
   },
-  unselectedReasonOption: {
-    opacity: 0.45,
+  pill: {
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+    borderRadius: 20,
+    borderWidth: 1,
   },
-  radioOuter: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
+  pillSelected: {
+    borderColor: '#FF8C00',
     borderWidth: 1.5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    shadowColor: '#FF8C00',
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 0.6,
+    shadowRadius: 6,
+    elevation: 4,
   },
-  radioInner: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
+  pillUnselected: {
+    opacity: 0.35,
   },
-  reasonOptionText: {
-    fontSize: 15,
+  pillText: {
+    fontSize: 14,
     textTransform: 'capitalize',
   },
 });

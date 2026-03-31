@@ -1,23 +1,29 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {randomUUID} from 'expo-crypto';
 import {Image} from 'expo-image';
-import {router} from 'expo-router';
+import {router, useLocalSearchParams} from 'expo-router';
 import {useState} from 'react';
 import {Alert, Modal, Platform, Pressable, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Icon, Text} from 'src/components';
+import {STRICT_MODE} from 'src/constants/features';
 import {useCameraCapture} from 'src/hooks/useCameraCapture';
 import {useTheme} from 'src/hooks/useTheme';
 import {eatingReasonOptions, useDiaryStore} from 'src/screens/Diary/hooks';
-import type {EatingReason} from 'src/types/diary';
+import type {EatingReason, EntryCategory} from 'src/types/diary';
 import {styles} from './EntryModal.styles';
 
 const EntryModal = () => {
   const {palette} = useTheme();
   const {captureImage, pickFromLibrary, capturing} = useCameraCapture();
 
+  const {category: categoryParam} = useLocalSearchParams<{category?: string}>();
+  const initialCategory: EntryCategory | null =
+    categoryParam === 'meal' || categoryParam === 'snack' ? categoryParam : null;
+
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [reason, setReason] = useState<EatingReason | null>(null);
+  const [category, setCategory] = useState<EntryCategory | null>(initialCategory);
   const [takenAt, setTakenAt] = useState(new Date());
   const [showTimePicker, setShowTimePicker] = useState(false);
 
@@ -49,6 +55,11 @@ const EntryModal = () => {
       return;
     }
 
+    if (!category) {
+      Alert.alert('Category required', 'Choose meal or snack before saving.');
+      return;
+    }
+
     if (!reason) {
       Alert.alert('Reason required', 'Choose why you are eating this entry.');
       return;
@@ -59,6 +70,7 @@ const EntryModal = () => {
       uri: imageUri,
       takenAt: takenAt.getTime(),
       eatingReason: reason,
+      category,
     });
 
     handleClose();
@@ -70,12 +82,20 @@ const EntryModal = () => {
         <View style={styles.modalHeader}>
           <Pressable
             onPress={handleClose}
-            style={styles.modalHeaderButton}
+            style={[styles.pill, {borderColor: palette.inputBorder}]}
           >
-            <Text>Cancel</Text>
+            <Text style={styles.pillText}>Cancel</Text>
           </Pressable>
           <Text>Add entry</Text>
-          <View style={styles.modalHeaderSpacer} />
+          <Pressable
+            style={[styles.timeButton, {borderColor: palette.inputBorder}]}
+            onPress={() => setShowTimePicker(true)}
+          >
+            <Icon name="access-time" size={16} />
+            <Text style={styles.timeButtonText}>
+              {takenAt.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: false})}
+            </Text>
+          </Pressable>
         </View>
 
         <Pressable
@@ -98,16 +118,6 @@ const EntryModal = () => {
               <Text>Tap to add photo</Text>
             </View>
           )}
-        </Pressable>
-
-        <Pressable
-          style={[styles.timeButton, {borderColor: palette.inputBorder}]}
-          onPress={() => setShowTimePicker(true)}
-        >
-          <Icon name="access-time" size={16} />
-          <Text style={styles.timeButtonText}>
-            {takenAt.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: false})}
-          </Text>
         </Pressable>
 
         <Modal
@@ -144,24 +154,37 @@ const EntryModal = () => {
         </Modal>
 
         <View style={styles.reasonSection}>
-          <Text>why do I eat this?</Text>
-
-          <View style={styles.reasonOptionsGrid}>
-            {eatingReasonOptions.map(option => {
-              const isSelected = reason === option;
-
+          <Text>what kind of eating?</Text>
+          <View style={styles.pillGrid}>
+            {(['meal', 'snack'] as EntryCategory[]).map(option => {
+              const isSelected = category === option;
+              const isFixed = STRICT_MODE && !!initialCategory;
               return (
                 <Pressable
                   key={option}
-                  style={styles.reasonOptionRow}
-                  onPress={() => {
-                    setReason(option);
-                  }}
+                  style={[styles.pill, {borderColor: palette.inputBorder}, isSelected && styles.pillSelected]}
+                  onPress={isFixed ? undefined : () => setCategory(option)}
                 >
-                  <View style={[styles.radioOuter, {borderColor: palette.radioBorder}]}>
-                    {isSelected ? <View style={[styles.radioInner, {backgroundColor: palette.text}]} /> : null}
-                  </View>
-                  <Text>{option}</Text>
+                  <Text style={styles.pillText}>{option}</Text>
+                </Pressable>
+              );
+            })}
+          </View>
+        </View>
+
+        <View style={styles.reasonSection}>
+          <Text>why do I eat this?</Text>
+
+          <View style={styles.pillGrid}>
+            {eatingReasonOptions.map(option => {
+              const isSelected = reason === option;
+              return (
+                <Pressable
+                  key={option}
+                  style={[styles.pill, {borderColor: palette.inputBorder}, isSelected && styles.pillSelected]}
+                  onPress={() => setReason(option)}
+                >
+                  <Text style={styles.pillText}>{option}</Text>
                 </Pressable>
               );
             })}
