@@ -8,7 +8,7 @@ import type {DiaryDay, DiaryEntry} from 'src/types/diary';
 import {getDateKey, getDayTimestamp} from 'src/utils/dateTime';
 import {storage} from 'src/utils/storage';
 
-export const eatingReasonOptions = ['hungry', 'bored', 'social', 'stressed', 'cravings', 'guilty', 'reward'] as const;
+export const eatingReasonOptions = ['hungry', 'pleasure', 'social', 'stressed', 'cravings', 'sadness', 'reward', 'habit'] as const;
 
 type DiaryState = {
   activeDay: DiaryDay | null;

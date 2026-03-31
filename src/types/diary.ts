@@ -1,4 +1,4 @@
-export type EatingReason = 'hungry' | 'bored' | 'social' | 'stressed' | 'cravings' | 'guilty' | 'reward';
+export type EatingReason = 'hungry' | 'pleasure' | 'social' | 'stressed' | 'cravings' | 'sadness' | 'reward' | 'habit';
 
 export type DiaryEntry = {
   id: string;
