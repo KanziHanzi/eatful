@@ -15,11 +15,6 @@ export const styles = StyleSheet.create({
     paddingBottom: 16,
     gap: 10,
   },
-  grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 10,
-  },
   strictBanner: {
     paddingVertical: 6,
     alignItems: 'center',

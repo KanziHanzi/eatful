@@ -6,7 +6,6 @@ import {useState} from 'react';
 import {Alert, Modal, Platform, Pressable, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Icon, Text} from 'src/components';
-import {STRICT_MODE} from 'src/constants/features';
 import {useCameraCapture} from 'src/hooks/useCameraCapture';
 import {useTheme} from 'src/hooks/useTheme';
 import {eatingReasonOptions, useDiaryStore} from 'src/screens/Diary/hooks';
@@ -18,12 +17,10 @@ const EntryModal = () => {
   const {captureImage, pickFromLibrary, capturing} = useCameraCapture();
 
   const {category: categoryParam} = useLocalSearchParams<{category?: string}>();
-  const initialCategory: EntryCategory | null =
-    categoryParam === 'meal' || categoryParam === 'snack' ? categoryParam : null;
+  const category: EntryCategory = categoryParam === 'snack' ? 'snack' : 'meal';
 
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [reason, setReason] = useState<EatingReason | null>(null);
-  const [category, setCategory] = useState<EntryCategory | null>(initialCategory);
   const [takenAt, setTakenAt] = useState(new Date());
   const [showTimePicker, setShowTimePicker] = useState(false);
 
@@ -52,11 +49,6 @@ const EntryModal = () => {
   const handleSave = () => {
     if (!imageUri) {
       Alert.alert('Photo required', 'Take a photo before saving this entry.');
-      return;
-    }
-
-    if (!category) {
-      Alert.alert('Category required', 'Choose meal or snack before saving.');
       return;
     }
 
@@ -152,25 +144,6 @@ const EntryModal = () => {
             </Pressable>
           </Pressable>
         </Modal>
-
-        <View style={styles.reasonSection}>
-          <Text>what kind of eating?</Text>
-          <View style={styles.pillGrid}>
-            {(['meal', 'snack'] as EntryCategory[]).map(option => {
-              const isSelected = category === option;
-              const isFixed = STRICT_MODE && !!initialCategory;
-              return (
-                <Pressable
-                  key={option}
-                  style={[styles.pill, {borderColor: palette.inputBorder}, isSelected && styles.pillSelected]}
-                  onPress={isFixed ? undefined : () => setCategory(option)}
-                >
-                  <Text style={styles.pillText}>{option}</Text>
-                </Pressable>
-              );
-            })}
-          </View>
-        </View>
 
         <View style={styles.reasonSection}>
           <Text>why do I eat this?</Text>

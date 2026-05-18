@@ -4,7 +4,7 @@ import {STRICT_MODE} from 'src/constants/features';
 import {useTheme} from 'src/hooks/useTheme';
 import type {DiaryEntry} from 'src/types/diary';
 import {getDayTimestamp} from 'src/utils/dateTime';
-import {AddEntry, Entry, Header, Insights, StrictDiaryGrid} from './components';
+import {DiaryGrid, Header, Insights} from './components';
 import {styles} from './Diary.styles';
 import {useDiaryStore} from './hooks';
 
@@ -33,16 +33,7 @@ export const Diary = () => {
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
-          {STRICT_MODE ? (
-            <StrictDiaryGrid entries={entries} isViewingToday={isViewingToday} />
-          ) : (
-            <View style={styles.grid}>
-              {entries.map(item => (
-                <Entry key={item.id} item={item} />
-              ))}
-              {isViewingToday && <AddEntry />}
-            </View>
-          )}
+          <DiaryGrid entries={entries} isViewingToday={isViewingToday} />
           {!STRICT_MODE && <Insights />}
         </ScrollView>
 

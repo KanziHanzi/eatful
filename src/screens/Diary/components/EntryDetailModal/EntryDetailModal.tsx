@@ -63,27 +63,6 @@ const EntryDetailModal = () => {
         ) : null}
 
         <View style={styles.reasonSection}>
-          <Text>what kind of eating?</Text>
-          <View style={styles.pillGrid}>
-            {(['meal', 'snack'] as const).map(option => {
-              const isSelected = selectedEntry?.category === option;
-              return (
-                <View
-                  key={option}
-                  style={[
-                    styles.pill,
-                    {borderColor: palette.inputBorder},
-                    isSelected ? styles.pillSelected : styles.pillUnselected,
-                  ]}
-                >
-                  <Text style={styles.pillText}>{option}</Text>
-                </View>
-              );
-            })}
-          </View>
-        </View>
-
-        <View style={styles.reasonSection}>
           <Text>why do I eat this?</Text>
 
           <View style={styles.pillGrid}>
