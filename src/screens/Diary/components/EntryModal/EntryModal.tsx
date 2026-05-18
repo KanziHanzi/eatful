@@ -47,11 +47,6 @@ const EntryModal = () => {
   };
 
   const handleSave = () => {
-    if (!imageUri) {
-      Alert.alert('Photo required', 'Take a photo before saving this entry.');
-      return;
-    }
-
     if (!reason) {
       Alert.alert('Reason required', 'Choose why you are eating this entry.');
       return;
@@ -59,7 +54,7 @@ const EntryModal = () => {
 
     addEntry({
       id: randomUUID(),
-      uri: imageUri,
+      uri: imageUri ?? undefined,
       takenAt: takenAt.getTime(),
       eatingReason: reason,
       category,

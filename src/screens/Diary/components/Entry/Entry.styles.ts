@@ -13,4 +13,12 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: 'transparent',
   },
+  imagePlaceholder: {
+    width: '100%',
+    aspectRatio: 1,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+  },
 });

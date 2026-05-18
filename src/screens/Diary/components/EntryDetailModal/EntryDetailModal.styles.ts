@@ -24,8 +24,17 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  modalImagePlaceholder: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   reasonSection: {
     gap: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    
   },
   pillGrid: {
     flexDirection: 'row',

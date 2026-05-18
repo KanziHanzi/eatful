@@ -1,6 +1,7 @@
 import {Image} from 'expo-image';
-import {Pressable} from 'react-native';
-import {Text} from 'src/components';
+import {Pressable, View} from 'react-native';
+import {Icon, Text} from 'src/components';
+import {useTheme} from 'src/hooks/useTheme';
 import {DiaryEntry} from 'src/types/diary';
 import {formatTimestamp} from 'src/utils/dateTime';
 import {useDiaryStore} from '../../hooks';
@@ -11,9 +12,13 @@ type EntryProps = {
 };
 
 const Entry = ({item}: EntryProps) => {
+  const {palette} = useTheme();
+
   const {openDetailModal} = useDiaryStore(store => ({
     openDetailModal: store.openDetailModal,
   }));
+
+  const placeholderIcon = item.category === 'snack' ? 'cookie' : 'restaurant';
 
   return (
     <Pressable
@@ -22,11 +27,20 @@ const Entry = ({item}: EntryProps) => {
         openDetailModal(item);
       }}
     >
-      <Image
-        source={{uri: item.uri}}
-        style={styles.image}
-        contentFit="cover"
-      />
+      {item.uri ? (
+        <Image
+          source={{uri: item.uri}}
+          style={styles.image}
+          contentFit="cover"
+        />
+      ) : (
+        <View style={[styles.imagePlaceholder, {borderColor: palette.inputBorder}]}>
+          <Icon
+            name={placeholderIcon}
+            size={40}
+          />
+        </View>
+      )}
 
       <Text variant="description">{formatTimestamp(item.takenAt)}</Text>
     </Pressable>

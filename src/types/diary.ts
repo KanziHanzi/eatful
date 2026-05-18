@@ -6,7 +6,7 @@ export type EntryCategory = 'meal' | 'snack';
 
 export type DiaryEntry = {
   id: string;
-  uri: string;
+  uri?: string;
   takenAt: number;
   note?: string;
   eatingReason?: EatingReason;

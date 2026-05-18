@@ -31,7 +31,10 @@ const EntryDetailModal = () => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}} edges={['bottom']}>
+    <SafeAreaView
+      style={{flex: 1}}
+      edges={['bottom']}
+    >
       <View style={styles.modalContent}>
         <View style={styles.modalHeader}>
           <Pressable
@@ -54,11 +57,20 @@ const EntryDetailModal = () => {
 
         {selectedEntry ? (
           <View style={styles.modalImageContainer}>
-            <Image
-              source={{uri: selectedEntry.uri}}
-              style={styles.modalImage}
-              contentFit="cover"
-            />
+            {selectedEntry.uri ? (
+              <Image
+                source={{uri: selectedEntry.uri}}
+                style={styles.modalImage}
+                contentFit="cover"
+              />
+            ) : (
+              <View style={[styles.modalImagePlaceholder, {borderColor: palette.inputBorder}]}>
+                <Icon
+                  name={selectedEntry.category === 'snack' ? 'cookie' : 'restaurant'}
+                  size={80}
+                />
+              </View>
+            )}
           </View>
         ) : null}
 
@@ -66,21 +78,9 @@ const EntryDetailModal = () => {
           <Text>why do I eat this?</Text>
 
           <View style={styles.pillGrid}>
-            {eatingReasonOptions.map(option => {
-              const isSelected = selectedEntry?.eatingReason === option;
-              return (
-                <View
-                  key={option}
-                  style={[
-                    styles.pill,
-                    {borderColor: palette.inputBorder},
-                    isSelected ? styles.pillSelected : styles.pillUnselected,
-                  ]}
-                >
-                  <Text style={styles.pillText}>{option}</Text>
-                </View>
-              );
-            })}
+            <View style={[styles.pill, {borderColor: palette.inputBorder}, styles.pillSelected]}>
+              <Text style={styles.pillText}>{selectedEntry?.eatingReason}</Text>
+            </View>
           </View>
         </View>
       </View>
