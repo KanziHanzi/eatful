@@ -8,6 +8,7 @@ export type DqsCategoryId =
   | 'fattyFish'
   | 'eggs'
   | 'wholeGrains'
+  | 'starchyVegetables'
   | 'leanMeat'
   | 'plainDairy'
   | 'healthyFats'

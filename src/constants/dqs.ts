@@ -44,6 +44,12 @@ export const DQS_CATEGORIES: readonly DqsCategory[] = [
     examples: 'oats, brown rice, quinoa, whole-wheat bread/pasta',
   },
   {
+    id: 'starchyVegetables',
+    label: 'Starchy vegetables',
+    value: 1,
+    examples: 'potato, sweet potato, yam, corn',
+  },
+  {
     id: 'leanMeat',
     label: 'Lean meat & lean fish',
     value: 1,
