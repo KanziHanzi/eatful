@@ -3,5 +3,8 @@
     "source.fixAll": "never",
     "source.organizeImports": "never",
     "source.sortMembers": "never"
+  },
+  "files.exclude": {
+    ".agents": true
   }
 }
