@@ -18,7 +18,8 @@ const Entry = ({item}: EntryProps) => {
     openDetailModal: store.openDetailModal,
   }));
 
-  const placeholderIcon = item.category === 'snack' ? 'cookie' : 'restaurant';
+  const placeholderIcon =
+    item.category === 'drink' ? 'local-drink' : item.category === 'snack' ? 'cookie' : 'restaurant';
 
   return (
     <Pressable

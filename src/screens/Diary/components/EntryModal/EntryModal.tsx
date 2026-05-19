@@ -17,7 +17,8 @@ const EntryModal = () => {
   const {captureImage, pickFromLibrary, capturing} = useCameraCapture();
 
   const {category: categoryParam} = useLocalSearchParams<{category?: string}>();
-  const category: EntryCategory = categoryParam === 'snack' ? 'snack' : 'meal';
+  const category: EntryCategory =
+    categoryParam === 'snack' || categoryParam === 'drink' ? categoryParam : 'meal';
 
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [reason, setReason] = useState<EatingReason | null>(null);

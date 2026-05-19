@@ -86,6 +86,12 @@ export const DQS_CATEGORIES: readonly DqsCategory[] = [
     examples: 'fatty cheeses, butter, heavy cream',
   },
   {
+    id: 'dietZeroDrinks',
+    label: 'Diet & Zero drinks',
+    value: -1,
+    examples: 'diet/zero soda, zero-sugar energy drinks, alcohol-free beer/wine, sugar-free sports drinks',
+  },
+  {
     id: 'processedMeat',
     label: 'Processed meat',
     value: -2,
@@ -113,7 +119,7 @@ export const DQS_CATEGORIES: readonly DqsCategory[] = [
     id: 'ultraProcessedSnacks',
     label: 'Ultra-processed snacks',
     value: -2,
-    examples: 'chips, packaged crackers, instant noodles',
+    examples: 'chips, packaged crackers, instant noodles, protein bars, granola/oat bars, protein powders',
   },
   {
     id: 'alcohol',

@@ -26,12 +26,16 @@ const DiaryGrid = ({entries, isViewingToday}: Props) => {
     .filter(e => e.category === 'snack')
     .sort((a, b) => a.takenAt - b.takenAt);
 
+  const drinkEntries = entries
+    .filter(e => e.category === 'drink')
+    .sort((a, b) => a.takenAt - b.takenAt);
+
   const renderSection = (
     sectionEntries: DiaryEntry[],
     category: EntryCategory,
-    strictSlotCount: number,
+    strictSlotCount: number | null,
   ) => {
-    if (STRICT_MODE) {
+    if (STRICT_MODE && strictSlotCount !== null) {
       return Array.from({length: strictSlotCount}).map((_, i) => {
         const entry = sectionEntries[i];
         if (entry) return <Entry key={entry.id} item={entry} />;
@@ -57,6 +61,11 @@ const DiaryGrid = ({entries, isViewingToday}: Props) => {
       <View style={styles.section}>
         <Text style={styles.sectionLabel}>Snacks</Text>
         <View style={styles.grid}>{renderSection(snackEntries, 'snack', STRICT_SNACK_SLOTS)}</View>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionLabel}>Drinks</Text>
+        <View style={styles.grid}>{renderSection(drinkEntries, 'drink', null)}</View>
       </View>
     </View>
   );

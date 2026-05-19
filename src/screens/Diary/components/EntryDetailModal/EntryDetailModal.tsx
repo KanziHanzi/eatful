@@ -66,7 +66,13 @@ const EntryDetailModal = () => {
             ) : (
               <View style={[styles.modalImagePlaceholder, {borderColor: palette.inputBorder}]}>
                 <Icon
-                  name={selectedEntry.category === 'snack' ? 'cookie' : 'restaurant'}
+                  name={
+                    selectedEntry.category === 'drink'
+                      ? 'local-drink'
+                      : selectedEntry.category === 'snack'
+                        ? 'cookie'
+                        : 'restaurant'
+                  }
                   size={80}
                 />
               </View>

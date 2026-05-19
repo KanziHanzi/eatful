@@ -2,7 +2,7 @@ import type {DqsCategoryId} from 'src/constants/dqs.types';
 
 export type EatingReason = 'hungry' | 'pleasure' | 'social' | 'stressed' | 'cravings' | 'sadness' | 'reward' | 'habit';
 
-export type EntryCategory = 'meal' | 'snack';
+export type EntryCategory = 'meal' | 'snack' | 'drink';
 
 export type DiaryEntry = {
   id: string;

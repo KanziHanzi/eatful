@@ -15,6 +15,7 @@ export type DqsCategoryId =
   | 'refinedGrains'
   | 'fattyMeat'
   | 'cheeseButter'
+  | 'dietZeroDrinks'
   | 'processedMeat'
   | 'sugaryDrinks'
   | 'sweets'
