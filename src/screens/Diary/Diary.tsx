@@ -1,8 +1,8 @@
+import {ScreenWrapper} from 'src/components';
+import type {DiaryEntry} from 'src/screens/Diary/Diary.types';
 import {ScrollView, Text, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {STRICT_MODE} from 'src/constants/features';
 import {useTheme} from 'src/hooks/useTheme';
-import type {DiaryEntry} from 'src/types/diary';
 import {getDayTimestamp} from 'src/utils/dateTime';
 import {AddEntry, Entry, Header, Insights, StrictDiaryGrid} from './components';
 import {styles} from './Diary.styles';
@@ -22,10 +22,7 @@ export const Diary = () => {
   const isViewingToday = activeDayTimestamp === getDayTimestamp(Date.now());
 
   return (
-    <SafeAreaView
-      style={[styles.safeArea, {backgroundColor: theme.colors.background}]}
-      edges={['top']}
-    >
+    <ScreenWrapper>
       <View style={styles.container}>
         <Header />
 
@@ -34,11 +31,17 @@ export const Diary = () => {
           showsVerticalScrollIndicator={false}
         >
           {STRICT_MODE ? (
-            <StrictDiaryGrid entries={entries} isViewingToday={isViewingToday} />
+            <StrictDiaryGrid
+              entries={entries}
+              isViewingToday={isViewingToday}
+            />
           ) : (
             <View style={styles.grid}>
               {entries.map(item => (
-                <Entry key={item.id} item={item} />
+                <Entry
+                  key={item.id}
+                  item={item}
+                />
               ))}
               {isViewingToday && <AddEntry />}
             </View>
@@ -52,6 +55,6 @@ export const Diary = () => {
           </View>
         )}
       </View>
-    </SafeAreaView>
+    </ScreenWrapper>
   );
 };

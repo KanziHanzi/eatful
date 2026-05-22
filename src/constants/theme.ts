@@ -31,17 +31,18 @@ const palette = {
 
 const baseTheme = {
   spacing: {
-    xs: 4,
-    s: 8,
-    m: 12,
-    l: 16,
-    xl: 20,
-    xxl: 32,
+    xxs: 4,
+    xs: 8,
+    s: 12,
+    m: 20,
+    l: 24,
+    xl: 32,
+    xxl: 40,
   },
   borderRadius: {
-    s: 8,
-    m: 12,
-    l: 16,
+    xs: 8,
+    s: 12,
+    m: 20,
     round: 999,
   },
   textVariants: {
@@ -53,18 +54,20 @@ const baseTheme = {
   },
 };
 
-export const lightTheme = createTheme({
+const lightTheme = createTheme({
   ...baseTheme,
   name: 'light',
   colors: palette.light,
   statusBarStyle: 'dark',
 });
 
-export const darkTheme: Theme = {
+const darkTheme: Theme = {
   ...baseTheme,
   name: 'dark',
   colors: palette.dark,
   statusBarStyle: 'light',
 };
 
+export {darkTheme, lightTheme};
 export type Theme = typeof lightTheme;
+export type Color = keyof typeof palette.light;

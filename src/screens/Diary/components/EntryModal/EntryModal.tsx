@@ -10,7 +10,7 @@ import {STRICT_MODE} from 'src/constants/features';
 import {useCameraCapture} from 'src/hooks/useCameraCapture';
 import {useTheme} from 'src/hooks/useTheme';
 import {eatingReasonOptions, useDiaryStore} from 'src/screens/Diary/hooks';
-import type {EatingReason, EntryCategory} from 'src/types/diary';
+import type {EatingReason, EntryCategory} from '@/src/screens/Diary/Diary.types';
 import {styles} from './EntryModal.styles';
 
 const EntryModal = () => {

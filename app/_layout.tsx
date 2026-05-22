@@ -29,7 +29,6 @@ const AppContainer = () => {
   return (
     <NavigationThemeProvider value={navigationTheme}>
       <Stack screenOptions={{headerShown: false}}>
-        <Stack.Screen name="index" />
         <Stack.Screen
           name="add-entry"
           options={{
@@ -46,6 +45,12 @@ const AppContainer = () => {
             sheetAllowedDetents: 'fitToContents',
             sheetGrabberVisible: true,
             headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="new-entry"
+          options={{
+            presentation: 'modal',
           }}
         />
       </Stack>
