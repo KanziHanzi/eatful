@@ -8,41 +8,41 @@ type UseNavigationThemeResult = {
 };
 
 export const useNavigationTheme = (): UseNavigationThemeResult => {
-  const {isDark, palette} = useTheme();
+  const theme = useTheme();
 
   const navigationTheme: Theme = {
-    dark: isDark,
+    dark: theme.name === 'dark',
     colors: {
-      background: palette.background,
-      card: palette.background,
-      text: palette.text,
-      primary: palette.tint,
-      border: palette.inputBorder,
-      notification: palette.tint,
+      background: theme.colors.background,
+      card: theme.colors.background,
+      text: theme.colors.text,
+      primary: theme.colors.tint,
+      border: theme.colors.inputBorder,
+      notification: theme.colors.tint,
     },
     fonts: {
       regular: {
-        fontFamily: 'Inter',
+        fontFamily: theme.textVariants.defaults.fontFamily,
         fontWeight: 'normal',
       },
       medium: {
-        fontFamily: 'Inter',
+        fontFamily: theme.textVariants.defaults.fontFamily,
         fontWeight: 'normal',
       },
       bold: {
-        fontFamily: 'Inter',
-        fontWeight: 'normal',
+        fontFamily: theme.textVariants.defaults.fontFamily,
+        fontWeight: 'bold',
       },
       heavy: {
-        fontFamily: 'Inter',
-        fontWeight: 'normal',
+        fontFamily: theme.textVariants.defaults.fontFamily,
+        fontWeight: 'bold',
       },
     },
   };
 
   return {
     navigationTheme,
-    statusBarBackground: palette.background,
-    statusBarStyle: palette.statusBarStyle === 'light' ? 'light-content' : 'dark-content',
+    statusBarBackground: theme.colors.background,
+    statusBarStyle: theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content',
   };
 };
