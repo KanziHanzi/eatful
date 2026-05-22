@@ -13,7 +13,7 @@ type IconProps = {
 };
 
 const Icon = ({name, size}: IconProps) => {
-  const {palette} = useTheme();
+  const theme = useTheme();
 
   const {fallbackIcons} = useSession();
 
@@ -24,7 +24,7 @@ const Icon = ({name, size}: IconProps) => {
           width: size,
           height: size,
           borderWidth: 1,
-          borderColor: palette.icon,
+          borderColor: theme.colors.icon,
         }}
       />
     );
@@ -34,7 +34,7 @@ const Icon = ({name, size}: IconProps) => {
     <MaterialIcons
       name={name}
       size={size}
-      color={palette.icon}
+      color={theme.colors.icon}
     />
   );
 };

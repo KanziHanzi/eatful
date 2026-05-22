@@ -16,7 +16,7 @@ const EmptySlot = ({borderColor}: {borderColor: string}) => (
 );
 
 const StrictDiaryGrid = ({entries, isViewingToday}: Props) => {
-  const {palette} = useTheme();
+  const theme = useTheme();
 
   const mealEntries = entries
     .filter(e => e.category === 'meal')
@@ -39,7 +39,7 @@ const StrictDiaryGrid = ({entries, isViewingToday}: Props) => {
             if (isViewingToday) {
               return <AddEntry key={`meal-empty-${i}`} category="meal" />;
             }
-            return <EmptySlot key={`meal-empty-${i}`} borderColor={palette.addTileBorder} />;
+            return <EmptySlot key={`meal-empty-${i}`} borderColor={theme.colors.addTileBorder} />;
           })}
         </View>
       </View>
@@ -55,7 +55,7 @@ const StrictDiaryGrid = ({entries, isViewingToday}: Props) => {
             if (isViewingToday) {
               return <AddEntry key={`snack-empty-${i}`} category="snack" />;
             }
-            return <EmptySlot key={`snack-empty-${i}`} borderColor={palette.addTileBorder} />;
+            return <EmptySlot key={`snack-empty-${i}`} borderColor={theme.colors.addTileBorder} />;
           })}
         </View>
       </View>

@@ -14,7 +14,7 @@ import type {EatingReason, EntryCategory} from 'src/types/diary';
 import {styles} from './EntryModal.styles';
 
 const EntryModal = () => {
-  const {palette} = useTheme();
+  const theme = useTheme();
   const {captureImage, pickFromLibrary, capturing} = useCameraCapture();
 
   const {category: categoryParam} = useLocalSearchParams<{category?: string}>();
@@ -82,13 +82,13 @@ const EntryModal = () => {
         <View style={styles.modalHeader}>
           <Pressable
             onPress={handleClose}
-            style={[styles.pill, {borderColor: palette.inputBorder}]}
+            style={[styles.pill, {borderColor: theme.colors.inputBorder}]}
           >
             <Text style={styles.pillText}>Cancel</Text>
           </Pressable>
           <Text>Add entry</Text>
           <Pressable
-            style={[styles.timeButton, {borderColor: palette.inputBorder}]}
+            style={[styles.timeButton, {borderColor: theme.colors.inputBorder}]}
             onPress={() => setShowTimePicker(true)}
           >
             <Icon name="access-time" size={16} />
@@ -110,7 +110,7 @@ const EntryModal = () => {
               contentFit="cover"
             />
           ) : (
-            <View style={[styles.modalImagePlaceholder, {borderColor: palette.addTileBorder}]}>
+            <View style={[styles.modalImagePlaceholder, {borderColor: theme.colors.addTileBorder}]}>
               <Icon
                 name="add-a-photo"
                 size={32}
@@ -130,7 +130,7 @@ const EntryModal = () => {
             style={styles.timePickerBackdrop}
             onPress={() => setShowTimePicker(false)}
           >
-            <Pressable style={[styles.timePickerCard, {backgroundColor: palette.modalCard}]}>
+            <Pressable style={[styles.timePickerCard, {backgroundColor: theme.colors.modalCard}]}>
               <DateTimePicker
                 value={takenAt}
                 mode="time"
@@ -162,7 +162,7 @@ const EntryModal = () => {
               return (
                 <Pressable
                   key={option}
-                  style={[styles.pill, {borderColor: palette.inputBorder}, isSelected && styles.pillSelected]}
+                  style={[styles.pill, {borderColor: theme.colors.inputBorder}, isSelected && styles.pillSelected]}
                   onPress={isFixed ? undefined : () => setCategory(option)}
                 >
                   <Text style={styles.pillText}>{option}</Text>
@@ -181,7 +181,7 @@ const EntryModal = () => {
               return (
                 <Pressable
                   key={option}
-                  style={[styles.pill, {borderColor: palette.inputBorder}, isSelected && styles.pillSelected]}
+                  style={[styles.pill, {borderColor: theme.colors.inputBorder}, isSelected && styles.pillSelected]}
                   onPress={() => setReason(option)}
                 >
                   <Text style={styles.pillText}>{option}</Text>

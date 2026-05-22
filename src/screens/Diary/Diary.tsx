@@ -11,7 +11,7 @@ import {useDiaryStore} from './hooks';
 const EMPTY_ENTRIES: DiaryEntry[] = [];
 
 export const Diary = () => {
-  const {palette} = useTheme();
+  const theme = useTheme();
 
   const {activeDay, activeDayTimestamp} = useDiaryStore(store => ({
     activeDay: store.activeDay,
@@ -23,7 +23,7 @@ export const Diary = () => {
 
   return (
     <SafeAreaView
-      style={[styles.safeArea, {backgroundColor: palette.background}]}
+      style={[styles.safeArea, {backgroundColor: theme.colors.background}]}
       edges={['top']}
     >
       <View style={styles.container}>

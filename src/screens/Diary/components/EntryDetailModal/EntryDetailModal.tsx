@@ -8,7 +8,7 @@ import {eatingReasonOptions, useDiaryStore} from 'src/screens/Diary/hooks';
 import {styles} from './EntryDetailModal.styles';
 
 const EntryDetailModal = () => {
-  const {palette} = useTheme();
+  const theme = useTheme();
 
   const {selectedEntry, deleteEntry} = useDiaryStore(store => ({
     selectedEntry: store.selectedEntry,
@@ -36,14 +36,14 @@ const EntryDetailModal = () => {
         <View style={styles.modalHeader}>
           <Pressable
             onPress={handleClose}
-            style={[styles.pill, {borderColor: palette.inputBorder}]}
+            style={[styles.pill, {borderColor: theme.colors.inputBorder}]}
           >
             <Text style={styles.pillText}>Close</Text>
           </Pressable>
           <Text>Entry details</Text>
           <Pressable
             onPress={handleDelete}
-            style={[styles.pill, {borderColor: palette.inputBorder}]}
+            style={[styles.pill, {borderColor: theme.colors.inputBorder}]}
           >
             <Icon
               name="delete"
@@ -72,7 +72,7 @@ const EntryDetailModal = () => {
                   key={option}
                   style={[
                     styles.pill,
-                    {borderColor: palette.inputBorder},
+                    {borderColor: theme.colors.inputBorder},
                     isSelected ? styles.pillSelected : styles.pillUnselected,
                   ]}
                 >
@@ -94,7 +94,7 @@ const EntryDetailModal = () => {
                   key={option}
                   style={[
                     styles.pill,
-                    {borderColor: palette.inputBorder},
+                    {borderColor: theme.colors.inputBorder},
                     isSelected ? styles.pillSelected : styles.pillUnselected,
                   ]}
                 >

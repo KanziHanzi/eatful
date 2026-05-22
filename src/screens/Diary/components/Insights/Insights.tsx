@@ -6,7 +6,7 @@ import {useDiaryStore} from 'src/screens/Diary/hooks';
 import {styles} from './Insights.styles';
 
 const Insights = () => {
-  const {palette} = useTheme();
+  const theme = useTheme();
 
   const {activeDay} = useDiaryStore(store => ({
     activeDay: store.activeDay,
@@ -47,13 +47,13 @@ const Insights = () => {
           style={styles.reasonRow}
         >
           <Text style={styles.reasonLabel}>{reason}</Text>
-          <View style={[styles.barTrack, {backgroundColor: palette.inputBorder}]}>
+          <View style={[styles.barTrack, {backgroundColor: theme.colors.inputBorder}]}>
             <View
               style={[
                 styles.barFill,
                 {
                   width: `${(count / maxCount) * 100}%`,
-                  backgroundColor: palette.tint,
+                  backgroundColor: theme.colors.tint,
                 },
               ]}
             />

@@ -12,9 +12,9 @@ type TextProps = {
 };
 
 const Text = ({children, variant = 'description', style}: TextProps) => {
-  const {palette} = useTheme();
+  const theme = useTheme();
 
-  return <RNText style={[{color: palette.text}, styles.base, styles[variant], style]}>{children}</RNText>;
+  return <RNText style={[{color: theme.colors.text}, styles.base, styles[variant], style]}>{children}</RNText>;
 };
 
 export default Text;
