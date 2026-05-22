@@ -117,9 +117,9 @@ export const DQS_CATEGORIES: readonly DqsCategory[] = [
   },
   {
     id: 'ultraProcessedSnacks',
-    label: 'Ultra-processed snacks',
+    label: 'Ultra-processed',
     value: -2,
-    examples: 'chips, packaged crackers, instant noodles, protein bars, granola/oat bars, protein powders',
+    examples: 'chips, packaged crackers, instant noodles, ketchup, store-bought sauces, protein bars, granola/oat bars, protein powders',
   },
   {
     id: 'alcohol',

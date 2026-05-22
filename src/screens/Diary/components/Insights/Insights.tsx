@@ -1,13 +1,9 @@
 import {useMemo} from 'react';
-import {View} from 'react-native';
-import {Text} from 'src/components';
-import {useTheme} from 'src/hooks/useTheme';
+
+import {Box, Text} from 'src/components';
 import {useDiaryStore} from 'src/screens/Diary/hooks';
-import {styles} from './Insights.styles';
 
 const Insights = () => {
-  const {palette} = useTheme();
-
   const {activeDay} = useDiaryStore(store => ({
     activeDay: store.activeDay,
   }));
@@ -33,35 +29,57 @@ const Insights = () => {
   const maxCount = reasonCounts.length > 0 ? reasonCounts[0][1] : 1;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <Box
+      gap="sm"
+      paddingTop="sm"
+    >
+      <Box
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+      >
         <Text variant="subtitle">Insights</Text>
         <Text>
           {entries.length} {entries.length === 1 ? 'entry' : 'entries'}
         </Text>
-      </View>
+      </Box>
 
       {reasonCounts.map(([reason, count]) => (
-        <View
+        <Box
           key={reason}
-          style={styles.reasonRow}
+          flexDirection="row"
+          alignItems="center"
+          gap="sm"
         >
-          <Text style={styles.reasonLabel}>{reason}</Text>
-          <View style={[styles.barTrack, {backgroundColor: palette.inputBorder}]}>
-            <View
-              style={[
-                styles.barFill,
-                {
-                  width: `${(count / maxCount) * 100}%`,
-                  backgroundColor: palette.tint,
-                },
-              ]}
+          <Text
+            width={72}
+            textTransform="capitalize"
+          >
+            {reason}
+          </Text>
+          <Box
+            flex={1}
+            height={14}
+            borderRadius="s"
+            overflow="hidden"
+            backgroundColor="borderSubtle"
+          >
+            <Box
+              height="100%"
+              borderRadius="s"
+              backgroundColor="accentPrimary"
+              width={`${(count / maxCount) * 100}%`}
             />
-          </View>
-          <Text style={styles.countLabel}>{count}</Text>
-        </View>
+          </Box>
+          <Text
+            width={24}
+            textAlign="right"
+          >
+            {count}
+          </Text>
+        </Box>
       ))}
-    </View>
+    </Box>
   );
 };
 

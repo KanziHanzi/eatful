@@ -1,15 +1,11 @@
 import {Image} from 'expo-image';
 import {router} from 'expo-router';
-import {Alert, Pressable, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Icon, Text} from 'src/components';
-import {useTheme} from 'src/hooks/useTheme';
-import {eatingReasonOptions, useDiaryStore} from 'src/screens/Diary/hooks';
-import {styles} from './EntryDetailModal.styles';
+import {Alert} from 'react-native';
+
+import {Box, Icon, Pill, SafeAreaBox, Text} from 'src/components';
+import {useDiaryStore} from 'src/screens/Diary/hooks';
 
 const EntryDetailModal = () => {
-  const {palette} = useTheme();
-
   const {selectedEntry, deleteEntry} = useDiaryStore(store => ({
     selectedEntry: store.selectedEntry,
     deleteEntry: store.deleteEntry,
@@ -31,40 +27,56 @@ const EntryDetailModal = () => {
   };
 
   return (
-    <SafeAreaView
-      style={{flex: 1}}
+    <SafeAreaBox
+      flex={1}
       edges={['bottom']}
     >
-      <View style={styles.modalContent}>
-        <View style={styles.modalHeader}>
-          <Pressable
+      <Box
+        flex={1}
+        paddingHorizontal="ml"
+        paddingTop="xxxl"
+        paddingBottom="ml"
+        gap="sm"
+      >
+        <Box
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-between"
+          minHeight={32}
+        >
+          <Pill
+            label="Close"
             onPress={handleClose}
-            style={[styles.pill, {borderColor: palette.inputBorder}]}
-          >
-            <Text style={styles.pillText}>Close</Text>
-          </Pressable>
+          />
           <Text>Entry details</Text>
-          <Pressable
+          <Pill
+            icon="delete"
             onPress={handleDelete}
-            style={[styles.pill, {borderColor: palette.inputBorder}]}
-          >
-            <Icon
-              name="delete"
-              size={16}
-            />
-          </Pressable>
-        </View>
+          />
+        </Box>
 
         {selectedEntry ? (
-          <View style={styles.modalImageContainer}>
+          <Box
+            width="100%"
+            aspectRatio={1.45}
+            borderRadius="m"
+            overflow="hidden"
+          >
             {selectedEntry.uri ? (
               <Image
                 source={{uri: selectedEntry.uri}}
-                style={styles.modalImage}
+                style={{width: '100%', height: '100%'}}
                 contentFit="cover"
               />
             ) : (
-              <View style={[styles.modalImagePlaceholder, {borderColor: palette.inputBorder}]}>
+              <Box
+                width="100%"
+                height="100%"
+                borderWidth={1}
+                borderColor="borderSubtle"
+                alignItems="center"
+                justifyContent="center"
+              >
                 <Icon
                   name={
                     selectedEntry.category === 'drink'
@@ -75,22 +87,32 @@ const EntryDetailModal = () => {
                   }
                   size={80}
                 />
-              </View>
+              </Box>
             )}
-          </View>
+          </Box>
         ) : null}
 
-        <View style={styles.reasonSection}>
-          <Text>why do I eat this?</Text>
-
-          <View style={styles.pillGrid}>
-            <View style={[styles.pill, {borderColor: palette.inputBorder}, styles.pillSelected]}>
-              <Text style={styles.pillText}>{selectedEntry?.eatingReason}</Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    </SafeAreaView>
+        {selectedEntry?.eatingReason && (
+          <Box
+            flexDirection="row"
+            alignItems="center"
+            gap="s"
+          >
+            <Text>why do I eat this?</Text>
+            <Box
+              flexDirection="row"
+              flexWrap="wrap"
+              gap="s"
+            >
+              <Pill
+                label={selectedEntry.eatingReason}
+                selected
+              />
+            </Box>
+          </Box>
+        )}
+      </Box>
+    </SafeAreaBox>
   );
 };
 

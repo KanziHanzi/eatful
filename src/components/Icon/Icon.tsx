@@ -1,8 +1,10 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import {useTheme} from '@shopify/restyle';
 import {ComponentProps} from 'react';
-import {View} from 'react-native';
 import {useSession} from 'src/context/SessionContext';
-import {useTheme} from 'src/hooks/useTheme';
+import type {Theme} from 'src/theme';
+
+import {Box} from '../primitives';
 
 type IconName = ComponentProps<typeof MaterialIcons>['name'];
 type IconSize = NonNullable<ComponentProps<typeof MaterialIcons>['size']>;
@@ -10,22 +12,20 @@ type IconSize = NonNullable<ComponentProps<typeof MaterialIcons>['size']>;
 type IconProps = {
   name: IconName;
   size: IconSize;
+  color?: keyof Theme['colors'];
 };
 
-const Icon = ({name, size}: IconProps) => {
-  const {palette} = useTheme();
+const Icon = ({name, size, color = 'iconPrimary'}: IconProps) => {
+  const theme = useTheme<Theme>();
+  const {useFallbackIcons} = useSession();
 
-  const {fallbackIcons} = useSession();
-
-  if (fallbackIcons) {
+  if (useFallbackIcons) {
     return (
-      <View
-        style={{
-          width: size,
-          height: size,
-          borderWidth: 1,
-          borderColor: palette.icon,
-        }}
+      <Box
+        width={size}
+        height={size}
+        borderWidth={1}
+        borderColor={color}
       />
     );
   }
@@ -34,7 +34,7 @@ const Icon = ({name, size}: IconProps) => {
     <MaterialIcons
       name={name}
       size={size}
-      color={palette.icon}
+      color={theme.colors[color]}
     />
   );
 };

@@ -1,15 +1,21 @@
-import {ThemeProvider} from '@react-navigation/native';
+import {ThemeProvider as NavigationThemeProvider} from '@react-navigation/native';
+import {ThemeProvider} from '@shopify/restyle';
 import {SplashScreen, Stack} from 'expo-router';
 import {useEffect} from 'react';
-import {StatusBar} from 'react-native';
+import {StatusBar, useColorScheme} from 'react-native';
 import {SessionProvider, useSession} from 'src/context/SessionContext';
 import {useAssetLoader} from 'src/hooks/useAssetLoader';
 import {useNavigationTheme} from 'src/hooks/useNavigationTheme';
+import {darkTheme, lightTheme} from 'src/theme';
 
 void SplashScreen.preventAutoHideAsync();
 
 const AppContainer = () => {
-  const {navigationTheme, statusBarBackground, statusBarStyle} = useNavigationTheme();
+  const colorScheme = useColorScheme();
+  const theme = darkTheme // colorScheme === 'dark' ? darkTheme : lightTheme;
+  const isDark = colorScheme === 'dark';
+
+  const {navigationTheme, statusBarBackground, statusBarStyle} = useNavigationTheme(theme, isDark);
   const {ready} = useSession();
 
   useAssetLoader();
@@ -25,32 +31,33 @@ const AppContainer = () => {
   }
 
   return (
-    <ThemeProvider value={navigationTheme}>
-      <Stack screenOptions={{headerShown: false}}>
-        <Stack.Screen name="index" />
-        <Stack.Screen
-          name="add-entry"
-          options={{
-            presentation: 'formSheet',
-            sheetAllowedDetents: 'fitToContents',
-            sheetGrabberVisible: true,
-            headerShown: false,
-          }}
+    <ThemeProvider theme={theme}>
+      <NavigationThemeProvider value={navigationTheme}>
+        <Stack screenOptions={{headerShown: false}}>
+          <Stack.Screen name="index" />
+          <Stack.Screen
+            name="add-entry"
+            options={{
+              presentation: 'modal',
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="entry-detail"
+            options={{
+              presentation: 'formSheet',
+              sheetAllowedDetents: 'fitToContents',
+              sheetGrabberVisible: true,
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen name="sandbox" />
+        </Stack>
+        <StatusBar
+          barStyle={statusBarStyle}
+          backgroundColor={statusBarBackground}
         />
-        <Stack.Screen
-          name="entry-detail"
-          options={{
-            presentation: 'formSheet',
-            sheetAllowedDetents: 'fitToContents',
-            sheetGrabberVisible: true,
-            headerShown: false,
-          }}
-        />
-      </Stack>
-      <StatusBar
-        barStyle={statusBarStyle}
-        backgroundColor={statusBarBackground}
-      />
+      </NavigationThemeProvider>
     </ThemeProvider>
   );
 };

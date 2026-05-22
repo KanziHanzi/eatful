@@ -1,7 +1,7 @@
 import {createContext, type ReactNode, useCallback, useContext, useMemo, useState} from 'react';
 
 type SessionAttributes = {
-  fallbackIcons: boolean;
+  useFallbackIcons: boolean;
   assetsLoaded: boolean;
   ready: boolean;
 };
@@ -13,7 +13,7 @@ type SessionContextValue = SessionAttributes & {
 };
 
 const SessionContext = createContext<SessionContextValue>({
-  fallbackIcons: false,
+  useFallbackIcons: false,
   assetsLoaded: false,
   ready: false,
 
@@ -26,7 +26,7 @@ type SessionProviderProps = {
 
 export const SessionProvider = ({children}: SessionProviderProps) => {
   const [data, setData] = useState<SessionAttributes>({
-    fallbackIcons: false,
+    useFallbackIcons: false,
     assetsLoaded: false,
     ready: false,
   });
@@ -40,7 +40,7 @@ export const SessionProvider = ({children}: SessionProviderProps) => {
 
   const value = useMemo(
     () => ({
-      fallbackIcons: data.fallbackIcons,
+      useFallbackIcons: data.useFallbackIcons,
       assetsLoaded: data.assetsLoaded,
       ready: data.assetsLoaded,
       setAttributes,

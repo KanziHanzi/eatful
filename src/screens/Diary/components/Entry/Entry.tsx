@@ -1,19 +1,16 @@
 import {Image} from 'expo-image';
-import {Pressable, View} from 'react-native';
-import {Icon, Text} from 'src/components';
-import {useTheme} from 'src/hooks/useTheme';
+
+import {Box, Icon, Pressable, Text} from 'src/components';
 import {DiaryEntry} from 'src/types/diary';
 import {formatTimestamp} from 'src/utils/dateTime';
+
 import {useDiaryStore} from '../../hooks';
-import {styles} from './Entry.styles';
 
 type EntryProps = {
   item: DiaryEntry;
 };
 
 const Entry = ({item}: EntryProps) => {
-  const {palette} = useTheme();
-
   const {openDetailModal} = useDiaryStore(store => ({
     openDetailModal: store.openDetailModal,
   }));
@@ -23,7 +20,10 @@ const Entry = ({item}: EntryProps) => {
 
   return (
     <Pressable
-      style={styles.card}
+      flexGrow={1}
+      flexBasis="30%"
+      maxWidth="32%"
+      gap="xs"
       onPress={() => {
         openDetailModal(item);
       }}
@@ -31,16 +31,24 @@ const Entry = ({item}: EntryProps) => {
       {item.uri ? (
         <Image
           source={{uri: item.uri}}
-          style={styles.image}
+          style={{width: '100%', aspectRatio: 1, borderRadius: 10}}
           contentFit="cover"
         />
       ) : (
-        <View style={[styles.imagePlaceholder, {borderColor: palette.inputBorder}]}>
+        <Box
+          width="100%"
+          aspectRatio={1}
+          borderRadius="s"
+          borderWidth={1}
+          borderColor="borderSubtle"
+          alignItems="center"
+          justifyContent="center"
+        >
           <Icon
             name={placeholderIcon}
             size={40}
           />
-        </View>
+        </Box>
       )}
 
       <Text variant="description">{formatTimestamp(item.takenAt)}</Text>

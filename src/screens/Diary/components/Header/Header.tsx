@@ -1,8 +1,8 @@
-import {Pressable, View} from 'react-native';
-import {Icon, Text} from 'src/components';
+import {router} from 'expo-router';
+
+import {Box, Icon, Pressable, Text} from 'src/components';
 import {useDiaryStore} from 'src/screens/Diary/hooks';
 import {formatDate, getDayTimestamp} from 'src/utils/dateTime';
-import {styles} from './Header.styles';
 
 const Header = () => {
   const {activeDayTimestamp, startDate, moveToNextDay, moveToPreviousDay} = useDiaryStore(store => ({
@@ -17,11 +17,18 @@ const Header = () => {
   const canGoBack = startDate != null && activeDayTimestamp !== startDate;
 
   return (
-    <View style={styles.header}>
+    <Box
+      flexDirection="row"
+      alignItems="center"
+      justifyContent="space-between"
+      minHeight={36}
+    >
       <Pressable
-        style={[styles.arrowButton, !canGoBack && styles.hidden]}
+        paddingHorizontal="xs"
+        paddingVertical="nano"
         onPress={moveToPreviousDay}
         disabled={!canGoBack}
+        opacity={canGoBack ? 1 : 0}
       >
         <Icon
           name="arrow-back-ios"
@@ -29,19 +36,23 @@ const Header = () => {
         />
       </Pressable>
 
-      <Text variant="title">{activeDayLabel}</Text>
+      <Pressable onLongPress={() => router.push('/sandbox')}>
+        <Text variant="title">{activeDayLabel}</Text>
+      </Pressable>
 
       <Pressable
-        style={[styles.arrowButton, isViewingToday && styles.hidden]}
+        paddingHorizontal="xs"
+        paddingVertical="nano"
         onPress={moveToNextDay}
         disabled={isViewingToday}
+        opacity={isViewingToday ? 0 : 1}
       >
         <Icon
           name="arrow-forward-ios"
           size={24}
         />
       </Pressable>
-    </View>
+    </Box>
   );
 };
 

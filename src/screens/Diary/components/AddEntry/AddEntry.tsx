@@ -1,8 +1,7 @@
 import {router} from 'expo-router';
-import {Pressable, View} from 'react-native';
-import {Icon} from 'src/components';
+
+import {Box, Icon, Pressable} from 'src/components';
 import type {EntryCategory} from 'src/types/diary';
-import {styles} from './AddEntry.styles';
 
 type AddEntryProps = {
   category?: EntryCategory;
@@ -11,22 +10,25 @@ type AddEntryProps = {
 const AddEntry = ({category}: AddEntryProps) => {
   return (
     <Pressable
-      style={({pressed}) => [
-        styles.card,
-        styles.addTile,
-        {
-          backgroundColor: 'transparent',
-          opacity: pressed ? 0.8 : 1,
-        },
-      ]}
+      flexGrow={1}
+      flexBasis="30%"
+      maxWidth="32%"
       onPress={() => router.push(category ? `/add-entry?category=${category}` : '/add-entry')}
     >
-      <View style={[styles.image, styles.addTileImage]}>
+      <Box
+        width="100%"
+        aspectRatio={1}
+        borderRadius="s"
+        borderWidth={1.5}
+        borderColor="borderStrong"
+        alignItems="center"
+        justifyContent="center"
+      >
         <Icon
           name="add"
           size={32}
         />
-      </View>
+      </Box>
     </Pressable>
   );
 };

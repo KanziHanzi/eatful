@@ -1,23 +1,29 @@
-import {View} from 'react-native';
-import {Text} from 'src/components';
+import {Box, Text} from 'src/components';
 import {STRICT_MEAL_SLOTS, STRICT_MODE, STRICT_SNACK_SLOTS} from 'src/constants/features';
-import {useTheme} from 'src/hooks/useTheme';
 import type {DiaryEntry, EntryCategory} from 'src/types/diary';
+
 import {AddEntry, Entry} from '../index';
-import {styles} from './DiaryGrid.styles';
 
 type Props = {
   entries: DiaryEntry[];
   isViewingToday: boolean;
 };
 
-const EmptySlot = ({borderColor}: {borderColor: string}) => (
-  <View style={[styles.emptySlot, {borderColor}]} />
+const EmptySlot = () => (
+  <Box
+    flexGrow={1}
+    flexBasis="30%"
+    maxWidth="32%"
+    aspectRatio={1}
+    borderRadius="s"
+    borderWidth={1.5}
+    borderStyle="dashed"
+    borderColor="borderStrong"
+    opacity={0.25}
+  />
 );
 
 const DiaryGrid = ({entries, isViewingToday}: Props) => {
-  const {palette} = useTheme();
-
   const mealEntries = entries
     .filter(e => e.category === 'meal')
     .sort((a, b) => a.takenAt - b.takenAt);
@@ -40,7 +46,7 @@ const DiaryGrid = ({entries, isViewingToday}: Props) => {
         const entry = sectionEntries[i];
         if (entry) return <Entry key={entry.id} item={entry} />;
         if (isViewingToday) return <AddEntry key={`${category}-empty-${i}`} category={category} />;
-        return <EmptySlot key={`${category}-empty-${i}`} borderColor={palette.addTileBorder} />;
+        return <EmptySlot key={`${category}-empty-${i}`} />;
       });
     }
 
@@ -52,22 +58,64 @@ const DiaryGrid = ({entries, isViewingToday}: Props) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.section}>
-        <Text style={styles.sectionLabel}>Meals</Text>
-        <View style={styles.grid}>{renderSection(mealEntries, 'meal', STRICT_MEAL_SLOTS)}</View>
-      </View>
+    <Box gap="l">
+      <Box gap="s">
+        <Text
+          fontSize={13}
+          fontWeight="600"
+          textTransform="uppercase"
+          letterSpacing={0.6}
+          opacity={0.5}
+        >
+          Meals
+        </Text>
+        <Box
+          flexDirection="row"
+          flexWrap="wrap"
+          gap="sm"
+        >
+          {renderSection(mealEntries, 'meal', STRICT_MEAL_SLOTS)}
+        </Box>
+      </Box>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionLabel}>Snacks</Text>
-        <View style={styles.grid}>{renderSection(snackEntries, 'snack', STRICT_SNACK_SLOTS)}</View>
-      </View>
+      <Box gap="s">
+        <Text
+          fontSize={13}
+          fontWeight="600"
+          textTransform="uppercase"
+          letterSpacing={0.6}
+          opacity={0.5}
+        >
+          Snacks
+        </Text>
+        <Box
+          flexDirection="row"
+          flexWrap="wrap"
+          gap="sm"
+        >
+          {renderSection(snackEntries, 'snack', STRICT_SNACK_SLOTS)}
+        </Box>
+      </Box>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionLabel}>Drinks</Text>
-        <View style={styles.grid}>{renderSection(drinkEntries, 'drink', null)}</View>
-      </View>
-    </View>
+      <Box gap="s">
+        <Text
+          fontSize={13}
+          fontWeight="600"
+          textTransform="uppercase"
+          letterSpacing={0.6}
+          opacity={0.5}
+        >
+          Drinks
+        </Text>
+        <Box
+          flexDirection="row"
+          flexWrap="wrap"
+          gap="sm"
+        >
+          {renderSection(drinkEntries, 'drink', null)}
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

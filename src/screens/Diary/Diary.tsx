@@ -1,18 +1,14 @@
-import {ScrollView, Text, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {Box, SafeAreaBox, ScrollBox, Text} from 'src/components';
 import {STRICT_MODE} from 'src/constants/features';
-import {useTheme} from 'src/hooks/useTheme';
 import type {DiaryEntry} from 'src/types/diary';
 import {getDayTimestamp} from 'src/utils/dateTime';
+
 import {DiaryGrid, Header, Insights} from './components';
-import {styles} from './Diary.styles';
 import {useDiaryStore} from './hooks';
 
 const EMPTY_ENTRIES: DiaryEntry[] = [];
 
 export const Diary = () => {
-  const {palette} = useTheme();
-
   const {activeDay, activeDayTimestamp} = useDiaryStore(store => ({
     activeDay: store.activeDay,
     activeDayTimestamp: store.activeDayTimestamp,
@@ -22,27 +18,48 @@ export const Diary = () => {
   const isViewingToday = activeDayTimestamp === getDayTimestamp(Date.now());
 
   return (
-    <SafeAreaView
-      style={[styles.safeArea, {backgroundColor: palette.background}]}
+    <SafeAreaBox
+      flex={1}
+      backgroundColor="mainBackground"
       edges={['top']}
     >
-      <View style={styles.container}>
+      <Box
+        flex={1}
+        paddingHorizontal="l"
+        paddingTop="xl"
+        paddingBottom="s"
+        gap="ml"
+      >
         <Header />
 
-        <ScrollView
-          contentContainerStyle={styles.scrollContent}
+        <ScrollBox
+          contentContainerStyle={{paddingBottom: 16, gap: 10}}
           showsVerticalScrollIndicator={false}
         >
-          <DiaryGrid entries={entries} isViewingToday={isViewingToday} />
+          <DiaryGrid
+            entries={entries}
+            isViewingToday={isViewingToday}
+          />
           {!STRICT_MODE && <Insights />}
-        </ScrollView>
+        </ScrollBox>
 
         {STRICT_MODE && (
-          <View style={styles.strictBanner}>
-            <Text style={styles.strictBannerText}>strict mode</Text>
-          </View>
+          <Box
+            paddingVertical="xs"
+            alignItems="center"
+          >
+            <Text
+              fontSize={11}
+              fontWeight="600"
+              textTransform="uppercase"
+              letterSpacing={1.5}
+              opacity={0.3}
+            >
+              strict mode
+            </Text>
+          </Box>
         )}
-      </View>
-    </SafeAreaView>
+      </Box>
+    </SafeAreaBox>
   );
 };

@@ -1,2 +1,1 @@
-export {Diary} from './Diary';
 export {Sandbox} from './Sandbox';

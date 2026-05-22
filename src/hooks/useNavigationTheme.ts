@@ -1,24 +1,23 @@
-import {type Theme} from '@react-navigation/native';
-import {useTheme} from 'src/hooks/useTheme';
+import {type Theme as NavigationTheme} from '@react-navigation/native';
+
+import type {Theme} from 'src/theme';
 
 type UseNavigationThemeResult = {
-  navigationTheme: Theme;
+  navigationTheme: NavigationTheme;
   statusBarBackground: string;
   statusBarStyle: 'light-content' | 'dark-content';
 };
 
-export const useNavigationTheme = (): UseNavigationThemeResult => {
-  const {isDark, palette} = useTheme();
-
-  const navigationTheme: Theme = {
+export const useNavigationTheme = (theme: Theme, isDark: boolean): UseNavigationThemeResult => {
+  const navigationTheme: NavigationTheme = {
     dark: isDark,
     colors: {
-      background: palette.background,
-      card: palette.background,
-      text: palette.text,
-      primary: palette.tint,
-      border: palette.inputBorder,
-      notification: palette.tint,
+      background: theme.colors.mainBackground,
+      card: theme.colors.cardBackground,
+      text: theme.colors.textPrimary,
+      primary: theme.colors.accentPrimary,
+      border: theme.colors.borderSubtle,
+      notification: theme.colors.accentPrimary,
     },
     fonts: {
       regular: {
@@ -42,7 +41,7 @@ export const useNavigationTheme = (): UseNavigationThemeResult => {
 
   return {
     navigationTheme,
-    statusBarBackground: palette.background,
-    statusBarStyle: palette.statusBarStyle === 'light' ? 'light-content' : 'dark-content',
+    statusBarBackground: theme.colors.mainBackground,
+    statusBarStyle: isDark ? 'light-content' : 'dark-content',
   };
 };
