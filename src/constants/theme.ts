@@ -13,6 +13,7 @@ const palette = {
     radioBorder: '#808487',
     inputBorder: '#D6D8DA',
     placeholderText: '#969A9D',
+    backdrop: 'rgba(0,0,0,0.4)',
   },
   dark: {
     text: '#ECEDEE',
@@ -26,6 +27,7 @@ const palette = {
     radioBorder: '#6E7478',
     inputBorder: '#555A5E',
     placeholderText: '#8E9498',
+    backdrop: 'rgba(0,0,0,0.4)',
   },
 };
 
