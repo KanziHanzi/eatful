@@ -3,6 +3,7 @@ import {createWithEqualityFn} from 'zustand/traditional';
 
 type EntryStoreAttributes = {
   timestamp: Date;
+  imageUri: string | null;
 };
 
 type EntryStoreActions = {
@@ -13,6 +14,7 @@ type EntryStoreActions = {
 export const entryStore = createWithEqualityFn<EntryStoreAttributes & EntryStoreActions>()(
   set => ({
     timestamp: new Date(),
+    imageUri: null,
 
     setAttributes: (key, value) => set({[key]: value} as Partial<EntryStoreAttributes>),
     reset: () => {

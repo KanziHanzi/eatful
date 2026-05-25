@@ -13,12 +13,14 @@ const palette = {
     radioBorder: '#808487',
     inputBorder: '#D6D8DA',
     placeholderText: '#969A9D',
+    selected: '#FF8C00',
     backdrop: 'rgba(0,0,0,0.4)',
+    transparent: '#ffffff00',
   },
   dark: {
     text: '#ECEDEE',
     background: '#151718',
-    tint: '#ffffff',
+    tint: '#0a7ea4',
     icon: '#ECEDEE',
     tabIconDefault: '#9BA1A6',
     tabIconSelected: '#ffffff',
@@ -27,7 +29,9 @@ const palette = {
     radioBorder: '#6E7478',
     inputBorder: '#555A5E',
     placeholderText: '#8E9498',
+    selected: '#FF8C00',
     backdrop: 'rgba(0,0,0,0.4)',
+    transparent: '#ffffff00',
   },
 };
 
