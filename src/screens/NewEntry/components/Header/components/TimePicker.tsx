@@ -4,19 +4,21 @@ import {useTheme} from 'src/hooks/useTheme';
 import {useState} from 'react';
 import {Modal, Pressable, TouchableOpacity} from 'react-native';
 import {Icon, ThemedText, ThemedView} from 'src/components';
+import {useEntryStore} from '../../../hooks/entryStore';
 
 // TODO: replace with expo DateTimePicker after update to Expo 56
 const TimePicker = () => {
   const {colors} = useTheme();
 
   const [showDateTimePicker, setShowDateTimePicker] = useState(false);
-  const [selectedTime, setSelectedTime] = useState(new Date());
+
+  const {timestamp, setAttributes} = useEntryStore();
 
   const onTimeChange = (_event: DateTimePickerEvent, date: Date | undefined) => {
-    if (date) setSelectedTime(date);
+    if (date !== undefined) setAttributes('timestamp', date);
   };
 
-  const formattedTime = selectedTime.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: false});
+  const formattedTime = timestamp.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: false});
 
   return (
     <>
@@ -67,7 +69,7 @@ const TimePicker = () => {
               alignItems="center"
             >
               <DateTimePicker
-                value={selectedTime}
+                value={timestamp}
                 mode="time"
                 display="spinner"
                 is24Hour
