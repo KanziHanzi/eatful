@@ -1,9 +1,11 @@
 import {shallow} from 'zustand/shallow';
 import {createWithEqualityFn} from 'zustand/traditional';
+import {EatingReason} from '../../Diary/Diary.types';
 
 type EntryStoreAttributes = {
   timestamp: Date;
   imageUri: string | null;
+  eatingReason: EatingReason | null;
 };
 
 type EntryStoreActions = {
@@ -15,6 +17,7 @@ export const entryStore = createWithEqualityFn<EntryStoreAttributes & EntryStore
   set => ({
     timestamp: new Date(),
     imageUri: null,
+    eatingReason: null,
 
     setAttributes: (key, value) => set({[key]: value} as Partial<EntryStoreAttributes>),
     reset: () => {

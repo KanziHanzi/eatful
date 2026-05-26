@@ -5,8 +5,8 @@ import {Color} from 'src/constants/theme';
 import {useSession} from 'src/context/SessionContext';
 import {useTheme} from 'src/hooks/useTheme';
 
-type IconName = ComponentProps<typeof MaterialIcons>['name'];
-type IconSize = NonNullable<ComponentProps<typeof MaterialIcons>['size']>;
+export type IconName = ComponentProps<typeof MaterialIcons>['name'];
+export type IconSize = NonNullable<ComponentProps<typeof MaterialIcons>['size']>;
 
 type IconProps = {
   name: IconName;

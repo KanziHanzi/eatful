@@ -16,6 +16,7 @@ const palette = {
     selected: '#FF8C00',
     backdrop: 'rgba(0,0,0,0.4)',
     transparent: '#ffffff00',
+    shadow: '#000000',
   },
   dark: {
     text: '#ECEDEE',
@@ -32,6 +33,7 @@ const palette = {
     selected: '#FF8C00',
     backdrop: 'rgba(0,0,0,0.4)',
     transparent: '#ffffff00',
+    shadow: '#000000',
   },
 };
 
@@ -57,6 +59,16 @@ const baseTheme = {
     subtitle: {fontSize: 20, lineHeight: 20, fontWeight: 'bold'},
     description: {fontSize: 16, lineHeight: 24, fontWeight: 'normal'},
     link: {fontSize: 16, lineHeight: 30, fontWeight: 'normal', color: 'tint'},
+  },
+  shadowVariants: {
+    defaults: {},
+    elevated: {
+      shadowColor: 'shadow',
+      shadowOffset: {width: 0, height: 2},
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 3,
+    },
   },
 };
 

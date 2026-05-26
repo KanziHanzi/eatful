@@ -8,7 +8,7 @@ import {useEntryStore} from '../../../hooks/entryStore';
 
 // TODO: replace with expo DateTimePicker after update to Expo 56
 const TimePicker = () => {
-  const {colors} = useTheme();
+  const theme = useTheme();
 
   const [showDateTimePicker, setShowDateTimePicker] = useState(false);
 
@@ -55,7 +55,7 @@ const TimePicker = () => {
         <Pressable
           style={{
             flex: 1,
-            backgroundColor: colors.backdrop,
+            backgroundColor: theme.colors.backdrop,
             justifyContent: 'center',
             alignItems: 'center',
           }}
@@ -74,6 +74,7 @@ const TimePicker = () => {
                 display="spinner"
                 is24Hour
                 onChange={onTimeChange}
+                textColor={theme.colors.text}
               />
             </ThemedView>
           </Pressable>

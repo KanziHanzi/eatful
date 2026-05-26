@@ -44,6 +44,7 @@ const Photo = () => {
       activeOpacity={0.8}
     >
       <ThemedView
+        variant="elevated"
         height={220}
         borderRadius={theme.borderRadius.m}
         borderWidth={1}
@@ -51,7 +52,7 @@ const Photo = () => {
         alignItems="center"
         justifyContent="center"
         backgroundColor="modalCard"
-        overflow="hidden"
+        overflow={imageUri ? 'hidden' : 'visible'}
       >
         {imageUri ? (
           <Image
