@@ -32,15 +32,14 @@ const Reason = ({label, icon, width}: ReasonProps) => {
     >
       <ThemedView
         variant={selected ? 'elevated' : undefined}
-        paddingVertical="xs"
-        paddingHorizontal="s"
+        padding="s"
         alignItems="center"
         backgroundColor="modalCard"
         borderRadius={theme.borderRadius.m}
       >
         <Icon
           name={icon}
-          size={32}
+          size={24}
           color={selected ? 'selected' : 'icon'}
         />
         <ThemedText
