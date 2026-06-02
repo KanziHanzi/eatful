@@ -1,21 +1,37 @@
+export type CategoryId =
+  | 'vegetables'
+  | 'fruits'
+  | 'nuts-seeds-healthy-oils'
+  | 'whole-grains'
+  | 'unprocessed-meat-seafood'
+  | 'dairy'
+  | 'high-quality-processed'
+  | 'diet-beverages'
+  | 'refined-grains'
+  | 'sweets'
+  | 'processed-meat'
+  | 'fried-foods'
+  | 'alcohol'
+  | 'other';
+
 type DqsCategory = {
-  id: string;
+  id: CategoryId;
   title: string;
   description: string;
   score: -2 | -1 | 0 | 1 | 2;
 };
 
-const DQS_CATEGORIES: DqsCategory[] = [
+export const DQS_CATEGORIES: DqsCategory[] = [
   {
-    id: 'Vegetables',
-    title: 'vegetables',
+    id: 'vegetables',
+    title: 'Vegetables',
     description:
       'Any kind of raw or cooked vegetables such as Potato, Peas, Lentils, Cucumber, Bell pepper, Tomato, onion, garlic...',
     score: 2,
   },
   {
-    id: 'Fruits',
-    title: 'fruits',
+    id: 'fruits',
+    title: 'Fruits',
     description: 'Any kind of fresh, frozen or dried whole fruits such as Apple, Banana, Berries, Orange, Plum...',
     score: 2,
   },

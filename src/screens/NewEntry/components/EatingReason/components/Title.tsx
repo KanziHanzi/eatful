@@ -12,7 +12,7 @@ const Title = () => {
         size={24}
         color="tint"
       />
-      <ThemedText variant="description">{'Why do I eat this?'}</ThemedText>
+      <ThemedText variant="subtitle">{'Why do I eat this?'}</ThemedText>
     </ThemedView>
   );
 };

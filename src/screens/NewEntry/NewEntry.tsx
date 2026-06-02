@@ -1,10 +1,11 @@
-import {Icon, ThemedScrollView, ThemedText, ThemedView} from 'src/components';
+import {useEffect} from 'react';
+import {ThemedScrollView, ThemedView} from 'src/components';
+import DietaryScore from './components/DietaryScore';
+import EatingReason from './components/EatingReason';
+import SaveButton from './components/EatingReason/components/SaveButton';
 import {Header} from './components/Header';
 import {Photo} from './components/Photo';
 import {useEntryStore} from './hooks/entryStore';
-import {useEffect} from 'react';
-import EatingReason from './components/EatingReason';
-import SaveButton from './components/EatingReason/components/SaveButton';
 
 const NewEntry = () => {
   const {reset} = useEntryStore();
@@ -24,10 +25,11 @@ const NewEntry = () => {
     >
       <Header />
 
-      <ThemedScrollView>
+      <ThemedScrollView showsVerticalScrollIndicator={false}>
         <ThemedView gap="l">
           <Photo />
           <EatingReason />
+          <DietaryScore />
         </ThemedView>
       </ThemedScrollView>
 
