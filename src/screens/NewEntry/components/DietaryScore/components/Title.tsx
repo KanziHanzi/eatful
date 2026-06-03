@@ -1,19 +1,7 @@
-import {Icon, ThemedText, ThemedView} from 'src/components';
+import {ThemedText} from 'src/components';
 
 const Title = () => {
-  return (
-    <ThemedView
-      flexDirection="row"
-      alignItems="center"
-      gap="xs"
-    >
-      <Icon
-        name="numbers"
-        size={24}
-      />
-      <ThemedText variant="subtitle">{'Dietary Score'}</ThemedText>
-    </ThemedView>
-  );
+  return <ThemedText variant="subtitle">{'Dietary Score'}</ThemedText>;
 };
 
 export default Title;

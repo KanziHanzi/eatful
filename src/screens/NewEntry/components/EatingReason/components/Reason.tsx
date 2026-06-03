@@ -31,10 +31,10 @@ const Reason = ({label, icon, width}: ReasonProps) => {
       disabled={selected}
     >
       <ThemedView
-        variant={selected ? 'elevated' : undefined}
+        variant="elevated"
         padding="s"
         alignItems="center"
-        backgroundColor="modalCard"
+        backgroundColor={selected ? 'selectedSurface' : 'modalCard'}
         borderRadius={theme.borderRadius.m}
       >
         <Icon

@@ -1,8 +1,8 @@
 import {ThemedView} from 'src/components';
+import {DQS_TIERS} from '@/src/constants/dqs';
 import Score from './components/Score';
 import Title from './components/Title';
-import Category from './components/Category';
-import {DQS_CATEGORIES} from '@/src/constants/dqs';
+import Tier from './components/Tier';
 
 const DietaryScore = () => {
   return (
@@ -10,6 +10,7 @@ const DietaryScore = () => {
       <ThemedView
         flexDirection="row"
         justifyContent="space-between"
+        alignItems="center"
       >
         <Title />
         <Score />
@@ -19,14 +20,16 @@ const DietaryScore = () => {
         gap="xs"
         marginTop="s"
       >
-        {DQS_CATEGORIES.map(category => {
+        {DQS_TIERS.map(tier => {
           return (
-            <Category
-              key={category.id}
-              id={category.id}
-              title={category.title}
-              score={category.score}
-              iconName="place"
+            <Tier
+              key={tier.id}
+              id={tier.id}
+              title={tier.title}
+              score={tier.score}
+              iconName={tier.iconName}
+              color={tier.color}
+              surfaceColor={tier.surfaceColor}
             />
           );
         })}

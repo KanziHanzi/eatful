@@ -1,4 +1,4 @@
-import {CategoryId, DQS_CATEGORIES} from '@/src/constants/dqs';
+import {DQS_TIERS, TierId} from '@/src/constants/dqs';
 import {shallow} from 'zustand/shallow';
 import {createWithEqualityFn} from 'zustand/traditional';
 import {EatingReason} from '../../Diary/Diary.types';
@@ -8,14 +8,14 @@ type EntryStoreAttributes = {
   imageUri: string | null;
   eatingReason: EatingReason | null;
   dietaryScore: number;
-  selectedCategories: Record<CategoryId, number>;
+  selectedTiers: Record<TierId, number>;
 };
 
 type EntryStoreActions = {
   setAttributes: <T extends keyof EntryStoreAttributes>(key: T, value: EntryStoreAttributes[T]) => void;
   reset: () => void;
-  increaseCategoryCount: (categoryId: CategoryId) => number;
-  decreaseCategoryCount: (categoryId: CategoryId) => number;
+  increaseTierCount: (tierId: TierId) => number;
+  decreaseTierCount: (tierId: TierId) => number;
   calculateDietaryScore: () => void;
 };
 
@@ -25,28 +25,28 @@ export const entryStore = createWithEqualityFn<EntryStoreAttributes & EntryStore
     imageUri: null,
     eatingReason: null,
     dietaryScore: 0,
-    selectedCategories: Object.fromEntries(DQS_CATEGORIES.map(({id}) => [id, 0])) as Record<CategoryId, number>,
+    selectedTiers: Object.fromEntries(DQS_TIERS.map(({id}) => [id, 0])) as Record<TierId, number>,
 
     setAttributes: (key, value) => set({[key]: value} as Partial<EntryStoreAttributes>),
     reset: () => {
       entryStore.setState(entryStore.getInitialState());
     },
-    increaseCategoryCount: categoryId => {
-      const newCount = Math.min(get().selectedCategories[categoryId] + 1, 99);
+    increaseTierCount: tierId => {
+      const newCount = Math.min(get().selectedTiers[tierId] + 1, 99);
 
       set(state => ({
-        selectedCategories: {...state.selectedCategories, [categoryId]: newCount},
+        selectedTiers: {...state.selectedTiers, [tierId]: newCount},
       }));
 
       get().calculateDietaryScore();
 
       return newCount;
     },
-    decreaseCategoryCount: categoryId => {
-      const newCount = Math.max(get().selectedCategories[categoryId] - 1, 0);
+    decreaseTierCount: tierId => {
+      const newCount = Math.max(get().selectedTiers[tierId] - 1, 0);
 
       set(state => ({
-        selectedCategories: {...state.selectedCategories, [categoryId]: newCount},
+        selectedTiers: {...state.selectedTiers, [tierId]: newCount},
       }));
 
       get().calculateDietaryScore();
@@ -54,13 +54,13 @@ export const entryStore = createWithEqualityFn<EntryStoreAttributes & EntryStore
       return newCount;
     },
     calculateDietaryScore: () => {
-      const {selectedCategories} = get();
+      const {selectedTiers} = get();
 
       let totalScore = 0;
       let totalCount = 0;
-      for (const category of DQS_CATEGORIES) {
-        const count = selectedCategories[category.id];
-        totalScore += category.score * count;
+      for (const tier of DQS_TIERS) {
+        const count = selectedTiers[tier.id];
+        totalScore += tier.score * count;
         totalCount += count;
       }
 

@@ -1,20 +1,7 @@
-import {Icon, ThemedText, ThemedView} from '@/src/components';
+import {ThemedText} from '@/src/components';
 
 const Title = () => {
-  return (
-    <ThemedView
-      flexDirection="row"
-      alignItems="center"
-      gap="xxs"
-    >
-      <Icon
-        name="question-mark"
-        size={24}
-        color="tint"
-      />
-      <ThemedText variant="subtitle">{'Why do I eat this?'}</ThemedText>
-    </ThemedView>
-  );
+  return <ThemedText variant="subtitle">{'Why do I eat this?'}</ThemedText>;
 };
 
 export default Title;

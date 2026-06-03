@@ -29,6 +29,7 @@ const PressableIcon = ({
       hitSlop={20}
     >
       <ThemedView
+        variant="elevated"
         borderRadius={theme.borderRadius.round}
         padding="xxs"
         backgroundColor={backgroundColor}
