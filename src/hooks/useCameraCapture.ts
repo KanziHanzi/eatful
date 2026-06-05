@@ -34,6 +34,10 @@ export const useCameraCapture = () => {
 
       const [capturedAsset] = captureResult.assets;
       return capturedAsset.uri;
+    } catch (error: unknown) {
+      const errorResult = error as ImagePicker.ImagePickerErrorResult;
+
+      Alert.alert('', errorResult.message, [{text: 'Ok', style: 'cancel'}]);
     } finally {
       setCapturing(false);
     }

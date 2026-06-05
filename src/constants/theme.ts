@@ -13,11 +13,24 @@ const palette = {
     radioBorder: '#808487',
     inputBorder: '#D6D8DA',
     placeholderText: '#969A9D',
+    selected: '#FF8C00',
+    selectedSurface: '#FF8C0026',
+    backdrop: 'rgba(0,0,0,0.4)',
+    transparent: '#ffffff00',
+    shadow: '#000000',
+    tierSuperfoods: '#2E7D32',
+    tierHighQuality: '#7CB342',
+    tierLowQuality: '#FB8C00',
+    tierUltraProcessed: '#D32F2F',
+    tierSuperfoodsSurface: '#2E7D3226',
+    tierHighQualitySurface: '#7CB34226',
+    tierLowQualitySurface: '#FB8C0026',
+    tierUltraProcessedSurface: '#D32F2F26',
   },
   dark: {
     text: '#ECEDEE',
     background: '#151718',
-    tint: '#ffffff',
+    tint: '#0a7ea4',
     icon: '#ECEDEE',
     tabIconDefault: '#9BA1A6',
     tabIconSelected: '#ffffff',
@@ -26,22 +39,36 @@ const palette = {
     radioBorder: '#6E7478',
     inputBorder: '#555A5E',
     placeholderText: '#8E9498',
+    selected: '#FF8C00',
+    selectedSurface: '#FF8C0026',
+    backdrop: 'rgba(0,0,0,0.4)',
+    transparent: '#ffffff00',
+    shadow: '#000000',
+    tierSuperfoods: '#66BB6A',
+    tierHighQuality: '#9CCC65',
+    tierLowQuality: '#FFB74D',
+    tierUltraProcessed: '#EF5350',
+    tierSuperfoodsSurface: '#66BB6A26',
+    tierHighQualitySurface: '#9CCC6526',
+    tierLowQualitySurface: '#FFB74D26',
+    tierUltraProcessedSurface: '#EF535026',
   },
 };
 
 const baseTheme = {
   spacing: {
-    xs: 4,
-    s: 8,
-    m: 12,
-    l: 16,
-    xl: 20,
-    xxl: 32,
+    xxs: 4,
+    xs: 8,
+    s: 12,
+    m: 20,
+    l: 24,
+    xl: 32,
+    xxl: 40,
   },
   borderRadius: {
-    s: 8,
-    m: 12,
-    l: 16,
+    xs: 8,
+    s: 12,
+    m: 20,
     round: 999,
   },
   textVariants: {
@@ -51,20 +78,32 @@ const baseTheme = {
     description: {fontSize: 16, lineHeight: 24, fontWeight: 'normal'},
     link: {fontSize: 16, lineHeight: 30, fontWeight: 'normal', color: 'tint'},
   },
+  shadowVariants: {
+    defaults: {},
+    elevated: {
+      shadowColor: 'shadow',
+      shadowOffset: {width: 0, height: 2},
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 3,
+    },
+  },
 };
 
-export const lightTheme = createTheme({
+const lightTheme = createTheme({
   ...baseTheme,
   name: 'light',
   colors: palette.light,
   statusBarStyle: 'dark',
 });
 
-export const darkTheme: Theme = {
+const darkTheme: Theme = {
   ...baseTheme,
   name: 'dark',
   colors: palette.dark,
   statusBarStyle: 'light',
 };
 
+export {darkTheme, lightTheme};
 export type Theme = typeof lightTheme;
+export type Color = keyof typeof palette.light;

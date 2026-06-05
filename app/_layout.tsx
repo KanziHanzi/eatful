@@ -13,9 +13,6 @@ void SplashScreen.preventAutoHideAsync();
 const AppContainer = () => {
   const {navigationTheme, statusBarBackground, statusBarStyle} = useNavigationTheme();
   const {ready} = useSession();
-  const colorScheme = useColorScheme();
-
-  const theme = colorScheme === 'dark' ? darkTheme : lightTheme;
 
   useAssetLoader();
 
@@ -30,43 +27,52 @@ const AppContainer = () => {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <NavigationThemeProvider value={navigationTheme}>
-        <Stack screenOptions={{headerShown: false}}>
-          <Stack.Screen name="index" />
-          <Stack.Screen
-            name="add-entry"
-            options={{
-              presentation: 'formSheet',
-              sheetAllowedDetents: 'fitToContents',
-              sheetGrabberVisible: true,
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="entry-detail"
-            options={{
-              presentation: 'formSheet',
-              sheetAllowedDetents: 'fitToContents',
-              sheetGrabberVisible: true,
-              headerShown: false,
-            }}
-          />
-        </Stack>
-        <StatusBar
-          barStyle={statusBarStyle}
-          backgroundColor={statusBarBackground}
+    <NavigationThemeProvider value={navigationTheme}>
+      <Stack screenOptions={{headerShown: false}}>
+        <Stack.Screen
+          name="add-entry"
+          options={{
+            presentation: 'formSheet',
+            sheetAllowedDetents: 'fitToContents',
+            sheetGrabberVisible: true,
+            headerShown: false,
+          }}
         />
-      </NavigationThemeProvider>
-    </ThemeProvider>
+        <Stack.Screen
+          name="entry-detail"
+          options={{
+            presentation: 'formSheet',
+            sheetAllowedDetents: 'fitToContents',
+            sheetGrabberVisible: true,
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="new-entry"
+          options={{
+            presentation: 'modal',
+          }}
+        />
+      </Stack>
+      <StatusBar
+        barStyle={statusBarStyle}
+        backgroundColor={statusBarBackground}
+      />
+    </NavigationThemeProvider>
   );
 };
 
 const RootLayout = () => {
+  const colorScheme = useColorScheme();
+
+  const theme = colorScheme === 'dark' ? darkTheme : lightTheme;
+
   return (
-    <SessionProvider>
-      <AppContainer />
-    </SessionProvider>
+    <ThemeProvider theme={theme}>
+      <SessionProvider>
+        <AppContainer />
+      </SessionProvider>
+    </ThemeProvider>
   );
 };
 

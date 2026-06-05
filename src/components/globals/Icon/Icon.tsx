@@ -1,19 +1,21 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import {ComponentProps} from 'react';
 import {View} from 'react-native';
+import {Color} from 'src/constants/theme';
 import {useSession} from 'src/context/SessionContext';
 import {useTheme} from 'src/hooks/useTheme';
 
-type IconName = ComponentProps<typeof MaterialIcons>['name'];
-type IconSize = NonNullable<ComponentProps<typeof MaterialIcons>['size']>;
+export type IconName = ComponentProps<typeof MaterialIcons>['name'];
+export type IconSize = NonNullable<ComponentProps<typeof MaterialIcons>['size']>;
 
 type IconProps = {
   name: IconName;
   size: IconSize;
+  color?: Color;
 };
 
-const Icon = ({name, size}: IconProps) => {
-  const {palette} = useTheme();
+const Icon = ({name, size, color = 'icon'}: IconProps) => {
+  const theme = useTheme();
 
   const {fallbackIcons} = useSession();
 
@@ -24,7 +26,7 @@ const Icon = ({name, size}: IconProps) => {
           width: size,
           height: size,
           borderWidth: 1,
-          borderColor: palette.icon,
+          borderColor: theme.colors[color],
         }}
       />
     );
@@ -34,7 +36,7 @@ const Icon = ({name, size}: IconProps) => {
     <MaterialIcons
       name={name}
       size={size}
-      color={palette.icon}
+      color={theme.colors[color]}
     />
   );
 };
