@@ -1,122 +1,67 @@
-export type CategoryId =
-  | 'vegetables'
-  | 'fruits'
-  | 'nuts-seeds-healthy-oils'
-  | 'whole-grains'
-  | 'unprocessed-meat-seafood'
-  | 'dairy'
-  | 'high-quality-processed'
-  | 'diet-beverages'
-  | 'refined-grains'
-  | 'sweets'
-  | 'processed-meat'
-  | 'fried-foods'
-  | 'alcohol'
-  | 'other';
+export type TierId = 'superfoods' | 'high-quality' | 'low-quality' | 'ultra-processed';
 
-type DqsCategory = {
-  id: CategoryId;
+export type TierScore = -2 | -1 | 1 | 2;
+
+export type DqsTier = {
+  id: TierId;
   title: string;
   description: string;
-  score: -2 | -1 | 0 | 1 | 2;
+  score: TierScore;
 };
 
-export const DQS_CATEGORIES: DqsCategory[] = [
+export const DQS_TIERS: DqsTier[] = [
   {
-    id: 'vegetables',
-    title: 'Vegetables',
-    description:
-      'Any kind of raw or cooked vegetables such as Potato, Peas, Lentils, Cucumber, Bell pepper, Tomato, onion, garlic...',
+    id: 'superfoods',
+    title: 'Superfoods',
     score: 2,
+    description: [
+      'Vegetables — spinach, kale, broccoli, cauliflower, carrots, bell peppers, tomato, onion, garlic, cucumber, potato, peas.',
+      'Fruits & berries — blueberries, raspberries, apples, bananas, oranges, plums, avocados (fresh, frozen, or dried).',
+      'Nuts & seeds — almonds, walnuts, cashews, peanuts, chia, flax, pumpkin seeds; plain peanut butter (no added oil/sugar).',
+      'Wild/fatty fish — salmon, mackerel, sardines, trout, herring.',
+      'Drinks — unsweetened green or herbal tea',
+    ].join('\n'),
   },
   {
-    id: 'fruits',
-    title: 'Fruits',
-    description: 'Any kind of fresh, frozen or dried whole fruits such as Apple, Banana, Berries, Orange, Plum...',
-    score: 2,
-  },
-  {
-    id: 'nuts-seeds-healthy-oils',
-    title: 'Nuts, Seeds & Healhty oils',
-    description:
-      'Raw or processed nuts and seeds such as Walnut, Cashews, Almonds, Peanuts... Peanut butter that has no added oil or sugar may also be counted in this category. Additionally naturally extracted plant oils such as Olive Oil, Avocado Oil, Flaxseed Oil...',
-    score: 2,
-  },
-  {
-    id: 'whole-grains',
-    title: 'Whole Grains',
-    description:
-      'Whole-grains such as Buckwheat, Oats, Bulgur, Quinoa, Brown rice... or processed items that contain 100 percent whole grains such as Bread, Pasta or Cereals',
-    score: 2,
-  },
-  {
-    id: 'unprocessed-meat-seafood',
-    title: 'Unprocessed Meat & Seafood',
-    description:
-      'All fresh or frozen skeletal and organ meats such as Ground Beef, Beef Steak, Chicken Breast, Pork Chops, Eggs, Salmon, Makerel, Shrimp, Tuna... Also includes canned or jarred products that are minimaly processed such as pickled herring',
+    id: 'high-quality',
+    title: 'High Quality',
     score: 1,
+    description: [
+      'Whole grains — oatmeal, brown rice, quinoa, bulgur, buckwheat; 100% whole-wheat bread, pasta, or cereal.',
+      'Legumes — lentils, chickpeas, black beans, edamame, tofu.',
+      'Lean meats & eggs — chicken/turkey breast, lean ground beef/pork, eggs, lean fresh fish (tuna, shrimp).',
+      'Dairy — milk, low-fat yogurt, cottage cheese, feta, parmesan, kefir, sour cream (unsweetened).',
+      'Healthy fats — olive oil, avocado oil, flaxseed oil (used in moderation).',
+      'High-quality processed — honey, whole-grain/nut/dried-fruit energy bars, whey protein, hummus, mustard, guacamole.',
+      'Drinks — ayran, low-sugar kombucha, plain unsweetened milk.',
+    ].join('\n'),
   },
   {
-    id: 'dairy',
-    title: 'Dairy',
-    description:
-      'Naturally processed Milk, Cheese, Yogurt, Sour cream, Kefir, cream cheese, cottage cheese without any additional sugar or artificial flavorings',
-    score: 1,
-  },
-  {
-    id: 'high-quality-processed',
-    title: 'High-Quality Processed Foods',
-    description:
-      'Processed foods made almost entirely from high quality ingredients such as Honey, Energy bars made from whole grains, nuts & dried fruits or Supplements like Whey protein powder',
-    score: 1,
-  },
-  {
-    id: 'diet-beverages',
-    title: 'Diet Beverages',
-    description:
-      'No or low sugar beverages such as Coke Zero, Ice tea light, non-alcoholic Beer, unsweetened Fruit juice...',
-    score: 0,
-  },
-  {
-    id: 'refined-grains',
-    title: 'Refined grains',
-    description:
-      'Refined grains includes white rice, pasta, bread or any baked product not made of 100% whole grains. Sweet baked products such as Croissants should counts as sweets',
+    id: 'low-quality',
+    title: 'Low Quality',
     score: -1,
+    description: [
+      'Refined grains — white bread, white pasta, white rice, flour tortillas, couscous, non-sweet baked goods.',
+      'Fats & oils — butter, margarine, commercial mayonnaise, vegetable oils.',
+      'High-fat dairy — heavy cream, cream cheese, full-fat commercial sauces.',
+      'Fatty/processed meats — pork chops, high-fat ground beef, sausages.',
+      'Condiments — ketchup, BBQ sauce, sweetened salad dressings.',
+      'Drinks — non-alcoholic beer, 100% fruit juice, diet soda, sweetened kombucha.',
+    ].join('\n'),
   },
   {
-    id: 'sweets',
-    title: 'Sweets',
-    description:
-      'All foods and beverages containing substantial amounts of refined sugar such a candy, chocolate, pastries, sugary drinks or fruit juices and yogurt products containing artifial sweeteners or sugar',
+    id: 'ultra-processed',
+    title: 'Ultra-Processed',
     score: -2,
-  },
-  {
-    id: 'processed-meat',
-    title: 'Processed Meat',
-    description:
-      'Meats that have been processed beyond basic preparation, it contains Sausages, Salami, Bacon, Jerky, Hamburgers, Chicken Nuggets...',
-    score: -2,
-  },
-  {
-    id: 'fried-foods',
-    title: 'Fried Foods',
-    description:
-      'Any deep fried food such as potato chips, fried chicken, fries and also baked chips that contain a lot of additional oil',
-    score: -2,
-  },
-  {
-    id: 'alcohol',
-    title: 'Alcohol',
-    description:
-      'All kinds of alcoholic beverages or alcohol containing products. Alcohol used in cooking such as white wine in sauces should not be counted as the alcohol evaporates',
-    score: -2,
-  },
-  {
-    id: 'other',
-    title: 'Other',
-    description:
-      'All sauces, condiments or foods that do not easily fit into any other category. High quality sauces such as hummus, mustard, guacamole should be counted as high quality processed',
-    score: -2,
+    description: [
+      'Fast food — burgers, chicken nuggets, fries, onion rings, hot dogs, kebabs.',
+      'Sweets & desserts — donuts, cakes, cookies, ice cream, pastries, milk chocolate, croissants.',
+      'Salty snacks — potato chips, cheese puffs, pretzels, microwave popcorn.',
+      'Processed meats — bacon, salami, pepperoni, jerky, packaged deli meats.',
+      'Sugary breakfast — sugary cereals, toaster pastries, pancakes with syrup.',
+      'Drinks — regular soda, energy drinks, sweetened iced tea, milkshakes.',
+      "Alcohol — beer, wine, spirits, cocktails (alcohol cooked off in sauces doesn't count).",
+      "Other — sugary yogurt, fruit juices with added sweeteners, sauces/condiments that don't fit elsewhere.",
+    ].join('\n'),
   },
 ];

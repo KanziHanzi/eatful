@@ -5,4 +5,3 @@ export {default as ThemedView} from './globals/ThemedView/ThemedView';
 export {default as ThemedSafeAreaView} from './globals/ThemedSafeAreaView/ThemedSafeAreaView';
 export {default as ThemedScrollView} from './globals/ThemedScrollView/ThemedScrollView';
 export {default as ScreenWrapper} from './ScreenWrapper/ScreenWrapper';
-export {default as PressableIcon} from './globals/PressableIcon/PressableIcon';

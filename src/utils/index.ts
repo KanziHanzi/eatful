@@ -1,1 +1,1 @@
-export {getValuePrefix} from './helpers';
+export {getValuePrefix, getTierIconName, getTierColor, getTierSurfaceColor, getTierByScore} from './helpers';

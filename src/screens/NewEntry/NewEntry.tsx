@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {ThemedScrollView, ThemedView} from 'src/components';
+import {ThemedSafeAreaView, ThemedScrollView, ThemedView} from 'src/components';
 import DietaryScore from './components/DietaryScore';
 import EatingReason from './components/EatingReason';
 import SaveButton from './components/EatingReason/components/SaveButton';
@@ -17,15 +17,18 @@ const NewEntry = () => {
   }, []);
 
   return (
-    <ThemedView
+    <ThemedSafeAreaView
+      flex={1}
       paddingHorizontal="m"
-      marginTop="l"
-      marginBottom="s"
-      gap="l"
+      paddingTop="l"
     >
       <Header />
 
-      <ThemedScrollView showsVerticalScrollIndicator={false}>
+      <ThemedScrollView
+        flex={1}
+        showsVerticalScrollIndicator={false}
+        marginVertical='m'
+      >
         <ThemedView gap="l">
           <Photo />
           <EatingReason />
@@ -34,7 +37,7 @@ const NewEntry = () => {
       </ThemedScrollView>
 
       <SaveButton />
-    </ThemedView>
+    </ThemedSafeAreaView>
   );
 };
 

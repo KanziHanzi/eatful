@@ -1,21 +1,17 @@
-import {Icon, PressableIcon, ThemedText, ThemedView} from 'src/components';
-import {IconName} from 'src/components/globals/Icon/Icon';
-import {TierId} from 'src/constants/dqs';
-import {Color} from 'src/constants/theme';
+import {Icon, ThemedText, ThemedView} from 'src/components';
+import {TierId, TierScore} from 'src/constants/dqs';
 import {useTheme} from 'src/hooks/useTheme';
 import {useEntryStore} from 'src/screens/NewEntry/hooks/entryStore';
-import {getValuePrefix} from 'src/utils';
+import {getTierColor, getTierIconName, getTierSurfaceColor, getValuePrefix} from 'src/utils';
+import PressableIcon from './PressableIcon';
 
 type TierProps = {
   id: TierId;
   title: string;
-  score: number;
-  iconName: IconName;
-  color: Color;
-  surfaceColor: Color;
+  score: TierScore;
 };
 
-const Tier = ({id, title, score, iconName, color, surfaceColor}: TierProps) => {
+const Tier = ({id, title, score}: TierProps) => {
   const theme = useTheme();
 
   const {selectedCount, increaseTierCount, decreaseTierCount} = useEntryStore(state => ({
@@ -24,6 +20,9 @@ const Tier = ({id, title, score, iconName, color, surfaceColor}: TierProps) => {
     decreaseTierCount: state.decreaseTierCount,
   }));
 
+  const iconName = getTierIconName(score);
+  const color = getTierColor(score);
+  const surfaceColor = getTierSurfaceColor(score);
   const itemScore = ` (${getValuePrefix(score)}${score})`;
 
   return (
@@ -74,7 +73,8 @@ const Tier = ({id, title, score, iconName, color, surfaceColor}: TierProps) => {
         />
         <ThemedText
           variant="description"
-          style={{minWidth: 20, textAlign: 'center'}}
+          textAlign="center"
+          minWidth={20}
         >
           {selectedCount}
         </ThemedText>

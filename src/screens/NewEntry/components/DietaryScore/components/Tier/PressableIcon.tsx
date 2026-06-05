@@ -1,7 +1,7 @@
 import {Pressable} from 'react-native';
 import {Icon, ThemedView} from 'src/components';
 import {Color} from 'src/constants/theme';
-import {IconName} from '../Icon/Icon';
+import {IconName} from '../../../../../components/globals/Icon/Icon';
 import {useTheme} from 'src/hooks/useTheme';
 
 type PressableIconProps = {

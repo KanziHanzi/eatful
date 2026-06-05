@@ -27,9 +27,6 @@ const DietaryScore = () => {
               id={tier.id}
               title={tier.title}
               score={tier.score}
-              iconName={tier.iconName}
-              color={tier.color}
-              surfaceColor={tier.surfaceColor}
             />
           );
         })}
