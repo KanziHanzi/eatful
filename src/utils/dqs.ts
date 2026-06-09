@@ -18,3 +18,9 @@ export const getEntryScore = (selectedTiers: Record<TierId, number>): number => 
 export const getDayScore = (entries: DiaryEntry[]): number => {
   return entries.reduce((sum, entry) => sum + getEntryScore(entry.selectedTiers), 0);
 };
+
+export const formatDietaryScore = (score: number) => {
+  const truncated = Math.trunc(score * 10) / 10;
+
+  return truncated.toFixed(1);
+};

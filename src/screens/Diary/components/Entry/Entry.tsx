@@ -1,5 +1,5 @@
 import {DiaryEntry} from '@/src/screens/Diary/Diary.types';
-import {getEntryScore} from '@/src/utils/dqs';
+import {formatDietaryScore, getEntryScore} from '@/src/utils/dqs';
 import {Image} from 'expo-image';
 import {Pressable} from 'react-native';
 import {Text, ThemedView} from 'src/components';
@@ -34,7 +34,9 @@ const Entry = ({item}: EntryProps) => {
         justifyContent="space-between"
       >
         <Text variant="description">{formatTimestamp(item.takenAt)}</Text>
-        <Text variant="description">{getEntryScore(item.selectedTiers)}</Text>
+        {item.selectedTiers ? (
+          <Text variant="description">{formatDietaryScore(getEntryScore(item.selectedTiers))}</Text>
+        ) : null}
       </ThemedView>
     </Pressable>
   );

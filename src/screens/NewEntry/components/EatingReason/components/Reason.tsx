@@ -43,7 +43,8 @@ const Reason = ({label, icon, width}: ReasonProps) => {
           color={selected ? 'selected' : 'icon'}
         />
         <ThemedText
-          variant="description"
+          variant="caption"
+          marginTop='xxs'
           color={selected ? 'selected' : 'text'}
         >
           {label}

@@ -39,7 +39,7 @@ const SaveButton = () => {
         backgroundColor={disabled ? 'modalCard' : 'tint'}
         alignItems="center"
         alignContent="center"
-        paddingVertical="xs"
+        paddingVertical="s"
         borderRadius={theme.borderRadius.xs}
       >
         <ThemedText

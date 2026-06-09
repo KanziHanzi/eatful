@@ -76,6 +76,7 @@ const baseTheme = {
     title: {fontSize: 32, lineHeight: 32, fontWeight: 'bold'},
     subtitle: {fontSize: 20, lineHeight: 20, fontWeight: 'bold'},
     description: {fontSize: 16, lineHeight: 24, fontWeight: 'normal'},
+    caption: {fontSize: 12, lineHeight: 12, fontWeight: 'normal'},
     link: {fontSize: 16, lineHeight: 30, fontWeight: 'normal', color: 'tint'},
   },
   shadowVariants: {

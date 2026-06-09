@@ -1,6 +1,5 @@
 import {ThemedText, ThemedView} from 'src/components';
-import {getTierByScore} from 'src/utils';
-import {getTierColor, getTierSurfaceColor} from 'src/utils';
+import {formatDietaryScore, getTierByScore, getTierColor, getTierSurfaceColor} from 'src/utils';
 import {useEntryStore} from '../../../hooks/entryStore';
 
 const Score = () => {
@@ -13,13 +12,13 @@ const Score = () => {
   const backgroundColor = tier ? getTierSurfaceColor(tier.score) : 'modalCard';
   const textColor = tier ? getTierColor(tier.score) : 'text';
 
-  const truncated = Math.trunc(dietaryScore * 10) / 10;
-  const formattedScore = truncated.toFixed(1);
+  const formattedScore = formatDietaryScore(dietaryScore);
 
   return (
     <ThemedView
       backgroundColor={backgroundColor}
-      padding="s"
+      paddingHorizontal="s"
+      paddingVertical="xs"
       borderRadius={12}
     >
       <ThemedText
