@@ -1,12 +1,14 @@
 import {DQS_TIERS, TierId} from '@/src/constants/dqs';
+import {getEntryScore} from 'src/utils/dqs';
 import {shallow} from 'zustand/shallow';
 import {createWithEqualityFn} from 'zustand/traditional';
-import {EatingReason} from '../../Diary/Diary.types';
+import {EatingReason, EntryCategory} from '../../Diary/Diary.types';
 
 type EntryStoreAttributes = {
-  timestamp: Date;
+  timestamp: number;
   imageUri: string | null;
   eatingReason: EatingReason | null;
+  category: EntryCategory;
   dietaryScore: number;
   selectedTiers: Record<TierId, number>;
 };
@@ -21,9 +23,10 @@ type EntryStoreActions = {
 
 export const entryStore = createWithEqualityFn<EntryStoreAttributes & EntryStoreActions>()(
   (set, get) => ({
-    timestamp: new Date(),
+    timestamp: new Date().getTime(),
     imageUri: null,
     eatingReason: null,
+    category: 'meal',
     dietaryScore: 0,
     selectedTiers: Object.fromEntries(DQS_TIERS.map(({id}) => [id, 0])) as Record<TierId, number>,
 
@@ -56,17 +59,9 @@ export const entryStore = createWithEqualityFn<EntryStoreAttributes & EntryStore
     calculateDietaryScore: () => {
       const {selectedTiers} = get();
 
-      let totalScore = 0;
-      let totalCount = 0;
-      for (const tier of DQS_TIERS) {
-        const count = selectedTiers[tier.id];
-        totalScore += tier.score * count;
-        totalCount += count;
-      }
+      const score = getEntryScore(selectedTiers);
 
-      const dietaryScore = totalCount === 0 ? 0 : totalScore / totalCount;
-
-      set({dietaryScore});
+      set({dietaryScore: score});
     },
   }),
   shallow,

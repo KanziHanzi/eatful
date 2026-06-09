@@ -1,6 +1,5 @@
 import DateTimePicker, {DateTimePickerEvent} from '@react-native-community/datetimepicker';
 import {useTheme} from 'src/hooks/useTheme';
-
 import {useState} from 'react';
 import {Modal, Pressable, TouchableOpacity} from 'react-native';
 import {Icon, ThemedText, ThemedView} from 'src/components';
@@ -15,10 +14,12 @@ const TimePicker = () => {
   const {timestamp, setAttributes} = useEntryStore();
 
   const onTimeChange = (_event: DateTimePickerEvent, date: Date | undefined) => {
-    if (date !== undefined) setAttributes('timestamp', date);
+    if (date !== undefined) setAttributes('timestamp', date.getTime());
   };
 
-  const formattedTime = timestamp.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: false});
+  const dateTime = new Date(timestamp);
+
+  const formattedDateTime = dateTime.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: false});
 
   return (
     <>
@@ -41,7 +42,7 @@ const TimePicker = () => {
             variant="description"
             marginLeft="xxs"
           >
-            {formattedTime}
+            {formattedDateTime}
           </ThemedText>
         </ThemedView>
       </TouchableOpacity>
@@ -69,7 +70,7 @@ const TimePicker = () => {
               alignItems="center"
             >
               <DateTimePicker
-                value={timestamp}
+                value={dateTime}
                 mode="time"
                 display="spinner"
                 is24Hour

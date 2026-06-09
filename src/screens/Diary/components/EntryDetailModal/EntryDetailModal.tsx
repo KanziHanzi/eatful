@@ -55,7 +55,7 @@ const EntryDetailModal = () => {
         {selectedEntry ? (
           <View style={styles.modalImageContainer}>
             <Image
-              source={{uri: selectedEntry.uri}}
+              source={{uri: selectedEntry.imageUri ?? undefined}}
               style={styles.modalImage}
               contentFit="cover"
             />
@@ -65,7 +65,7 @@ const EntryDetailModal = () => {
         <View style={styles.reasonSection}>
           <Text>what kind of eating?</Text>
           <View style={styles.pillGrid}>
-            {(['meal', 'snack'] as const).map(option => {
+            {(['meal', 'snack', 'drink'] as const).map(option => {
               const isSelected = selectedEntry?.category === option;
               return (
                 <View

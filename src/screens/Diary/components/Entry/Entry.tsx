@@ -1,7 +1,8 @@
+import {DiaryEntry} from '@/src/screens/Diary/Diary.types';
+import {getEntryScore} from '@/src/utils/dqs';
 import {Image} from 'expo-image';
 import {Pressable} from 'react-native';
-import {Text} from 'src/components';
-import {DiaryEntry} from '@/src/screens/Diary/Diary.types';
+import {Text, ThemedView} from 'src/components';
 import {formatTimestamp} from 'src/utils/dateTime';
 import {useDiaryStore} from '../../hooks';
 import {styles} from './Entry.styles';
@@ -23,12 +24,18 @@ const Entry = ({item}: EntryProps) => {
       }}
     >
       <Image
-        source={{uri: item.uri}}
+        source={{uri: item.imageUri ?? undefined}}
         style={styles.image}
         contentFit="cover"
       />
 
-      <Text variant="description">{formatTimestamp(item.takenAt)}</Text>
+      <ThemedView
+        flexDirection="row"
+        justifyContent="space-between"
+      >
+        <Text variant="description">{formatTimestamp(item.takenAt)}</Text>
+        <Text variant="description">{getEntryScore(item.selectedTiers)}</Text>
+      </ThemedView>
     </Pressable>
   );
 };

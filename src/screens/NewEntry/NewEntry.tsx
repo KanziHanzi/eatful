@@ -1,5 +1,7 @@
+import {useLocalSearchParams} from 'expo-router';
 import {useEffect} from 'react';
 import {ThemedSafeAreaView, ThemedScrollView, ThemedView} from 'src/components';
+import type {EntryCategory} from 'src/screens/Diary/Diary.types';
 import DietaryScore from './components/DietaryScore';
 import EatingReason from './components/EatingReason';
 import SaveButton from './components/EatingReason/components/SaveButton';
@@ -8,7 +10,12 @@ import {Photo} from './components/Photo';
 import {useEntryStore} from './hooks/entryStore';
 
 const NewEntry = () => {
-  const {reset} = useEntryStore();
+  const {reset, setAttributes} = useEntryStore();
+  const {category} = useLocalSearchParams<{category: EntryCategory}>();
+
+  useEffect(() => {
+    setAttributes('category', category);
+  }, [category]);
 
   useEffect(() => {
     return () => {
@@ -27,7 +34,8 @@ const NewEntry = () => {
       <ThemedScrollView
         flex={1}
         showsVerticalScrollIndicator={false}
-        marginVertical='m'
+        marginBottom="m"
+        paddingTop="m"
       >
         <ThemedView gap="l">
           <Photo />

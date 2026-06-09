@@ -1,21 +1,34 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+export enum StorageKey {
+  Entries = 'entries',
+  DiaryStartDate = 'eatful:diary:startDate',
+}
+
 export const storage = {
-  async getItem<T>(key: string): Promise<T | null> {
-    const raw = await AsyncStorage.getItem(key);
-    if (raw === null) return null;
+  async get<T>(key: string): Promise<T | null> {
+    const rawValue = await AsyncStorage.getItem(key);
+
+    if (rawValue === null) return null;
+
     try {
-      return JSON.parse(raw) as T;
+      return JSON.parse(rawValue) as T;
     } catch {
-      return raw as T;
+      return rawValue as T;
     }
   },
 
-  async setItem<T>(key: string, value: T): Promise<void> {
+  async set<T>(key: string, value: T): Promise<void> {
     await AsyncStorage.setItem(key, JSON.stringify(value));
   },
 
-  async removeItem(key: string): Promise<void> {
+  async remove(key: string): Promise<void> {
     await AsyncStorage.removeItem(key);
+  },
+
+  async removeAll(): Promise<void> {
+    const storageKeys = Object.values(StorageKey);
+
+    await AsyncStorage.multiRemove(storageKeys);
   },
 };

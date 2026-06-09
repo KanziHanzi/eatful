@@ -3,10 +3,10 @@ import {Alert} from 'react-native';
 import {createWithEqualityFn} from 'zustand/traditional';
 import {shallow} from 'zustand/shallow';
 
-import {DIARY_START_DATE_KEY, getDiaryDayKey} from 'src/constants/storage';
+import {getDiaryDayKey} from 'src/constants/storage';
 import type {DiaryDay, DiaryEntry} from '@/src/screens/Diary/Diary.types';
 import {getDateKey, getDayTimestamp} from 'src/utils/dateTime';
-import {storage} from 'src/utils/storage';
+import {storage, StorageKey} from 'src/utils/storage';
 
 export const eatingReasonOptions = ['hungry', 'pleasure', 'social', 'stressed', 'cravings', 'sadness', 'reward', 'habit'] as const;
 
@@ -29,9 +29,9 @@ type DiaryActions = {
 const persistDay = async (day: DiaryDay | null, dateKey: string) => {
   try {
     if (day && day.entries.length > 0) {
-      await storage.setItem(getDiaryDayKey(dateKey), day);
+      await storage.set(getDiaryDayKey(dateKey), day);
     } else {
-      await storage.removeItem(getDiaryDayKey(dateKey));
+      await storage.remove(getDiaryDayKey(dateKey));
     }
   } catch {
     console.warn(`Failed to persist diary day: ${dateKey}`);
@@ -44,7 +44,7 @@ const loadDay = async (dateKey: string) => {
   loadingKey = dateKey;
 
   try {
-    const day = await storage.getItem<DiaryDay>(getDiaryDayKey(dateKey));
+    const day = await storage.get<DiaryDay>(getDiaryDayKey(dateKey));
     if (loadingKey !== dateKey) return;
 
     useDiaryStore.setState({activeDay: day});
@@ -58,14 +58,14 @@ const loadDay = async (dateKey: string) => {
 
 const resolveStartDate = async () => {
   try {
-    const cached = await storage.getItem<number>(DIARY_START_DATE_KEY);
+    const cached = await storage.get<number>(StorageKey.DiaryStartDate);
     if (cached != null) {
       useDiaryStore.setState({startDate: cached});
       return;
     }
 
     const today = getDayTimestamp(Date.now());
-    await storage.setItem(DIARY_START_DATE_KEY, today);
+    await storage.set(StorageKey.DiaryStartDate, today);
     useDiaryStore.setState({startDate: today});
   } catch {
     console.warn('Failed to resolve start date');
@@ -97,7 +97,7 @@ export const useDiaryStore = createWithEqualityFn<DiaryState & DiaryActions>()(
 
       if (startDate == null || activeDayTimestamp < startDate) {
         set({startDate: activeDayTimestamp});
-        storage.setItem(DIARY_START_DATE_KEY, activeDayTimestamp).catch(() => {});
+        storage.set(StorageKey.DiaryStartDate, activeDayTimestamp).catch(() => {});
       }
     },
 

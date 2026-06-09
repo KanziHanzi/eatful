@@ -1,17 +1,32 @@
 import {ThemedText, ThemedView} from '@/src/components';
+import {randomUUID} from 'expo-crypto';
+import {router} from 'expo-router';
 import {TouchableOpacity} from 'react-native';
 import {useTheme} from 'src/hooks/useTheme';
+import {useDiaryStore} from 'src/screens/Diary/hooks';
 import {useEntryStore} from '../../../hooks/entryStore';
 
 const SaveButton = () => {
   const theme = useTheme();
 
-  const {eatingReason} = useEntryStore();
+  const {timestamp, imageUri, eatingReason, category, selectedTiers} = useEntryStore();
 
   const disabled = eatingReason === null;
 
   const onPress = () => {
-    // TODO: save entry and pop screen
+    if (eatingReason === null) return;
+
+    // TODO: rework with new diary storage
+    useDiaryStore.getState().addEntry({
+      id: randomUUID(),
+      takenAt: timestamp,
+      imageUri,
+      eatingReason,
+      category,
+      selectedTiers,
+    });
+
+    router.back();
   };
 
   return (

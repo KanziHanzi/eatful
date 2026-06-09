@@ -1,14 +1,16 @@
+import type {TierId} from '@/src/constants/dqs';
+
 export type EatingReason = 'hungry' | 'pleasure' | 'social' | 'stressed' | 'cravings' | 'sadness' | 'reward' | 'habit';
 
-export type EntryCategory = 'meal' | 'snack';
+export type EntryCategory = 'meal' | 'snack' | 'drink';
 
 export type DiaryEntry = {
   id: string;
-  uri: string;
   takenAt: number;
-  note?: string;
-  eatingReason?: EatingReason;
+  imageUri: string | null;
+  eatingReason: EatingReason;
   category: EntryCategory;
+  selectedTiers: Record<TierId, number>;
 };
 
 export type DiaryDay = {

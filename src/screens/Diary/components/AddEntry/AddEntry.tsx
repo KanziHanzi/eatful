@@ -19,7 +19,7 @@ const AddEntry = ({category}: AddEntryProps) => {
           opacity: pressed ? 0.8 : 1,
         },
       ]}
-      onPress={() => router.push(category ? `/add-entry?category=${category}` : '/add-entry')}
+      onPress={() => router.push(`/new-entry?category=${category ?? 'meal'}`)}
     >
       <View style={[styles.image, styles.addTileImage]}>
         <Icon
