@@ -1,6 +1,6 @@
 import {router} from 'expo-router';
-import {TouchableOpacity} from 'react-native';
-import {ThemedText, ThemedView} from 'src/components';
+import {PillButton} from 'src/components/atoms';
+import {ThemedText} from 'src/components/primitives';
 
 const CancelButton = () => {
   const onCancel = () => {
@@ -8,19 +8,9 @@ const CancelButton = () => {
   };
 
   return (
-    <TouchableOpacity onPress={onCancel}>
-      <ThemedView
-        flexDirection="row"
-        alignItems="center"
-        paddingVertical="xxs"
-        paddingHorizontal="xs"
-        borderWidth={1}
-        borderRadius={99}
-        borderColor="inputBorder"
-      >
-        <ThemedText variant="description">{'Cancel'}</ThemedText>
-      </ThemedView>
-    </TouchableOpacity>
+    <PillButton onPress={onCancel}>
+      <ThemedText variant="description">{'Cancel'}</ThemedText>
+    </PillButton>
   );
 };
 

@@ -1,8 +1,8 @@
 import {View} from 'react-native';
-import {Text} from 'src/components';
+import {Text} from 'src/components/atoms';
 import {STRICT_MEAL_SLOTS, STRICT_SNACK_SLOTS} from 'src/constants/features';
 import {useTheme} from 'src/hooks/useTheme';
-import type {DiaryEntry} from '@/src/screens/Diary/Diary.types';
+import type {DiaryEntry} from 'src/screens/Diary/Diary.types';
 import AddEntry from '../AddEntry/AddEntry';
 import Entry from '../Entry/Entry';
 import {styles} from './StrictDiaryGrid.styles';

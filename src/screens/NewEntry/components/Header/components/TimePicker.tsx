@@ -2,7 +2,8 @@ import DateTimePicker, {DateTimePickerEvent} from '@react-native-community/datet
 import {useTheme} from 'src/hooks/useTheme';
 import {useState} from 'react';
 import {Modal, Pressable, TouchableOpacity} from 'react-native';
-import {Icon, ThemedText, ThemedView} from 'src/components';
+import {Icon} from 'src/components/atoms';
+import {ThemedText, ThemedView} from 'src/components/primitives';
 import {useEntryStore} from '../../../hooks/entryStore';
 
 // TODO: replace with expo DateTimePicker after update to Expo 56

@@ -1,4 +1,4 @@
-import {ScreenWrapper} from 'src/components';
+import {ScreenWrapper} from 'src/components/templates';
 import type {DiaryEntry} from 'src/screens/Diary/Diary.types';
 import {ScrollView, Text, View} from 'react-native';
 import {STRICT_MODE} from 'src/constants/features';

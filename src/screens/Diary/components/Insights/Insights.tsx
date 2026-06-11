@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 import {View} from 'react-native';
-import {Text} from 'src/components';
+import {Text} from 'src/components/atoms';
 import {useTheme} from 'src/hooks/useTheme';
 import {useDiaryStore} from 'src/screens/Diary/hooks';
 import {styles} from './Insights.styles';

@@ -1,5 +1,5 @@
-import {DQS_TIERS, TierId} from '@/src/constants/dqs';
-import type {DiaryEntry} from '@/src/screens/Diary/Diary.types';
+import {DQS_TIERS, TierId} from 'src/constants/dqs';
+import type {DiaryEntry} from 'src/screens/Diary/Diary.types';
 
 export const getEntryScore = (selectedTiers: Record<TierId, number>): number => {
   let totalScore = 0;

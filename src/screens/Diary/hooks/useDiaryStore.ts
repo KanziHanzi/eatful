@@ -4,7 +4,7 @@ import {createWithEqualityFn} from 'zustand/traditional';
 import {shallow} from 'zustand/shallow';
 
 import {getDiaryDayKey} from 'src/constants/storage';
-import type {DiaryDay, DiaryEntry} from '@/src/screens/Diary/Diary.types';
+import type {DiaryDay, DiaryEntry} from 'src/screens/Diary/Diary.types';
 import {getDateKey, getDayTimestamp} from 'src/utils/dateTime';
 import {storage, StorageKey} from 'src/utils/storage';
 

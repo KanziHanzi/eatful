@@ -1,5 +1,5 @@
-import {ThemedView} from 'src/components';
-import {DQS_TIERS} from '@/src/constants/dqs';
+import {ThemedView} from 'src/components/primitives';
+import {DQS_TIERS} from 'src/constants/dqs';
 import Score from './components/Score';
 import Title from './components/Title';
 import Tier from './components/Tier';

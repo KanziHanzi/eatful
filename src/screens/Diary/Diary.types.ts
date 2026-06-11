@@ -1,4 +1,4 @@
-import type {TierId} from '@/src/constants/dqs';
+import type {TierId} from 'src/constants/dqs';
 
 export type EatingReason = 'hungry' | 'pleasure' | 'social' | 'stressed' | 'cravings' | 'sadness' | 'reward' | 'habit';
 

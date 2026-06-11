@@ -2,7 +2,7 @@ import {Image} from 'expo-image';
 import {router} from 'expo-router';
 import {Alert, Pressable, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Icon, Text} from 'src/components';
+import {Icon, Text} from 'src/components/atoms';
 import {useTheme} from 'src/hooks/useTheme';
 import {eatingReasonOptions, useDiaryStore} from 'src/screens/Diary/hooks';
 import {styles} from './EntryDetailModal.styles';

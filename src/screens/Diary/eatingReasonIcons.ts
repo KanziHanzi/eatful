@@ -1,4 +1,4 @@
-import type {IconName} from '@/src/components/globals/Icon/Icon';
+import type {IconName} from 'src/components/atoms';
 import type {EatingReason} from './Diary.types';
 
 export const eatingReasonIcons: Record<EatingReason, IconName> = {

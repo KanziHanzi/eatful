@@ -1,7 +1,7 @@
 import {router} from 'expo-router';
 import {Pressable, View} from 'react-native';
-import {Icon} from 'src/components';
-import type {EntryCategory} from '@/src/screens/Diary/Diary.types';
+import {Icon} from 'src/components/atoms';
+import type {EntryCategory} from 'src/screens/Diary/Diary.types';
 import {styles} from './AddEntry.styles';
 
 type AddEntryProps = {

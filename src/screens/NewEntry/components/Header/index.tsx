@@ -1,4 +1,4 @@
-import {ThemedText, ThemedView} from '@/src/components';
+import {ThemedText, ThemedView} from 'src/components/primitives';
 import CancelButton from './components/CancelButton';
 import TimePicker from './components/TimePicker';
 

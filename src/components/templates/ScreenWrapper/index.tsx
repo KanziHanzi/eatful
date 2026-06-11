@@ -1,7 +1,6 @@
 import {ReactNode, useState} from 'react';
 import {LayoutChangeEvent} from 'react-native';
-import ThemedSafeAreaView from '../globals/ThemedSafeAreaView/ThemedSafeAreaView';
-import ThemedScrollView from '../globals/ThemedScrollView/ThemedScrollView';
+import {ThemedSafeAreaView, ThemedScrollView} from 'src/components/primitives';
 
 type ScreenWrapperProps = {
   children: ReactNode;
@@ -36,4 +35,4 @@ const ScreenWrapper = ({children}: ScreenWrapperProps) => {
   );
 };
 
-export default ScreenWrapper;
+export {ScreenWrapper};

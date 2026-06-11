@@ -9,4 +9,4 @@ type ThemedViewProps = ComponentProps<typeof Box> & VariantProps<Theme, 'shadowV
 
 const ThemedView = createRestyleComponent<ThemedViewProps, Theme>([createVariant({themeKey: 'shadowVariants'})], Box);
 
-export default ThemedView;
+export {ThemedView};

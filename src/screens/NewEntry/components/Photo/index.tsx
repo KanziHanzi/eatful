@@ -1,6 +1,7 @@
 import {Image} from 'expo-image';
 import {Alert, TouchableOpacity} from 'react-native';
-import {Icon, ThemedText, ThemedView} from 'src/components';
+import {Icon} from 'src/components/atoms';
+import {ThemedText, ThemedView} from 'src/components/primitives';
 import {useCameraCapture} from 'src/hooks/useCameraCapture';
 import {useEntryStore} from '../../hooks/entryStore';
 import {useTheme} from 'src/hooks/useTheme';

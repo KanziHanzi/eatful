@@ -1,4 +1,4 @@
-import {IconName} from 'src/components/globals/Icon/Icon';
+import {IconName} from 'src/components/atoms';
 import {DQS_TIERS, DqsTier, TierScore} from 'src/constants/dqs';
 import {Color} from 'src/constants/theme';
 

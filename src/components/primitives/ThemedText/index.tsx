@@ -4,4 +4,4 @@ import type {Theme} from 'src/constants/theme';
 
 const ThemedText = createText<Theme>();
 
-export default ThemedText;
+export {ThemedText};

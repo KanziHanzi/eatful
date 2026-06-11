@@ -5,4 +5,4 @@ import type {Theme} from 'src/constants/theme';
 
 const ThemedSafeAreaView = createBox<Theme, React.ComponentProps<typeof SafeAreaView>>(SafeAreaView);
 
-export default ThemedSafeAreaView;
+export {ThemedSafeAreaView};

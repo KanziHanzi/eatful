@@ -1,4 +1,4 @@
-import {DQS_TIERS, TierId} from '@/src/constants/dqs';
+import {DQS_TIERS, TierId} from 'src/constants/dqs';
 import {getEntryScore} from 'src/utils/dqs';
 import {shallow} from 'zustand/shallow';
 import {createWithEqualityFn} from 'zustand/traditional';

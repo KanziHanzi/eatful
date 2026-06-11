@@ -1,6 +1,6 @@
 import {useLocalSearchParams} from 'expo-router';
 import {useEffect} from 'react';
-import {ThemedSafeAreaView, ThemedScrollView, ThemedView} from 'src/components';
+import {ThemedSafeAreaView, ThemedScrollView, ThemedView} from 'src/components/primitives';
 import type {EntryCategory} from 'src/screens/Diary/Diary.types';
 import DietaryScore from './components/DietaryScore';
 import EatingReason from './components/EatingReason';

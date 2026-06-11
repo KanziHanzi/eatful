@@ -1,4 +1,5 @@
-import {Icon, ThemedText, ThemedView} from 'src/components';
+import {Icon} from 'src/components/atoms';
+import {ThemedText, ThemedView} from 'src/components/primitives';
 import {TierId, TierScore} from 'src/constants/dqs';
 import {useTheme} from 'src/hooks/useTheme';
 import {useEntryStore} from 'src/screens/NewEntry/hooks/entryStore';

@@ -1,4 +1,4 @@
-import {ThemedText, ThemedView} from 'src/components';
+import {ThemedText, ThemedView} from 'src/components/primitives';
 import {formatDietaryScore, getTierByScore, getTierColor, getTierSurfaceColor} from 'src/utils';
 import {useEntryStore} from '../../../hooks/entryStore';
 

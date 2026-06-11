@@ -41,4 +41,4 @@ const Icon = ({name, size, color = 'icon'}: IconProps) => {
   );
 };
 
-export default Icon;
+export {Icon};

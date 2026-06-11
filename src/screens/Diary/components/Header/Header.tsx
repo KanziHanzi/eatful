@@ -1,5 +1,5 @@
 import {Pressable, View} from 'react-native';
-import {Icon, Text} from 'src/components';
+import {Icon, Text} from 'src/components/atoms';
 import {useDiaryStore} from 'src/screens/Diary/hooks';
 import {formatDate, getDayTimestamp} from 'src/utils/dateTime';
 import {styles} from './Header.styles';

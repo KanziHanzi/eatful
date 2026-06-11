@@ -5,4 +5,4 @@ import type {Theme} from 'src/constants/theme';
 
 const ThemedScrollView = createBox<Theme, ScrollViewProps>(ScrollView);
 
-export default ThemedScrollView;
+export {ThemedScrollView};

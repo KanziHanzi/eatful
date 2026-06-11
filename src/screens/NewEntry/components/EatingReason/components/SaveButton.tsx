@@ -1,4 +1,4 @@
-import {ThemedText, ThemedView} from '@/src/components';
+import {ThemedText, ThemedView} from 'src/components/primitives';
 import {randomUUID} from 'expo-crypto';
 import {router} from 'expo-router';
 import {TouchableOpacity} from 'react-native';

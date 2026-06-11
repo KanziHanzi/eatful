@@ -1,4 +1,4 @@
-import {ThemedText} from '@/src/components';
+import {ThemedText} from 'src/components/primitives';
 
 const Title = () => {
   return <ThemedText variant="subtitle">{'Why do I eat this?'}</ThemedText>;

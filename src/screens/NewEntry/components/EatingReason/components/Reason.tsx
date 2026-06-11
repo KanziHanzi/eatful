@@ -1,6 +1,6 @@
-import {ThemedText, ThemedView} from '@/src/components';
-import Icon, {IconName} from '@/src/components/globals/Icon/Icon';
-import {EatingReason} from '@/src/screens/Diary/Diary.types';
+import {ThemedText, ThemedView} from 'src/components/primitives';
+import {Icon, IconName} from 'src/components/atoms';
+import {EatingReason} from 'src/screens/Diary/Diary.types';
 import {Pressable} from 'react-native';
 import {useTheme} from 'src/hooks/useTheme';
 import {useEntryStore} from '../../../hooks/entryStore';

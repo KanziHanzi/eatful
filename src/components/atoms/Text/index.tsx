@@ -1,3 +1,5 @@
+// DEPRECATED, remove after Diary screen rework
+
 import {ReactNode} from 'react';
 import {Text as RNText, StyleProp, TextStyle} from 'react-native';
 import {useTheme} from 'src/hooks/useTheme';
@@ -17,4 +19,4 @@ const Text = ({children, variant = 'description', style}: TextProps) => {
   return <RNText style={[{color: theme.colors.text}, styles.base, styles[variant], style]}>{children}</RNText>;
 };
 
-export default Text;
+export {Text};
