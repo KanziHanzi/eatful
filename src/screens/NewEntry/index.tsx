@@ -2,6 +2,8 @@ import {useLocalSearchParams} from 'expo-router';
 import {useEffect} from 'react';
 import {ThemedSafeAreaView, ThemedScrollView, ThemedView} from 'src/components/primitives';
 import type {EntryCategory} from 'src/screens/Diary/Diary.types';
+import {useDiaryStore} from 'src/screens/Diary/hooks';
+import DeleteButton from './components/DeleteButton';
 import DietaryScore from './components/DietaryScore';
 import EatingReason from './components/EatingReason';
 import SaveButton from './components/EatingReason/components/SaveButton';
@@ -10,12 +12,17 @@ import {Photo} from './components/Photo';
 import {useEntryStore} from './hooks/entryStore';
 
 const NewEntry = () => {
-  const {reset, setAttributes} = useEntryStore();
-  const {category} = useLocalSearchParams<{category: EntryCategory}>();
+  const {reset, setAttributes, hydrate} = useEntryStore();
+  const {category, entryId} = useLocalSearchParams<{category?: EntryCategory; entryId?: string}>();
 
   useEffect(() => {
-    setAttributes('category', category);
-  }, [category]);
+    if (entryId) {
+      const entry = useDiaryStore.getState().activeDay?.entries.find(e => e.id === entryId);
+      if (entry) hydrate(entry);
+    } else if (category) {
+      setAttributes('category', category);
+    }
+  }, [category, entryId]);
 
   useEffect(() => {
     return () => {
@@ -45,6 +52,7 @@ const NewEntry = () => {
       </ThemedScrollView>
 
       <SaveButton />
+      <DeleteButton />
     </ThemedSafeAreaView>
   );
 };

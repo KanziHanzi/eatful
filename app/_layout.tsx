@@ -39,15 +39,6 @@ const AppContainer = () => {
           }}
         />
         <Stack.Screen
-          name="entry-detail"
-          options={{
-            presentation: 'formSheet',
-            sheetAllowedDetents: 'fitToContents',
-            sheetGrabberVisible: true,
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
           name="new-entry"
           options={{
             presentation: 'modal',

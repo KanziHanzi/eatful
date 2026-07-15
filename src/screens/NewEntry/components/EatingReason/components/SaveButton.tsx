@@ -9,22 +9,32 @@ import {useEntryStore} from '../../../hooks/entryStore';
 const SaveButton = () => {
   const theme = useTheme();
 
-  const {timestamp, imageUri, eatingReason, category, selectedTiers} = useEntryStore();
+  const {timestamp, imageUri, eatingReason, category, selectedTiers, editingId} = useEntryStore();
 
   const disabled = eatingReason === null;
 
   const onPress = () => {
     if (eatingReason === null) return;
 
-    // TODO: rework with new diary storage
-    useDiaryStore.getState().addEntry({
-      id: randomUUID(),
-      takenAt: timestamp,
-      imageUri,
-      eatingReason,
-      category,
-      selectedTiers,
-    });
+    if (editingId) {
+      useDiaryStore.getState().updateEntry({
+        id: editingId,
+        takenAt: timestamp,
+        imageUri,
+        eatingReason,
+        category,
+        selectedTiers,
+      });
+    } else {
+      useDiaryStore.getState().addEntry({
+        id: randomUUID(),
+        takenAt: timestamp,
+        imageUri,
+        eatingReason,
+        category,
+        selectedTiers,
+      });
+    }
 
     router.back();
   };

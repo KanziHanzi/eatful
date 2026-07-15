@@ -2,7 +2,7 @@ import {DQS_TIERS, TierId} from 'src/constants/dqs';
 import {getEntryScore} from 'src/utils/dqs';
 import {shallow} from 'zustand/shallow';
 import {createWithEqualityFn} from 'zustand/traditional';
-import {EatingReason, EntryCategory} from '../../Diary/Diary.types';
+import {DiaryEntry, EatingReason, EntryCategory} from '../../Diary/Diary.types';
 
 type EntryStoreAttributes = {
   timestamp: number;
@@ -11,11 +11,13 @@ type EntryStoreAttributes = {
   category: EntryCategory;
   dietaryScore: number;
   selectedTiers: Record<TierId, number>;
+  editingId: string | null;
 };
 
 type EntryStoreActions = {
   setAttributes: <T extends keyof EntryStoreAttributes>(key: T, value: EntryStoreAttributes[T]) => void;
   reset: () => void;
+  hydrate: (entry: DiaryEntry) => void;
   increaseTierCount: (tierId: TierId) => number;
   decreaseTierCount: (tierId: TierId) => number;
   calculateDietaryScore: () => void;
@@ -29,10 +31,22 @@ export const entryStore = createWithEqualityFn<EntryStoreAttributes & EntryStore
     category: 'meal',
     dietaryScore: 0,
     selectedTiers: Object.fromEntries(DQS_TIERS.map(({id}) => [id, 0])) as Record<TierId, number>,
+    editingId: null,
 
     setAttributes: (key, value) => set({[key]: value} as Partial<EntryStoreAttributes>),
     reset: () => {
       entryStore.setState(entryStore.getInitialState());
+    },
+    hydrate: entry => {
+      set({
+        timestamp: entry.takenAt,
+        imageUri: entry.imageUri,
+        eatingReason: entry.eatingReason,
+        category: entry.category,
+        selectedTiers: entry.selectedTiers,
+        dietaryScore: getEntryScore(entry.selectedTiers),
+        editingId: entry.id,
+      });
     },
     increaseTierCount: tierId => {
       const newCount = Math.min(get().selectedTiers[tierId] + 1, 99);

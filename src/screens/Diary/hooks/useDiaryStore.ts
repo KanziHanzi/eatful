@@ -14,16 +14,15 @@ type DiaryState = {
   activeDay: DiaryDay | null;
   activeDayTimestamp: number;
   startDate: number | null;
-  selectedEntry: DiaryEntry | null;
 };
 
 type DiaryActions = {
   addEntry: (entry: DiaryEntry) => void;
+  updateEntry: (entry: DiaryEntry) => void;
   clearCache: () => void;
   deleteEntry: (entryId: string) => void;
   moveToNextDay: () => void;
   moveToPreviousDay: () => void;
-  openDetailModal: (entry: DiaryEntry) => void;
 };
 
 const persistDay = async (day: DiaryDay | null, dateKey: string) => {
@@ -77,12 +76,6 @@ export const useDiaryStore = createWithEqualityFn<DiaryState & DiaryActions>()(
     activeDay: null,
     activeDayTimestamp: getDayTimestamp(Date.now()),
     startDate: null,
-    selectedEntry: null,
-
-    openDetailModal: (entry: DiaryEntry) => {
-      set({selectedEntry: entry});
-      router.push('/entry-detail');
-    },
 
     addEntry: (entry: DiaryEntry) => {
       const {activeDay, startDate, activeDayTimestamp} = get();
@@ -99,6 +92,18 @@ export const useDiaryStore = createWithEqualityFn<DiaryState & DiaryActions>()(
         set({startDate: activeDayTimestamp});
         storage.set(StorageKey.DiaryStartDate, activeDayTimestamp).catch(() => {});
       }
+    },
+
+    updateEntry: (entry: DiaryEntry) => {
+      const {activeDay, activeDayTimestamp} = get();
+      if (!activeDay) return;
+
+      const dateKey = getDateKey(activeDayTimestamp);
+      const updatedEntries = activeDay.entries.map(e => (e.id === entry.id ? entry : e));
+      const updatedDay: DiaryDay = {...activeDay, entries: updatedEntries};
+
+      set({activeDay: updatedDay});
+      void persistDay(updatedDay, dateKey);
     },
 
     deleteEntry: (entryId: string) => {

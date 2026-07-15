@@ -1,11 +1,11 @@
 import {DiaryEntry} from 'src/screens/Diary/Diary.types';
 import {formatDietaryScore, getEntryScore} from 'src/utils/dqs';
 import {Image} from 'expo-image';
+import {router} from 'expo-router';
 import {Pressable} from 'react-native';
 import {Text} from 'src/components/atoms';
 import {ThemedView} from 'src/components/primitives';
 import {formatTimestamp} from 'src/utils/dateTime';
-import {useDiaryStore} from '../../hooks';
 import {styles} from './Entry.styles';
 
 type EntryProps = {
@@ -13,15 +13,11 @@ type EntryProps = {
 };
 
 const Entry = ({item}: EntryProps) => {
-  const {openDetailModal} = useDiaryStore(store => ({
-    openDetailModal: store.openDetailModal,
-  }));
-
   return (
     <Pressable
       style={styles.card}
       onPress={() => {
-        openDetailModal(item);
+        router.push(`/new-entry?entryId=${item.id}`);
       }}
     >
       <Image
