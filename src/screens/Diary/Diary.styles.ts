@@ -20,15 +20,4 @@ export const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 10,
   },
-  strictBanner: {
-    paddingVertical: 6,
-    alignItems: 'center',
-  },
-  strictBannerText: {
-    fontSize: 11,
-    fontWeight: '600',
-    textTransform: 'uppercase',
-    letterSpacing: 1.5,
-    opacity: 0.3,
-  },
 });
